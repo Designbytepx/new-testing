@@ -154,7 +154,7 @@
     .findings__head b::after { content: ")"; }
     #findings-title span, #closed-title span { padding: 0; background: none; font-size: 16px; font-weight: 600; }
     .ftools { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px solid #edf0f4; }
-    .fpills, .facts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .fpills, .facts, .srcpills { display: flex; flex-wrap: wrap; gap: 8px; }
     .pillbtn { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding-inline: 10px 12px; border: 1px solid #d5dbe4; border-radius: 999px; background: #fff; font-size: 13px; color: var(--ink); }
     .pillbtn .ico { width: 15px; height: 15px; color: #6b7385; }
     .tbtn { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding-inline: 11px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font-size: 13.5px; font-weight: 500; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
@@ -166,15 +166,15 @@
     .seg__btn:hover { color: var(--ink); }
     .seg__btn.is-on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(60, 66, 87, .14); }
     .ftools__l { display: flex; align-items: center; flex-wrap: nowrap; gap: 10px; min-width: 0; }
-    .ftools__l .fsearch { flex: 0 0 220px; }
-    .fsearch { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; height: 30px; padding-inline: 10px; border: 1px solid #e3e8ee; border-radius: 6px; background: #fff; color: #6b7385; }
-    .fsearch .ico { width: 15px; height: 15px; }
-    .fsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; font-size: 13px; color: var(--ink); }
-    .fsearch input::placeholder { color: #8792a2; }
-    .fsearch:focus-within { border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
+    .ftools__l .fsearch, .ftools__l .srcsearch { flex: 0 0 220px; }
+    .fsearch, .srcsearch { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; height: 30px; padding-inline: 10px; border: 1px solid #e3e8ee; border-radius: 6px; background: #fff; color: #6b7385; }
+    .fsearch .ico, .srcsearch .ico { width: 15px; height: 15px; }
+    .fsearch input, .srcsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; font-size: 13px; color: var(--ink); }
+    .fsearch input::placeholder, .srcsearch input::placeholder { color: #8792a2; }
+    .fsearch:focus-within, .srcsearch:focus-within { border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
     .ftable tbody tr[hidden] { display: none; }
     .ftable .empty td { padding: 28px 12px; text-align: center; color: var(--muted); }
-    .fpills { position: relative; }
+    .fpills, .srcpills { position: relative; }
     .pillbtn.is-active { border-color: var(--accent-btn); background: #f3f3f3; color: #262626; font-weight: 500; }
     .fpop { position: absolute; z-index: 30; width: 224px; padding: 12px; border: 1px solid #e3e8ee; border-radius: 10px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .12); font-size: 13px; }
     .fpop[hidden] { display: none; }
@@ -498,6 +498,70 @@
     #ov-view { display: none; }
     .main.is-ov > #ov-view { display: block; }
     .main.is-ov > .hero, .main.is-ov > .findings { display: none; }
+#src-view { display: none; }    .main.is-src #src-view { display: block; }    .main.is-src > #ov-view, .main.is-src > .hero, .main.is-src > .findings { display: none; }    .hero--sources { position: relative; margin-top: 4px; }    .srcpage { margin-top: 28px; }    .srcpage .ovsrc__tools { margin-top: 0; }    .srcpage #sp-cn-head { padding-left: 12px; }    .srcpage #sp-cn-fold, .srcpage #sp-nc-fold { display: none; }    .srcpage #sp-nc-fold + span { margin-left: 0; }    .srcpage .ovsrc__h:has(#sp-nc-fold) { padding-left: 0; }
+    #br-view { display: none; }    .main.is-br #br-view { display: block; }    .main.is-br > #ov-view, .main.is-br > .hero, .main.is-br > .findings { display: none; }
+    .brcards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 0 0 14px; }
+    .brcard { display: grid; gap: 0; padding: 7px 12px 8px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); text-align: left; cursor: pointer; transition: border-color .12s ease, background-color .12s ease; }
+    .brcard span { font-size: 12.5px; line-height: 1.35; color: var(--muted); }
+    .brcard b { font-size: 15px; line-height: 1.35; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); }
+    .brcard:hover { background: #fafbfc; }
+    .brcard.is-on { border-color: #262626; box-shadow: inset 0 0 0 1px #262626; }
+    .brcard.is-on span, .brcard.is-on b { color: var(--ink); }
+    .brcard.is-on span { font-weight: 500; }
+    #br-view .ftable th { width: auto; }
+    #br-view .ftable td { padding: 11px 12px; }
+    #br-view tbody tr[data-kind]:hover td { background: #fafbfc; }
+    #br-view .br-iq { font-variant-numeric: tabular-nums; }
+    #br-view .br-up { font-weight: 500; color: #1d7a0d; }    #br-view .br-dn { font-weight: 500; color: var(--red); }    #br-view .br-na { color: var(--muted); }
+    #br-view .br-pt { font-style: normal; font-size: 11px; color: var(--muted); }
+    #br-view .ovsrc__nm { display: inline; }    #br-view .br-latest { display: inline-block; vertical-align: middle; margin-left: 8px; background: #d6efdf; color: #1a6e0c; }
+    #br-view .br-act { text-align: right; white-space: nowrap; }    #br-view .br-act .tbtn + .tbtn { margin-left: 6px; }    #br-view tbody td:first-child { white-space: nowrap; }
+    #br-view .br-act .tbtn { height: 28px; padding-inline: 10px; font-size: 13px; }
+    #br-view .facts .tbtn--primary { border-color: var(--accent-btn); background: var(--accent-btn); color: #fff; box-shadow: none; }
+    .bd-lbl { display: block; margin: 18px 0 6px; font-size: 13px; font-weight: 500; color: var(--ink); }
+    .bd-in { width: 100%; height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: inherit; font-size: 14px; color: var(--ink); }
+    .bd-in:focus { outline: 0; border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
+    @media (max-width: 700px) { .brcards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    #sp-nc-card { border: 0; background: none; box-shadow: none; overflow: visible; }
+    #sp-nc-card .tablewrap { overflow: visible; }
+    #sp-nc-card table, #sp-nc-card tbody { display: block; width: 100%; }
+    #sp-nc-card thead, #sp-nc-card colgroup { display: none; }
+    #sp-nc-card tbody { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    #sp-nc-card tr { display: flex; flex-direction: column; align-items: flex-start; gap: 0; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    #sp-nc-card td { display: block; width: auto; max-width: 100%; white-space: normal; padding: 0; border: 0; background: none !important; font-size: 13px; line-height: 1.55; color: var(--muted); }
+    #sp-nc-card td:first-child { width: 100%; padding-bottom: 14px; }
+    #sp-nc-card td:first-child b { display: block; font-size: 15px; font-weight: 600; color: var(--ink); }
+    #sp-nc-card td:nth-child(2) { width: 100%; flex: 1; padding-top: 14px; border-top: 1px solid #edf0f4; }
+    #sp-nc-card td:nth-child(2)::before { content: attr(data-f); display: block; width: max-content; margin-bottom: 8px; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; line-height: 1.5; }
+    #sp-nc-card tr[data-type="work"] td:nth-child(2)::before { background: #f6efb5; color: #6b5d0a; }
+    #sp-nc-card tr[data-type="dlp"] td:nth-child(2)::before { background: #bfe3dc; color: #1c5a50; }
+    #sp-nc-card tr[data-type="finance"] td:nth-child(2)::before { background: #fbc9e0; color: #8a1f58; }
+    #sp-nc-card td.ovsrc__act { margin-top: 12px; }
+    #sp-nc-card tr { position: relative; overflow: hidden; background-repeat: no-repeat; background-position: right 12px bottom 12px; background-size: 112px; }
+    #sp-nc-card tr[data-type="work"] { background-image: url("icons/time%20tracking.png"); }
+    #sp-nc-card tr[data-type="dlp"] { background-image: url("icons/data%20loss.png"); }
+    #sp-nc-card tr[data-type="finance"] { background-image: url("icons/ai%20budget.png"); }
+    #sp-nc-card td:nth-child(2) { min-height: 140px; padding-right: 124px; }    #sp-nc-card td.ovsrc__act { position: relative; z-index: 1; }
+    #src-view tbody tr[data-type] { cursor: pointer; }
+    #src-view tbody tr[data-type]:hover td { background: #f6f8fa; }
+    .sd-desc { margin: 22px 0 0; font-size: 14px; line-height: 1.6; color: #3b4252; }
+    .sd-desc h3 { margin: 0 0 6px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+    .sd-desc p { margin: 0; }
+    .sd-act { margin-top: 18px; }
+    .sd-sub { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+    .sd-card { margin-top: 20px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .sd-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 16px; padding: 16px 18px; }
+    .sd-row + .sd-row { border-top: 1px solid var(--line); }
+    .sd-row b { font-size: 14px; font-weight: 500; color: var(--ink); }
+    .sd-row small { display: block; grid-column: 1; margin-top: 2px; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+    .sd-row[hidden] { display: none; }
+    .sd-sel { height: 34px; min-width: 132px; padding: 0 30px 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #f6f8fa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23687385' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center / 16px; font: inherit; font-size: 13.5px; color: var(--text); appearance: none; -webkit-appearance: none; cursor: pointer; }
+    .sd-sel:disabled { opacity: .6; cursor: default; }
+    .sd-tg { position: relative; width: 44px; height: 26px; border: 1px solid #d5dae1; border-radius: 13px; background: #eceae6; cursor: pointer; transition: background .15s ease, border-color .15s ease; }
+    .sd-tg::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(26, 31, 54, .25); transition: transform .15s ease, background .15s ease; }
+    .sd-tg[aria-checked="true"] { border-color: var(--accent-btn); background: var(--accent-btn); }
+    .sd-tg[aria-checked="true"]::after { transform: translateX(18px); background: #fff; }
+    .ovsrc__nc { width: 100%; }
     .ov-dial { display: grid; grid-template-columns: 340px minmax(0, 1fr); align-items: stretch; gap: 24px; margin-top: 32px; }
     .ov-dial > .ov-dcard:first-child { max-width: 340px; }
     .ov-lower { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 48px; margin-top: 48px; }
@@ -683,6 +747,13 @@
     .ovp-hd[aria-expanded="true"] .ovp-chev { transform: rotate(180deg); }
     .ovp-more { display: none; padding: 0 20px 18px; }
     .ovp-row.is-open .ovp-more { display: block; }
+.ovp-row .ovp-hd { cursor: default; }    .ovp-row .ovp-hd:hover { background: none; }
+    .ovp-row .ovp-hd { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "tag go" "txt go"; align-items: center; column-gap: 16px; row-gap: 10px; }
+    .ovp-row .ovp-hd .ovp-tags { grid-area: tag; justify-self: start; }
+    .ovp-row .ovp-hd .ovp-t { grid-area: txt; }
+    .ovp-go { grid-area: go; display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 8px 0 12px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font-size: 13.5px; font-weight: 500; color: var(--ink); text-decoration: none; white-space: nowrap; box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
+    .ovp-go:hover { background: #f7f8fa; }
+    .ovp-go .ico { width: 16px; height: 16px; color: #4f566b; }
     .ovp-meta { margin: 0 0 4px; padding-top: 14px; border-top: 1px solid #edf0f4; font-size: 13px; color: var(--muted); }
     .ovp-meta b { font-weight: 600; color: var(--ink); }
     .ovp-items { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid #edf0f4; }
@@ -696,6 +767,8 @@
     .ovp-cap { margin: -12px 0 2px; font-size: 12px; color: var(--muted); }
     .ovp-m--zero { border-left-color: #d5dbe4; }
     .ovp .pts.zero { color: var(--ink); }
+    .ovp-m b { order: 1; margin-top: 0; }
+    .ovp-m span { order: 2; margin-top: 4px; }
     .ovp-break { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 6px 0 2px; }
     .ovp-break .prio, .ovp-break .stat { font-size: 13px; }
     .ovp-break .prio .flag { width: 14px; height: 14px; }
@@ -767,6 +840,7 @@
     .ov-plot__c { position: relative; min-width: 0; }
     .ov-plot__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
     .pt-lbl { position: absolute; transform: translate(-50%, -150%); font-size: 12px; font-style: normal; font-weight: 600; color: var(--ink); pointer-events: none; }
+.sc-tip { position: absolute; right: 16px; top: 58%; z-index: 3; width: 176px; padding: 10px 12px; border-radius: 8px; background: #fff; box-shadow: 0 6px 24px rgba(26, 31, 54, .14), 0 0 0 1px rgba(26, 31, 54, .04); font-size: 12.5px; line-height: 1.45; color: var(--muted); pointer-events: none; }    .sc-tip b { font-weight: 600; color: var(--ink); }    .ov-chard.is-dn .sc-tip { top: 8%; }
     .is-dn .ov-plot__svg polyline { stroke: #c4352b; }
     .is-dn #pg-fill stop { stop-color: #c4352b; }
     .is-dn .ov-plot__dot { border-color: #c4352b; box-shadow: 0 0 0 4px rgba(196, 53, 43, .16); }
@@ -814,6 +888,7 @@
     .ov-plot__c { position: relative; min-width: 0; }
     .ov-plot__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
     .pt-lbl { position: absolute; transform: translate(-50%, -150%); font-size: 12px; font-style: normal; font-weight: 600; color: var(--ink); pointer-events: none; }
+.sc-tip { position: absolute; right: 16px; top: 58%; z-index: 3; width: 176px; padding: 10px 12px; border-radius: 8px; background: #fff; box-shadow: 0 6px 24px rgba(26, 31, 54, .14), 0 0 0 1px rgba(26, 31, 54, .04); font-size: 12.5px; line-height: 1.45; color: var(--muted); pointer-events: none; }    .sc-tip b { font-weight: 600; color: var(--ink); }    .ov-chard.is-dn .sc-tip { top: 8%; }
     .is-dn .ov-plot__svg polyline { stroke: #c4352b; }
     .is-dn #pg-fill stop { stop-color: #c4352b; }
     .is-dn .ov-plot__dot { border-color: #c4352b; box-shadow: 0 0 0 4px rgba(196, 53, 43, .16); }
@@ -854,8 +929,13 @@
     .ovp-ft tbody td { padding-top: 12px; padding-bottom: 12px; vertical-align: top; white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.45; cursor: pointer; }
     .ovp-ft tbody tr:last-child td { border-bottom: 0; }
     .ovsrc__card[hidden] { display: none; }
-    .ovsrc__card { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
-    .ovsrc__card .tablewrap { padding: 0 8px 8px; overflow-x: hidden; }
+.ovsrc #cn-head { padding-left: 0; }
+.ovsrc__card .ftable th:nth-child(2), .ovsrc__card .ftable th:nth-child(3), .ovsrc__card .ftable td:nth-child(2), .ovsrc__card .ftable td:nth-child(3) { white-space: nowrap; }
+.ovsrc .findings__head[hidden] { display: none; }    .ovsrc__tools { margin: 14px 0 6px; padding-bottom: 14px; }    .ovpw { position: relative; display: inline-flex; }    .ovpw .fpop { top: calc(100% + 6px); left: 0; }    .ovsrc__empty { margin: 18px 0 0; font-size: 14px; color: var(--muted); }
+    .ovsrc .findings__head .ovsrc__ok { margin-left: 4px; padding: 2px 9px; border-radius: 999px; background: #e3f4e1; font-size: 12px; font-weight: 500; color: #2a6a14; }
+    .ovsrc__all { display: inline-block; margin: 10px 0 2px 8px; font-size: 13.5px; font-weight: 500; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .ovsrc__card { overflow: hidden; border: 0; border-radius: 0; background: none; box-shadow: none; }
+    .ovsrc__card .tablewrap { padding: 0; overflow-x: hidden; }
     .ovsrc__card .ftable { width: 100%; min-width: 0; table-layout: fixed; }
     .ovsrc__card .ftable thead th { border-bottom: 1px solid var(--line); }
     .ovsrc__card .ftable tbody td { padding-top: 14px; padding-bottom: 14px; vertical-align: top; white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.45; }
@@ -923,8 +1003,11 @@
         <a class="nav__item" href="score.html">
           <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="m12 17.5 3.5-5"/><path d="M12 17.5h.01"/></svg>Score
         </a>
-        <a class="nav__item" href="#">
+        <a class="nav__item" href="sources.html">
           <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01M2 14h2M20 14h2"/></svg>Sources
+        </a>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M9 13h6M9 16.5h4"/></svg>Briefs
         </a>
         <a class="nav__item" href="#">
           <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings
@@ -1013,8 +1096,8 @@
       </section>
 
       <div class="ov-lower">
-        <section class="ovp" aria-label="Points since the brief">
-          <h2 class="ovw__h">Points since the brief</h2>
+        <section class="ovp" aria-label="Points since the last brief, 14 Oct">
+          <h2 class="ovw__h">Points since the last brief, 14 Oct</h2>
           <div class="ovp-body">
             <div class="ovp-key">
               <h3>The four parts</h3>
@@ -1025,10 +1108,10 @@
             </div>
             <div class="ovp-list">
               <h3>Last update</h3>
-            <div class="ovp-row" data-g="warn"><button type="button" class="ovp-hd" aria-expanded="false"><span class="ovp-t"><b>Advisory can&rsquo;t be read yet, so this rests on 2 of 3 areas.</b><span class="ovp-sub">3 open: 1 medium, 2 low</span></span><span class="ovp-tags"><span class="ovp-st ovp-st--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 20h18.4L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>Needs attention</span><span class="ovp-date">Brief 14 Oct</span></span><svg class="ovp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ovp-more"><p class="ovp-meta">Value Delivered: 3 open, 1 medium and 2 low.</p></div></div>
-            <div class="ovp-row" data-g="bad"><button type="button" class="ovp-hd" aria-expanded="false"><span class="ovp-t"><b>Sensitive-data protection isn&rsquo;t measured yet, so this rests on 5 of 6 measures.</b><span class="ovp-sub">9 open: 1 overdue, 1 critical, 1 high, 2 medium, 4 low</span></span><span class="ovp-tags"><span class="ovp-st ovp-st--bad"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></svg>Act now</span><span class="ovp-date">Brief 14 Oct</span></span><svg class="ovp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ovp-more"><p class="ovp-meta">Safe Use: 9 open, 1 overdue, 1 critical, 1 high, 2 medium and 4 low.</p></div></div>
-            <div class="ovp-row" data-g="warn"><button type="button" class="ovp-hd" aria-expanded="false"><span class="ovp-t"><b>All 4 measures are read, so this score is fully backed.</b><span class="ovp-sub">6 open: 1 high, 2 medium, 3 low</span></span><span class="ovp-tags"><span class="ovp-st ovp-st--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 20h18.4L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>Needs attention</span><span class="ovp-date">Brief 14 Oct</span></span><svg class="ovp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ovp-more"><p class="ovp-meta">Reliability: 6 open, 1 high, 2 medium and 3 low.</p></div></div>
-            <div class="ovp-row" data-g="ok"><button type="button" class="ovp-hd" aria-expanded="false"><span class="ovp-t"><b>All 5 measures are read, so this score is fully backed.</b><span class="ovp-sub">5 open: 2 medium, 3 low</span></span><span class="ovp-tags"><span class="ovp-st ovp-st--ok"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>On track</span><span class="ovp-date">Brief 14 Oct</span></span><svg class="ovp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="ovp-more"><p class="ovp-meta">Spend Discipline: 5 open, 2 medium and 3 low.</p></div></div>
+            <div class="ovp-row" data-g="warn"><div class="ovp-hd"><span class="ovp-t"><b>No change in points, but this needs a closer look.</b></span><span class="ovp-tags"><span class="ovp-st ovp-st--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 20h18.4L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>Needs attention</span></span><a href="#" class="ovp-go" data-go="findings" aria-label="View 3 findings for Value Delivered">3 findings<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></div>
+            <div class="ovp-row" data-g="bad"><div class="ovp-hd"><span class="ovp-t"><b>No change in points, but an overdue and a critical finding need action now.</b></span><span class="ovp-tags"><span class="ovp-st ovp-st--bad"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></svg>Act now</span></span><a href="#" class="ovp-go" data-go="findings" aria-label="View 9 findings for Safe Use">9 findings<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></div>
+            <div class="ovp-row" data-g="warn"><div class="ovp-hd"><span class="ovp-t"><b>Down by 1 point in September, so keep an eye on it.</b></span><span class="ovp-tags"><span class="ovp-st ovp-st--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 20h18.4L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>Needs attention</span></span><a href="#" class="ovp-go" data-go="findings" aria-label="View 6 findings for Reliability">6 findings<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></div>
+            <div class="ovp-row" data-g="ok"><div class="ovp-hd"><span class="ovp-t"><b>No change in points, and everything is working as it should.</b></span><span class="ovp-tags"><span class="ovp-st ovp-st--ok"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>On track</span></span><a href="#" class="ovp-go" data-go="findings" aria-label="View 5 findings for Spend Discipline">5 findings<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div></div>
             </div>
           </div>
         </section>
@@ -1052,31 +1135,154 @@
         </div>
 
         <section class="ovsrc" aria-label="Sources">
-          <div class="ovsrc__bar"><h2 class="ovw__h">Sources</h2><a href="#" class="tbtn">All sources<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div>
-          <h3 class="findings__head ovsrc__h"><span>Stale <b>1</b></span></h3>
-          <div class="ovsrc__card"><div class="tablewrap"><table class="ftable">
-            <colgroup><col style="width:28%"><col style="width:22%"><col style="width:50%"></colgroup>
-            <thead><tr><th>Source</th><th>As of</th><th>Next update</th></tr></thead>
-            <tbody><tr>
-              <td><b class="ovsrc__nm">Microsoft 365 admin</b><span class="ovsrc__sub">Seat vendor</span></td>
+          <div class="ovsrc__bar"><h2 class="ovw__h">Sources</h2><a href="sources.html" class="tbtn">All sources<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div>
+          <div class="ftools ovsrc__tools" id="src-tools">
+            <div class="ftools__l">
+              <label class="srcsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="src-search" placeholder="Search sources" aria-label="Search sources"></label>
+              <div class="srcpills">
+                <span class="ovpw"><button type="button" class="pillbtn" data-f="type"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Type</span></button></span>
+                <span class="ovpw"><button type="button" class="pillbtn" data-f="freq"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Update</span></button></span>
+                <span class="ovpw"><button type="button" class="pillbtn" data-f="status"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Status</span></button></span>
+                <button type="button" class="pillclear" id="src-clear" hidden>Clear filters</button>
+              </div>
+            </div>
+          </div>
+          <h3 class="findings__head ovsrc__h" id="cn-head"><span>Connected <b>12</b></span></h3>
+          <div class="ovsrc__card" id="cn-card"><div class="tablewrap"><table class="ftable">
+            <colgroup><col style="width:24%"><col style="width:17%"><col style="width:20%"><col style="width:39%"></colgroup>
+            <thead><tr><th>Source</th><th>Type</th><th>Last updated</th><th>Next update</th></tr></thead>
+            <tbody>
+              <tr data-type="people" data-freq="daily"><td><b class="ovsrc__nm">Staff directory</b></td><td>Workday</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
+              <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm">ChatGPT Enterprise admin</b></td><td>Seat vendor</td><td>13 Oct, 23:00</td><td>Daily. OpenAI publishes once a day</td></tr>
+              <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm">Claude for Work admin</b></td><td>Seat vendor</td><td>13 Oct, 23:10</td><td>Daily. Anthropic publishes once a day</td></tr>
+              <tr data-type="code" data-freq="realtime"><td><b class="ovsrc__nm">Code host</b></td><td>GitHub</td><td>Real time</td><td>As it happens</td></tr>
+              <tr data-type="work" data-freq="hourly"><td><b class="ovsrc__nm">Work tracker</b></td><td>Jira</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
+              <tr data-type="ticketing" data-freq="hourly"><td><b class="ovsrc__nm">Ticketing system</b></td><td>ServiceNow</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
+            </tbody>
+          </table></div></div>
+          <h3 class="findings__head ovsrc__h"><button type="button" class="fold" id="st-fold" aria-expanded="true" aria-controls="st-card" data-name="stale sources" aria-label="Collapse stale sources"><svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><span>Stale <b>1</b></span></h3>
+          <div class="ovsrc__card" id="st-card"><div class="tablewrap"><table class="ftable">
+            <colgroup><col style="width:24%"><col style="width:17%"><col style="width:20%"><col style="width:39%"></colgroup>
+            <thead><tr><th>Source</th><th>Type</th><th>Last updated</th><th>Next update</th></tr></thead>
+            <tbody><tr data-type="seats" data-freq="daily" data-status="stale">
+              <td><b class="ovsrc__nm">Microsoft 365 admin</b></td><td>Seat vendor</td>
               <td>7 Oct</td>
               <td><b class="ovsrc__nm">Normally daily. Microsoft has not published since 7 Oct.</b><span class="ovsrc__sub">Microsoft 365 Copilot figures carry &ldquo;as of 7 Oct&rdquo; wherever they appear. Cygnos reads again as soon as Microsoft publishes.</span></td>
             </tr></tbody>
-          </table></div></div>
-          <h3 class="findings__head ovsrc__h"><button type="button" class="fold" id="nc-fold" aria-expanded="true" aria-controls="nc-card" aria-label="Collapse not connected sources"><svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><span>Not connected <b>3</b></span></h3>
-          <div class="ovsrc__card" id="nc-card"><div class="tablewrap"><table class="ftable">
-            <colgroup><col style="width:26%"><col style="width:40%"><col style="width:34%"></colgroup>
-            <thead><tr><th>Source</th><th>Why it is needed</th><th></th></tr></thead>
-            <tbody>
-              <tr><td><b class="ovsrc__nm">Time tracking</b></td><td>Needed to read Advisory&rsquo;s value.</td><td class="ovsrc__act"><a href="#" class="ov-btn">Connect time tracking</a></td></tr>
-              <tr><td><b class="ovsrc__nm">Data-loss prevention</b></td><td>Needed to measure sensitive-data protection.</td><td class="ovsrc__act"><a href="#" class="ov-btn">Connect data-loss prevention</a></td></tr>
-              <tr><td><b class="ovsrc__nm">AI budget</b></td><td>Lets Cygnos judge total AI spend against what you planned. One upload.</td><td class="ovsrc__act"><a href="#" class="ov-btn">Upload your AI budget</a></td></tr>
-            </tbody>
           </table></div></div>
         </section>
       </div>
             </div>
 
+      <div id="src-view">
+      <section class="hero hero--sources">
+        <h1>Sources</h1>
+        <p>Where Cygnos reads from, how fresh each source is, and when it next updates.</p>
+      </section>
+
+      <section class="ovsrc srcpage" aria-label="Sources">
+        <div class="ftools ovsrc__tools" id="sp-src-tools">
+          <div class="ftools__l">
+            <label class="srcsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="sp-src-search" placeholder="Search sources" aria-label="Search sources"></label>
+            <div class="srcpills">
+              <span class="ovpw"><button type="button" class="pillbtn" data-f="type"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Type</span></button></span>
+              <span class="ovpw"><button type="button" class="pillbtn" data-f="freq"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Update</span></button></span>
+              <span class="ovpw"><button type="button" class="pillbtn" data-f="status"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Status</span></button></span>
+              <button type="button" class="pillclear" id="sp-src-clear" hidden>Clear filters</button>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="findings__head ovsrc__h" id="sp-cn-head"><button type="button" class="fold" id="sp-cn-fold" aria-expanded="true" aria-controls="sp-cn-card" data-name="connected sources" aria-label="Collapse connected sources"><svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><span>Connected <b>12</b></span></h2>
+        <div class="ovsrc__card" id="sp-cn-card"><div class="tablewrap"><table class="ftable">
+          <colgroup><col style="width:25%"><col style="width:22%"><col style="width:19%"><col style="width:34%"></colgroup>
+          <thead><tr><th>Source</th><th>Type</th><th>Last updated</th><th>Next update</th></tr></thead>
+          <tbody>
+            <tr data-type="people" data-freq="daily"><td><b class="ovsrc__nm">Staff directory</b></td><td>Workday</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
+            <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm">ChatGPT Enterprise admin</b></td><td>Seat vendor</td><td>13 Oct, 23:00</td><td>Daily. OpenAI publishes once a day</td></tr>
+            <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm">Claude for Work admin</b></td><td>Seat vendor</td><td>13 Oct, 23:10</td><td>Daily. Anthropic publishes once a day</td></tr>
+            <tr data-type="code" data-freq="realtime"><td><b class="ovsrc__nm">Code host</b></td><td>GitHub</td><td>Real time</td><td>As it happens</td></tr>
+            <tr data-type="work" data-freq="hourly"><td><b class="ovsrc__nm">Work tracker</b></td><td>Jira</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
+            <tr data-type="ticketing" data-freq="hourly"><td><b class="ovsrc__nm">Ticketing system</b></td><td>ServiceNow</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
+            <tr data-type="activity" data-freq="realtime"><td><b class="ovsrc__nm">Agent activity records</b></td><td>Your observability tool</td><td>Real time</td><td>As it happens</td></tr>
+            <tr data-type="identity" data-freq="daily"><td><b class="ovsrc__nm">Sign-in records</b></td><td>Your identity provider</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
+            <tr data-type="devices" data-freq="daily"><td><b class="ovsrc__nm">Network and browser records</b></td><td>Your device management</td><td>14 Oct, 05:00</td><td>Daily</td></tr>
+            <tr data-type="gateway" data-freq="realtime"><td><b class="ovsrc__nm">API gateway</b></td><td>Where your teams&rsquo; AI calls pass</td><td>Real time</td><td>As it happens</td></tr>
+            <tr data-type="registry" data-freq="realtime"><td><b class="ovsrc__nm">Agent registry</b></td><td>Your agent registry</td><td>Real time</td><td>As it happens</td></tr>
+            <tr data-type="finance" data-freq="monthly"><td><b class="ovsrc__nm">Finance invoices</b></td><td>Monthly upload</td><td>Upload of 5 Oct</td><td>Next upload due 5 Nov</td></tr>
+          </tbody>
+        </table></div></div>
+
+        <h2 class="findings__head ovsrc__h"><button type="button" class="fold" id="sp-st-fold" aria-expanded="true" aria-controls="sp-st-card" data-name="stale sources" aria-label="Collapse stale sources"><svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><span>Stale <b>1</b></span></h2>
+        <div class="ovsrc__card" id="sp-st-card"><div class="tablewrap"><table class="ftable">
+          <colgroup><col style="width:25%"><col style="width:22%"><col style="width:19%"><col style="width:34%"></colgroup>
+          <thead><tr><th>Source</th><th>Type</th><th>Last updated</th><th>Next update</th></tr></thead>
+          <tbody>
+            <tr data-type="seats" data-freq="daily" data-status="stale">
+              <td><b class="ovsrc__nm">Microsoft 365 admin</b></td><td>Seat vendor</td>
+              <td><span class="stat">Stale</span><span class="ovsrc__as">7 Oct</span></td>
+              <td><b class="ovsrc__nm">Normally daily. Microsoft has not published since 7 Oct.</b><span class="ovsrc__sub">Microsoft 365 Copilot figures carry &ldquo;as of 7 Oct&rdquo; wherever they appear. Cygnos reads again as soon as Microsoft publishes.</span></td>
+            </tr>
+          </tbody>
+        </table></div></div>
+
+        <h2 class="findings__head ovsrc__h"><button type="button" class="fold" id="sp-nc-fold" aria-expanded="true" aria-controls="sp-nc-card" data-name="not connected sources" aria-label="Collapse not connected sources"><svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><span>Recommended <b>3</b></span></h2>
+        <div class="ovsrc__card" id="sp-nc-card"><div class="tablewrap"><table class="ftable ovsrc__nc">
+          <colgroup><col style="width:25%"><col style="width:41%"><col style="width:34%"></colgroup>
+          <thead><tr><th>Source</th><th>Why it is needed</th><th></th></tr></thead>
+          <tbody>
+            <tr data-type="work" data-freq="none" data-status="nc"><td><b class="ovsrc__nm">Time tracking</b></td><td data-f="Value Delivered">Needed to read Advisory&rsquo;s value.</td><td class="ovsrc__act"><a href="#" class="ov-btn">Connect time tracking</a></td></tr>
+            <tr data-type="dlp" data-freq="none" data-status="nc"><td><b class="ovsrc__nm">Data-loss prevention</b></td><td data-f="Safe Use">Needed to measure sensitive-data protection.</td><td class="ovsrc__act"><a href="#" class="ov-btn">Connect data-loss prevention</a></td></tr>
+            <tr data-type="finance" data-freq="none" data-status="nc"><td><b class="ovsrc__nm">AI budget</b></td><td data-f="Spend Discipline">Lets Cygnos judge total AI spend against what you planned. One upload.</td><td class="ovsrc__act"><a href="#" class="ov-btn">Upload your AI budget</a></td></tr>
+          </tbody>
+        </table></div></div>
+        <p class="ovsrc__empty" id="sp-src-empty" hidden>No sources match these filters.</p>
+      </section>
+      </div>
+      <div id="br-view">
+      <section class="hero hero--sources">
+        <h1>Briefs</h1>
+        <p>Every monthly Brief Cygnos has sent, with its score and change, plus a way to ask for one for any dates you choose.</p>
+      </section>
+      <section class="ovsrc srcpage brpage" aria-label="Briefs">
+        <div class="brcards" role="group" aria-label="Filter by biggest mover">
+          <button type="button" class="brcard is-on" data-k="all" aria-pressed="true"><span>All</span><b>7</b></button>
+          <button type="button" class="brcard" data-k="value" aria-pressed="false"><span>Value Delivered</span><b>2</b></button>
+          <button type="button" class="brcard" data-k="safe" aria-pressed="false"><span>Safe Use</span><b>1</b></button>
+          <button type="button" class="brcard" data-k="rel" aria-pressed="false"><span>Reliability</span><b>1</b></button>
+          <button type="button" class="brcard" data-k="spend" aria-pressed="false"><span>Spend Discipline</span><b>2</b></button>
+        </div>
+        <div class="ftools ovsrc__tools" id="br-tools">
+          <div class="ftools__l">
+            <label class="srcsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="br-search" placeholder="Search" aria-label="Search Briefs"></label>
+            <div class="srcpills">
+              <span class="ovpw"><button type="button" class="pillbtn" data-f="month"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Month</span></button></span>
+              <span class="ovpw"><button type="button" class="pillbtn" data-f="kind"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Change</span></button></span>
+              <button type="button" class="pillclear" id="br-clear" hidden>Clear filters</button>
+            </div>
+          </div>
+          <div class="facts">
+            <button type="button" class="tbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M8 7l4-4 4 4M5 13v6.5h14V13"/></svg> Export</button>
+            <button type="button" class="tbtn" id="br-ask">Ask for a Brief</button>
+          </div>
+        </div>
+        <h2 class="findings__head ovsrc__h" id="br-head"><span>Monthly Briefs <b>7</b></span></h2>
+        <div class="ovsrc__card" id="br-card"><div class="tablewrap"><table class="ftable">
+          <colgroup><col style="width:28%"><col style="width:20%"><col style="width:14%"><col style="width:16%"><col style="width:22%"></colgroup>
+          <thead><tr><th>Brief</th><th>Issued</th><th>Cygnos IQ</th><th>Change</th><th>Biggest mover</th></tr></thead>
+          <tbody>
+            <tr data-kind="up" data-m="September" data-f="spend"><td><b class="ovsrc__nm">September</b> <span class="stat br-latest">Latest</span></td><td>14 Oct 2026</td><td class="br-iq">71</td><td><span class="br-up">+3</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--spend">Spend Discipline</span></td></tr>
+            <tr data-kind="up" data-m="August" data-f="value"><td><b class="ovsrc__nm">August</b></td><td>14 Sep 2026</td><td class="br-iq">68</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--value">Value Delivered</span></td></tr>
+            <tr data-kind="up" data-m="July" data-f="rel"><td><b class="ovsrc__nm">July</b></td><td>14 Aug 2026</td><td class="br-iq">66</td><td><span class="br-up">+4</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--rel">Reliability</span></td></tr>
+            <tr data-kind="down" data-m="June" data-f="safe"><td><b class="ovsrc__nm">June</b></td><td>14 Jul 2026</td><td class="br-iq">62</td><td><span class="br-dn">&minus;1</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--safe">Safe Use</span></td></tr>
+            <tr data-kind="up" data-m="May" data-f="value"><td><b class="ovsrc__nm">May</b></td><td>12 Jun 2026</td><td class="br-iq">63</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--value">Value Delivered</span></td></tr>
+            <tr data-kind="up" data-m="April" data-f="spend"><td><b class="ovsrc__nm">April</b></td><td>14 May 2026</td><td class="br-iq">61</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--spend">Spend Discipline</span></td></tr>
+            <tr data-kind="first" data-m="March" data-f=""><td><b class="ovsrc__nm">March</b></td><td>14 Apr 2026</td><td class="br-iq">59</td><td><span class="br-na">First reading</span> <i class="br-pt">PTS</i></td><td><span class="br-na">&mdash;</span></td></tr>
+          </tbody>
+        </table></div></div>
+        <p class="ovsrc__empty" id="br-empty" hidden>No Briefs match these filters.</p>
+      </section>
+      </div>
       <section class="hero hero--findings">
         <h1>Findings</h1>
         <p>Review what Cygnos has found in your company's AI use, who owns each finding, and where it stands.</p>
@@ -1411,15 +1617,92 @@
   </script>
 
   <script>
-    /* Not connected sources: the chevron folds the table, like Closed findings */
+    /* Sources filters: search plus Type, Update and Status checklists, in the same style as the Findings filters */
     (function () {
-      var btn = document.getElementById('nc-fold'), box = document.getElementById('nc-card');
-      if (!btn || !box) return;
-      btn.addEventListener('click', function () {
-        var open = btn.getAttribute('aria-expanded') !== 'true';
-        btn.setAttribute('aria-expanded', String(open));
-        btn.setAttribute('aria-label', open ? 'Collapse not connected sources' : 'Expand not connected sources');
-        box.hidden = !open;
+      var root = document.querySelector('.ovsrc');
+      if (!root || !document.getElementById('src-tools')) return;
+      var rows = Array.prototype.slice.call(root.querySelectorAll('tbody tr[data-type]'));
+      var search = document.getElementById('src-search'), clear = document.getElementById('src-clear');
+      var OPTS = {
+        type:   { title: 'Type', list: [['people', 'People'], ['seats', 'AI seats'], ['code', 'Code'], ['work', 'Work tracking'], ['ticketing', 'Ticketing']] },
+        freq:   { title: 'Update', list: [['realtime', 'Real time'], ['hourly', 'Hourly'], ['daily', 'Daily']] },
+        status: { title: 'Status', list: [['ok', 'Up to date'], ['stale', 'Stale']] }
+      };
+      var applied = { type: [], freq: [], status: [] }, pops = {};
+      var sections = {
+        ok: { head: document.getElementById('cn-head'), card: document.getElementById('cn-card') },
+        stale: { head: document.getElementById('st-fold').closest('h3'), card: document.getElementById('st-card') }
+      };
+      var empty = document.createElement('p');
+      empty.className = 'ovsrc__empty'; empty.hidden = true; empty.textContent = 'No sources match these filters.';
+      sections.stale.card.insertAdjacentElement('afterend', empty);
+
+      function closeAll(except) { Object.keys(pops).forEach(function (k) { if (pops[k].el !== except) { pops[k].el.hidden = true; pops[k].btn.setAttribute('aria-expanded', 'false'); } }); }
+      function label(k) {
+        var n = applied[k].length, o = OPTS[k], t = o.title;
+        if (n === 1) { var hit = o.list.filter(function (x) { return x[0] === applied[k][0]; })[0]; t += ': ' + hit[1]; } else if (n > 1) t += ': ' + n;
+        pops[k].btn.querySelector('.pl').textContent = t;
+        pops[k].btn.classList.toggle('is-active', n > 0);
+      }
+      function apply() {
+        var q = search.value.trim().toLowerCase(), any = { ok: 0, stale: 0 };
+        rows.forEach(function (r) {
+          var st = r.getAttribute('data-status') || 'ok';
+          var show = (!applied.type.length || applied.type.indexOf(r.getAttribute('data-type')) > -1) &&
+                     (!applied.freq.length || applied.freq.indexOf(r.getAttribute('data-freq')) > -1) &&
+                     (!applied.status.length || applied.status.indexOf(st) > -1) &&
+                     (!q || r.textContent.toLowerCase().indexOf(q) > -1);
+          r.hidden = !show; if (show) any[st]++;
+        });
+        ['ok', 'stale'].forEach(function (k) {
+          var s = sections[k], on = any[k] > 0;
+          var fb = s.head.querySelector('.fold'); s.head.hidden = !on; s.card.hidden = !on || (fb && fb.getAttribute('aria-expanded') !== 'true');
+        });
+        empty.hidden = (any.ok + any.stale) > 0;
+        clear.hidden = !(q || applied.type.length || applied.freq.length || applied.status.length);
+      }
+      Object.keys(OPTS).forEach(function (k) {
+        var btn = root.querySelector('.pillbtn[data-f="' + k + '"]'), el = document.createElement('div');
+        el.className = 'fpop'; el.hidden = true; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', OPTS[k].title);
+        el.innerHTML = '<h3>' + OPTS[k].title + '</h3><div class="fpop__list">' + OPTS[k].list.map(function (o) {
+          return '<label class="fchk"><input type="checkbox" value="' + o[0] + '"><span>' + o[1] + '</span></label>';
+        }).join('') + '</div><button type="button" class="fpop__apply">Apply</button>';
+        btn.parentNode.appendChild(el);
+        btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false');
+        pops[k] = { btn: btn, el: el };
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = el.hidden; closeAll(el);
+          if (open) { Array.prototype.forEach.call(el.querySelectorAll('input'), function (i) { i.checked = applied[k].indexOf(i.value) > -1; }); }
+          el.hidden = !open; btn.setAttribute('aria-expanded', String(open));
+        });
+        el.addEventListener('click', function (e) { e.stopPropagation(); });
+        el.querySelector('.fpop__apply').addEventListener('click', function () {
+          applied[k] = Array.prototype.filter.call(el.querySelectorAll('input'), function (i) { return i.checked; }).map(function (i) { return i.value; });
+          el.hidden = true; btn.setAttribute('aria-expanded', 'false'); label(k); apply();
+        });
+      });
+      document.addEventListener('click', function () { closeAll(null); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(null); });
+      search.addEventListener('input', apply);
+      clear.addEventListener('click', function () {
+        applied = { type: [], freq: [], status: [] }; search.value = '';
+        Object.keys(pops).forEach(label); apply();
+      });
+      /* folding a list by hand must survive filtering */
+      Array.prototype.forEach.call(root.querySelectorAll('.fold'), function (b) { b.addEventListener('click', function () { setTimeout(apply, 0); }); });
+    })();
+    /* Sources: Connected, Stale and Not connected each fold with their chevron, like Closed findings */
+    (function () {
+      Array.prototype.forEach.call(document.querySelectorAll('.ovsrc .fold'), function (btn) {
+        var box = document.getElementById(btn.getAttribute('aria-controls')), name = btn.getAttribute('data-name') || 'this list';
+        if (!box) return;
+        btn.addEventListener('click', function () {
+          var open = btn.getAttribute('aria-expanded') !== 'true';
+          btn.setAttribute('aria-expanded', String(open));
+          btn.setAttribute('aria-label', (open ? 'Collapse ' : 'Expand ') + name);
+          box.hidden = !open;
+        });
       });
     })();
     /* Closed findings: the chevron folds it by hand, and it follows the tabs: open on All, collapsed on Open or Overdue */
@@ -1520,6 +1803,29 @@
     <button type="button" class="toast__x" id="toast-x" aria-label="Dismiss"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
   <div class="dp-scrim" id="dp-scrim" aria-hidden="true"></div>
+  <aside class="dp" id="sd" role="dialog" aria-modal="true" aria-labelledby="sd-title" aria-hidden="true">
+    <div class="dp__bar"><button type="button" class="dbtn" id="sd-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dp__scroll">
+      <h2 class="dp__title" id="sd-title"></h2>
+      <p class="sd-sub" id="sd-sub"></p>
+      <div class="sd-card" id="sd-card"></div>
+      <div class="sd-act" id="sd-act"></div>
+    </div>
+    <div class="dp__foot"><button type="button" class="tbtn" id="sd-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="sd-save" style="margin-left:auto">Save changes</button></div>
+  </aside>
+  <div class="dp-scrim" id="sd-scrim" aria-hidden="true"></div>
+  <aside class="dp" id="bd" role="dialog" aria-modal="true" aria-labelledby="bd-title" aria-hidden="true">
+    <div class="dp__bar"><button type="button" class="dbtn" id="bd-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dp__scroll">
+      <h2 class="dp__title" id="bd-title">Ask for a Brief</h2>
+      <p class="sd-sub">The same Brief, for any period: monthly, now, or dates you choose.</p>
+      <label class="bd-lbl" for="bd-from">From</label><input class="bd-in" type="date" id="bd-from" value="2026-10-01" min="2026-03-02" max="2026-10-14">
+      <label class="bd-lbl" for="bd-to">To</label><input class="bd-in" type="date" id="bd-to" value="2026-10-14" min="2026-03-02" max="2026-10-14">
+      <p class="sd-sub" style="margin-top:14px">Readings start on 2 Mar 2026, when Cygnos connected.</p>
+    </div>
+    <div class="dp__foot"><button type="button" class="tbtn" id="bd-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="bd-go" style="margin-left:auto">Prepare this Brief</button></div>
+  </aside>
+  <div class="dp-scrim" id="bd-scrim" aria-hidden="true"></div>
   <aside class="dp" id="dp" role="dialog" aria-modal="false" aria-labelledby="dp-title" aria-hidden="true">
     <div class="dp__bar">
       <button type="button" class="dbtn" id="dp-close" aria-label="Close panel"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
@@ -2279,12 +2585,16 @@
     /* Overview opens in the same page: the sidebar links switch between it and Findings without leaving the preview. */
     (function () {
       var main = document.querySelector('.main'), links = document.querySelectorAll('.side .nav .nav__item'), ovLink = links[0], fLink = links[1];
-      function show(ov) {
-        main.classList.toggle('is-ov', ov);
-        ovLink.classList.toggle('is-active', ov); fLink.classList.toggle('is-active', !ov);
-        if (ov) { ovLink.setAttribute('aria-current', 'page'); fLink.removeAttribute('aria-current'); } else { fLink.setAttribute('aria-current', 'page'); ovLink.removeAttribute('aria-current'); }
+      var srcLink = links[3], brLink = links[4];
+      function show(ov, src, br) {
+        var onOv = ov && !src && !br, onF = !ov && !src && !br;
+        main.classList.toggle('is-ov', onOv); main.classList.toggle('is-src', !!src); main.classList.toggle('is-br', !!br);
+        ovLink.classList.toggle('is-active', onOv); fLink.classList.toggle('is-active', onF); srcLink.classList.toggle('is-active', !!src); brLink.classList.toggle('is-active', !!br);
+        [[ovLink, onOv], [fLink, onF], [srcLink, !!src], [brLink, !!br]].forEach(function (p) { if (p[1]) p[0].setAttribute('aria-current', 'page'); else p[0].removeAttribute('aria-current'); });
         window.scrollTo(0, 0);
       }
+      brLink.addEventListener('click', function (e) { e.preventDefault(); var sf = document.getElementById('score-frame'); sf.hidden = true; sf.style.display = 'none'; show(false, false, true); });
+      srcLink.addEventListener('click', function (e) { e.preventDefault(); show(false, true); }); /* Sources opens in this same page too, so it is instant like Findings and Score */
       if (location.hash) { main.classList.remove('is-ov'); ovLink.classList.remove('is-active'); ovLink.removeAttribute('aria-current'); fLink.classList.add('is-active'); fLink.setAttribute('aria-current', 'page'); } /* the page already opens on Overview (set in the markup so Findings never flashes); a link to one finding opens Findings */
       ovLink.addEventListener('click', function (e) { e.preventDefault(); show(true); });
       fLink.addEventListener('click', function (e) { e.preventDefault(); show(false); });
@@ -2294,7 +2604,211 @@
       scoreLink.addEventListener('click', function (e) { e.preventDefault(); var sf = document.getElementById('score-frame'); sf.hidden = false; sf.style.display = 'block'; });
       window.addEventListener('message', function (e) {
         if (!e.data || !e.data.cygGo) return;
-        var sf2 = document.getElementById('score-frame'); sf2.hidden = true; sf2.style.display = 'none'; show(e.data.cygGo === 'overview');
+        var sf2 = document.getElementById('score-frame'); sf2.hidden = true; sf2.style.display = 'none'; show(e.data.cygGo === 'overview', e.data.cygGo === 'sources');
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('.ovsrc__bar a.tbtn'), function (a) { a.addEventListener('click', function (e) { e.preventDefault(); show(false, true); }); });
+    })();
+  </script>
+  <script>
+    /* Briefs: change cards, search, Month and Change checklists, and the Ask for a Brief panel */
+    (function () {
+      var root = document.querySelector('.brpage'); if (!root) return;
+      var rows = Array.prototype.slice.call(root.querySelectorAll('tbody tr[data-kind]'));
+      var search = document.getElementById('br-search'), clear = document.getElementById('br-clear'), empty = document.getElementById('br-empty'), card = document.getElementById('br-card'), head = document.getElementById('br-head');
+      var cards = Array.prototype.slice.call(root.querySelectorAll('.brcard')), tab = 'all';
+      var OPTS = {
+        month: { title: 'Month', list: [['September', 'September'], ['August', 'August'], ['July', 'July'], ['June', 'June'], ['May', 'May'], ['April', 'April'], ['March', 'March']] },
+        kind: { title: 'Change', list: [['up', 'Improved'], ['down', 'Dropped'], ['first', 'First reading']] }
+      };
+      var applied = { month: [], kind: [] }, pops = {};
+      function closeAll(except) { Object.keys(pops).forEach(function (k) { if (pops[k].el !== except) { pops[k].el.hidden = true; pops[k].btn.setAttribute('aria-expanded', 'false'); } }); }
+      function label(k) {
+        var n = applied[k].length, o = OPTS[k], t = o.title;
+        if (n === 1) { t += ': ' + o.list.filter(function (x) { return x[0] === applied[k][0]; })[0][1]; } else if (n > 1) t += ': ' + n;
+        pops[k].btn.querySelector('.pl').textContent = t; pops[k].btn.classList.toggle('is-active', n > 0);
+      }
+      function apply() {
+        var q = search.value.trim().toLowerCase(), n = 0;
+        rows.forEach(function (r) {
+          var show = (tab === 'all' || r.getAttribute('data-f') === tab) &&
+                     (!applied.month.length || applied.month.indexOf(r.getAttribute('data-m')) > -1) &&
+                     (!applied.kind.length || applied.kind.indexOf(r.getAttribute('data-kind')) > -1) &&
+                     (!q || r.textContent.toLowerCase().indexOf(q) > -1);
+          r.hidden = !show; if (show) n++;
+        });
+        head.querySelector('b').textContent = n; head.hidden = card.hidden = n === 0; empty.hidden = n > 0;
+        clear.hidden = !(q || applied.month.length || applied.kind.length);
+      }
+      cards.forEach(function (c) { c.addEventListener('click', function () { tab = c.getAttribute('data-k'); cards.forEach(function (x) { var on = x === c; x.classList.toggle('is-on', on); x.setAttribute('aria-pressed', String(on)); }); apply(); }); });
+      Object.keys(OPTS).forEach(function (k) {
+        var btn = root.querySelector('.pillbtn[data-f="' + k + '"]'), el = document.createElement('div');
+        el.className = 'fpop'; el.hidden = true; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', OPTS[k].title);
+        el.innerHTML = '<h3>' + OPTS[k].title + '</h3><div class="fpop__list">' + OPTS[k].list.map(function (o) { return '<label class="fchk"><input type="checkbox" value="' + o[0] + '"><span>' + o[1] + '</span></label>'; }).join('') + '</div><button type="button" class="fpop__apply">Apply</button>';
+        btn.parentNode.appendChild(el); btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false'); pops[k] = { btn: btn, el: el };
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation(); var open = el.hidden; closeAll(el);
+          if (open) Array.prototype.forEach.call(el.querySelectorAll('input'), function (i) { i.checked = applied[k].indexOf(i.value) > -1; });
+          el.hidden = !open; btn.setAttribute('aria-expanded', String(open));
+        });
+        el.addEventListener('click', function (e) { e.stopPropagation(); });
+        el.querySelector('.fpop__apply').addEventListener('click', function () {
+          applied[k] = Array.prototype.filter.call(el.querySelectorAll('input'), function (i) { return i.checked; }).map(function (i) { return i.value; });
+          el.hidden = true; btn.setAttribute('aria-expanded', 'false'); label(k); apply();
+        });
+      });
+      document.addEventListener('click', function () { closeAll(null); });
+      search.addEventListener('input', apply);
+      clear.addEventListener('click', function () { applied = { month: [], kind: [] }; search.value = ''; Object.keys(pops).forEach(label); apply(); });
+      var bd = document.getElementById('bd'), bs = document.getElementById('bd-scrim');
+      function bopen() { bd.classList.add('is-open'); bd.setAttribute('aria-hidden', 'false'); bs.classList.add('is-open'); }
+      function bclose() { bd.classList.remove('is-open'); bd.setAttribute('aria-hidden', 'true'); bs.classList.remove('is-open'); }
+      document.getElementById('br-ask').addEventListener('click', bopen);
+      ['bd-close', 'bd-cancel', 'bd-go'].forEach(function (i) { document.getElementById(i).addEventListener('click', bclose); });
+      bs.addEventListener('click', bclose);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') bclose(); });
+    })();
+  </script>
+  <script>
+    /* Sources: clicking a row opens a side panel with that source's details */
+    (function () {
+      var sd = document.getElementById('sd'), sc = document.getElementById('sd-scrim'), view = document.getElementById('src-view');
+      if (!sd || !view) return;
+      var READS = {
+        'Staff directory': 'Reads who works at the firm, their team and their role, so seats and findings can be tied to people.',
+        'ChatGPT Enterprise admin': 'Reads seat assignments and usage totals from OpenAI.',
+        'Claude for Work admin': 'Reads seat assignments and usage totals from Anthropic.',
+        'Code host': 'Reads repositories and changes, to see where AI-written code lands.',
+        'Work tracker': 'Reads projects and tickets, to see what work AI is used on.',
+        'Ticketing system': 'Reads support and incident tickets, to see where AI affects delivery.',
+        'Agent activity records': 'Reads what each AI agent did and when.',
+        'Sign-in records': 'Reads when and where each seat signs in.',
+        'Network and browser records': 'Reads which AI tools are reached, never what is typed.',
+        'API gateway': 'Reads the AI calls your teams make through the gateway.',
+        'Agent registry': 'Reads which agents exist, who owns them and what they can access.',
+        'Finance invoices': 'Reads monthly AI invoices to track actual spend.',
+        'Microsoft 365 admin': 'Reads Microsoft 365 Copilot seats and usage. Figures carry “as of 7 Oct” wherever they appear. Cygnos reads again as soon as Microsoft publishes.',
+        'Time tracking': 'Needed to read Advisory’s value.',
+        'Data-loss prevention': 'Needed to measure sensitive-data protection.',
+        'AI budget': 'Lets Cygnos judge total AI spend against what you planned. One upload.'
+      };
+      var title = document.getElementById('sd-title'), sub = document.getElementById('sd-sub'), card = document.getElementById('sd-card'), act = document.getElementById('sd-act'), save = document.getElementById('sd-save'), cur = null;
+      function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+      var SAVED = {};
+      function row(id, label, help, ctl) { return '<div class="sd-row" id="sdr-' + id + '"><b>' + label + '</b>' + ctl + '<small>' + help + '</small></div>'; }
+      function tg(id, on) { return '<button type="button" class="sd-tg" role="switch" id="sd-' + id + '" aria-checked="' + on + '"></button>'; }
+      function sel(id, opts, v, dis) { return '<select class="sd-sel" id="sd-' + id + '"' + (dis ? ' disabled' : '') + '>' + opts.map(function (o) { return '<option' + (o === v ? ' selected' : '') + '>' + o + '</option>'; }).join('') + '</select>'; }
+      function open(tr) {
+        var td = tr.children, name = td[0].querySelector('.ovsrc__nm').textContent, st = tr.getAttribute('data-status') || 'ok', fq = tr.getAttribute('data-freq');
+        cur = name; title.textContent = name; var s = SAVED[name] || {};
+        var html = '', btn = tr.querySelector('.ovsrc__act .ov-btn');
+        if (st === 'nc') {
+          sub.textContent = READS[name];
+          html = row('inc', 'Include in Cygnos', 'Cygnos starts reading this source once it is connected.', tg('inc', s.inc === undefined ? 'true' : s.inc)) +
+                 row('alert', 'Remind me to connect', 'Show a reminder on the Overview until this source is connected.', tg('alert', s.alert === undefined ? 'true' : s.alert));
+          act.innerHTML = '<a href="#" class="tbtn tbtn--primary">' + esc(btn.textContent) + '</a>';
+        } else {
+          var nx = td[3].querySelector('.ovsrc__nm'), fixed = fq === 'monthly' || /publishes/.test(td[3].textContent);
+          var base = { realtime: 'Real time', hourly: 'Hourly', daily: 'Daily', monthly: 'Monthly upload' }[fq];
+          var opts = fq === 'realtime' ? ['Real time', 'Hourly', 'Daily'] : fixed ? [base] : ['Hourly', 'Daily'];
+          sub.textContent = READS[name] + ' Last updated ' + td[2].textContent.replace(/^Stale/, '').toLowerCase().replace(/^upload of/, 'upload of') + '.';
+          html = row('inc', 'Include in Cygnos', 'Turn off to stop Cygnos reading this source. Scores that rely on it will show “as of” its last update.', tg('inc', s.inc === undefined ? 'true' : s.inc)) +
+                 row('freq', 'Update frequency', fixed ? 'Fixed by the source. ' + esc(nx ? nx.textContent : td[3].textContent) : 'How often Cygnos reads this source.', sel('freq', opts, s.freq || (opts.indexOf(base) > -1 ? base : opts[0]), fixed)) +
+                 row('alert', 'Alert me when stale', 'Send a note to the admin when this source misses an update.', tg('alert', s.alert === undefined ? 'true' : s.alert)) +
+                 row('after', 'Treat as stale after', 'How long a source can go without an update before it is marked Stale.', sel('after', fq === 'monthly' ? ['35 days', '40 days'] : ['1 day', '2 days', '3 days', '7 days'], s.after || (fq === 'monthly' ? '35 days' : '2 days')));
+          act.innerHTML = '<a href="#" class="tbtn" id="sd-disc" style="color:var(--red)">Disconnect source</a>';
+        }
+        card.innerHTML = html;
+        sd.classList.add('is-open'); sd.setAttribute('aria-hidden', 'false'); sc.classList.add('is-open');
+      }
+      card.addEventListener('click', function (e) { var t = e.target.closest('.sd-tg'); if (t) t.setAttribute('aria-checked', t.getAttribute('aria-checked') !== 'true'); });
+      save.addEventListener('click', function () {
+        var g = function (i) { return document.getElementById('sd-' + i); }, o = {};
+        ['inc', 'alert'].forEach(function (k) { if (g(k)) o[k] = g(k).getAttribute('aria-checked'); });
+        ['freq', 'after'].forEach(function (k) { if (g(k)) o[k] = g(k).value; });
+        SAVED[cur] = o; close();
+      });
+      document.getElementById('sd-cancel').addEventListener('click', function () { close(); });
+      function close() { sd.classList.remove('is-open'); sd.setAttribute('aria-hidden', 'true'); sc.classList.remove('is-open'); }
+      view.addEventListener('click', function (e) {
+        if (e.target.closest('a, button')) return;
+        var tr = e.target.closest('tbody tr[data-type]'); if (tr) open(tr);
+      });
+      sc.addEventListener('click', close);
+      document.getElementById('sd-close').addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+  <script>
+    /* Sources page: search plus Type, Update and Status checklists, and a chevron to fold each list (same behaviour as the Findings filters and Closed findings) */
+    (function () {
+      var root = document.querySelector('.srcpage');
+      var rows = Array.prototype.slice.call(root.querySelectorAll('tbody tr[data-type]'));
+      var search = document.getElementById('sp-src-search'), clear = document.getElementById('sp-src-clear'), empty = document.getElementById('sp-src-empty');
+      var OPTS = {
+        type: { title: 'Type', list: [['people', 'People'], ['seats', 'AI seats'], ['code', 'Code'], ['work', 'Work tracking'], ['ticketing', 'Ticketing'], ['activity', 'Agent activity'], ['identity', 'Sign-in'], ['devices', 'Devices'], ['gateway', 'Gateway'], ['registry', 'Registry'], ['finance', 'Finance'], ['dlp', 'Data-loss prevention']] },
+        freq: { title: 'Update', list: [['realtime', 'Real time'], ['hourly', 'Hourly'], ['daily', 'Daily'], ['monthly', 'Monthly']] },
+        status: { title: 'Status', list: [['ok', 'Up to date'], ['stale', 'Stale'], ['nc', 'Not connected']] }
+      };
+      var applied = { type: [], freq: [], status: [] }, pops = {};
+      var sections = {
+        ok: { head: document.getElementById('sp-cn-head'), card: document.getElementById('sp-cn-card'), fold: document.getElementById('sp-cn-fold') },
+        stale: { head: document.getElementById('sp-st-fold').closest('h2'), card: document.getElementById('sp-st-card'), fold: document.getElementById('sp-st-fold') },
+        nc: { head: document.getElementById('sp-nc-fold').closest('h2'), card: document.getElementById('sp-nc-card'), fold: document.getElementById('sp-nc-fold') }
+      };
+      function closeAll(except) { Object.keys(pops).forEach(function (k) { if (pops[k].el !== except) { pops[k].el.hidden = true; pops[k].btn.setAttribute('aria-expanded', 'false'); } }); }
+      function label(k) {
+        var n = applied[k].length, o = OPTS[k], t = o.title;
+        if (n === 1) { var hit = o.list.filter(function (x) { return x[0] === applied[k][0]; })[0]; t += ': ' + hit[1]; } else if (n > 1) t += ': ' + n;
+        pops[k].btn.querySelector('.pl').textContent = t;
+        pops[k].btn.classList.toggle('is-active', n > 0);
+      }
+      function apply() {
+        var q = search.value.trim().toLowerCase(), any = { ok: 0, stale: 0, nc: 0 };
+        rows.forEach(function (r) {
+          var st = r.getAttribute('data-status') || 'ok';
+          var show = (!applied.type.length || applied.type.indexOf(r.getAttribute('data-type')) > -1) &&
+                     (!applied.freq.length || applied.freq.indexOf(r.getAttribute('data-freq')) > -1) &&
+                     (!applied.status.length || applied.status.indexOf(st) > -1) &&
+                     (!q || r.textContent.toLowerCase().indexOf(q) > -1);
+          r.hidden = !show; if (show) any[st]++;
+        });
+        ['ok', 'stale', 'nc'].forEach(function (k) {
+          var s = sections[k], on = any[k] > 0;
+          s.head.hidden = !on; s.card.hidden = !on || s.fold.getAttribute('aria-expanded') !== 'true';
+        });
+        empty.hidden = (any.ok + any.stale + any.nc) > 0;
+        clear.hidden = !(q || applied.type.length || applied.freq.length || applied.status.length);
+      }
+      Object.keys(OPTS).forEach(function (k) {
+        var btn = root.querySelector('.pillbtn[data-f="' + k + '"]'), el = document.createElement('div');
+        el.className = 'fpop'; el.hidden = true; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', OPTS[k].title);
+        el.innerHTML = '<h3>' + OPTS[k].title + '</h3><div class="fpop__list">' + OPTS[k].list.map(function (o) {
+          return '<label class="fchk"><input type="checkbox" value="' + o[0] + '"><span>' + o[1] + '</span></label>';
+        }).join('') + '</div><button type="button" class="fpop__apply">Apply</button>';
+        btn.parentNode.appendChild(el);
+        btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false');
+        pops[k] = { btn: btn, el: el };
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = el.hidden; closeAll(el);
+          if (open) { Array.prototype.forEach.call(el.querySelectorAll('input'), function (i) { i.checked = applied[k].indexOf(i.value) > -1; }); }
+          el.hidden = !open; btn.setAttribute('aria-expanded', String(open));
+        });
+        el.addEventListener('click', function (e) { e.stopPropagation(); });
+        el.querySelector('.fpop__apply').addEventListener('click', function () {
+          applied[k] = Array.prototype.filter.call(el.querySelectorAll('input'), function (i) { return i.checked; }).map(function (i) { return i.value; });
+          el.hidden = true; btn.setAttribute('aria-expanded', 'false'); label(k); apply();
+        });
+      });
+      document.addEventListener('click', function () { closeAll(null); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(null); });
+      search.addEventListener('input', apply);
+      clear.addEventListener('click', function () { applied = { type: [], freq: [], status: [] }; search.value = ''; Object.keys(pops).forEach(label); apply(); });
+      Array.prototype.forEach.call(root.querySelectorAll('.fold'), function (btn) {
+        var name = btn.getAttribute('data-name') || 'this list';
+        btn.addEventListener('click', function () {
+          setTimeout(apply, 0);
+        });
       });
     })();
   </script>
@@ -2962,6 +3476,7 @@
     .ov-plot__c { position: relative; min-width: 0; }
     .ov-plot__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
     .pt-lbl { position: absolute; transform: translate(-50%, -150%); font-size: 12px; font-style: normal; font-weight: 600; color: var(--ink); pointer-events: none; }
+.sc-tip { position: absolute; right: 16px; top: 58%; z-index: 3; width: 176px; padding: 10px 12px; border-radius: 8px; background: #fff; box-shadow: 0 6px 24px rgba(26, 31, 54, .14), 0 0 0 1px rgba(26, 31, 54, .04); font-size: 12.5px; line-height: 1.45; color: var(--muted); pointer-events: none; }    .sc-tip b { font-weight: 600; color: var(--ink); }    .ov-chard.is-dn .sc-tip { top: 8%; }
     .is-dn .ov-plot__svg #plotLine { stroke: #c4352b; }
     .is-dn #pg-fill stop { stop-color: #c4352b; }
     .is-dn .ov-plot__dot { border-color: #c4352b; box-shadow: 0 0 0 4px rgba(196, 53, 43, .16); }
@@ -3152,8 +3667,11 @@
         <a class=&quot;nav__item is-active&quot; href=&quot;score.html&quot; aria-current=&quot;page&quot;>
           <svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M3.5 17.5a8.5 8.5 0 1 1 17 0&quot;/><path d=&quot;m12 17.5 3.5-5&quot;/><path d=&quot;M12 17.5h.01&quot;/></svg>Score
         </a>
-        <a class=&quot;nav__item&quot; href=&quot;#&quot;>
+        <a class=&quot;nav__item&quot; href=&quot;sources.html&quot;>
           <svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><rect x=&quot;4&quot; y=&quot;8&quot; width=&quot;16&quot; height=&quot;12&quot; rx=&quot;3&quot;/><path d=&quot;M12 4v4M9 14h.01M15 14h.01M2 14h2M20 14h2&quot;/></svg>Sources
+        </a>
+        <a class=&quot;nav__item&quot; href=&quot;#&quot;>
+          <svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z&quot;/><path d=&quot;M14 3v5h5M9 13h6M9 16.5h4&quot;/></svg>Briefs
         </a>
         <a class=&quot;nav__item&quot; href=&quot;#&quot;>
           <svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/><path d=&quot;M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z&quot;/></svg>Settings
@@ -3337,6 +3855,7 @@
       var line = document.getElementById('plotLine'), fill = document.getElementById('plotFill'), dot = document.getElementById('plotDot');
       var prev = dot.cloneNode(false); prev.removeAttribute('id'); dot.parentNode.appendChild(prev);
       var lbl = [document.createElement('em'), document.createElement('em')]; lbl.forEach(function (l) { l.className = 'pt-lbl'; dot.parentNode.appendChild(l); }); /* the figure above each marked month */ /* the month before: the same marker, so the change since last month reads at a glance */
+var tip = document.createElement('div'); tip.className = 'sc-tip'; dot.parentNode.appendChild(tip);
       var xs = document.querySelector('.ov-plot__x');
       var ys = document.querySelector('.ov-plot__y');
       var tabEls = document.querySelectorAll('.ov-tab');
@@ -3387,6 +3906,7 @@
         document.querySelector('.ov-chard').classList.toggle('is-dn', s.val(idx[n - 1]) < s.val(idx[n - 2])); /* a drop since last month draws the chart in red */
         lbl[0].style.left = P[n - 2][0].toFixed(2) + '%'; lbl[0].style.top = P[n - 2][1].toFixed(2) + '%'; lbl[0].textContent = s.val(idx[n - 2]);
         lbl[1].style.left = '100%'; lbl[1].style.top = dot.style.top; lbl[1].textContent = s.val(idx[n - 1]);
+var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML = (dl === 0 ? '<b>No change</b>' : '<b>' + (dl > 0 ? '+' : '−') + Math.abs(dl) + ' PTS</b>') + ' since ' + M[idx[n - 2]] + ', ' + (dl === 0 ? 'still ' + pb : 'from ' + pa + ' to ' + pb);
         prev.style.left = P[n - 2][0].toFixed(2) + '%'; prev.style.top = P[n - 2][1].toFixed(2) + '%';
         xs.innerHTML = idx.map(function (k) { return '<span>' + M[k] + '</span>'; }).join('');
         ys.innerHTML = [0, 1, 2, 3].map(function (j) { return '<span>' + fmt(Math.round(s.max - span * j / 3)) + '</span>'; }).join('');
@@ -3526,7 +4046,7 @@
       });
     })();
   </script>
-<script>document.addEventListener('click',function(e){var a=e.target.closest&amp;&amp;e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';if(/^(newv1|overview)\.html/.test(h)){e.preventDefault();parent.postMessage({cygGo:h.indexOf('overview')===0?'overview':'findings'},'*');}});</script></body>
+<script>document.addEventListener('click',function(e){var a=e.target.closest&amp;&amp;e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';if(/^sources\.html/.test(h)){e.preventDefault();parent.postMessage({cygGo:'sources'},'*');return;}if(/^(newv1|overview)\.html/.test(h)){e.preventDefault();parent.postMessage({cygGo:h.indexOf('overview')===0?'overview':'findings'},'*');}});</script></body>
 </html>
 "></iframe>
   
@@ -3546,7 +4066,7 @@
         return out ? '<table class="ftable ovp-ft"><colgroup><col style="width:46%"><col style="width:16%"><col style="width:20%"><col style="width:18%"></colgroup><thead><tr><th>Finding</th><th>Priority</th><th>Status</th><th>Due date</th></tr></thead><tbody>' + out + '</tbody></table>' : '<p class="ovp-meta">No open findings.</p>';
       }
       Array.prototype.forEach.call(rowsEl, function (r, k) {
-        var more = r.querySelector('.ovp-more'), fill = function () { more.innerHTML = build(k); };
+        var more = r.querySelector('.ovp-more'); if (!more) return; var fill = function () { more.innerHTML = build(k); };
         fill(); r.querySelector('.ovp-hd').addEventListener('click', fill);
       });
     })();
