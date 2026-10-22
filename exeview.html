@@ -302,6 +302,20 @@
   body.leaving{opacity:0;transition:opacity .28s ease}
   body.leaving .runway{animation:none;transform:translateY(-8px);transition:transform .28s ease}
   @media (prefers-reduced-motion:reduce){body,.runway{animation:none}body.leaving,body.leaving .runway{transition:none}}
+  /* score dial inside the CygnosIQ box */
+  .duo .iq:first-child{justify-content:flex-start;gap:6px}
+  .dial{position:relative;width:calc(100% + 12px);max-width:194px;margin:0 -6px;align-self:center}
+  .dial svg{display:block;width:100%;height:auto}
+  .dial-c{position:absolute;left:0;right:0;top:46%;display:grid;justify-items:center}
+  .dial-n{display:flex;align-items:baseline;gap:3px}
+  .dial-n b{font-size:18px;font-weight:700;line-height:1;color:#2a9d5c}
+  .dial-n span{font-size:11px;color:var(--muted)}
+  .dial-l{margin-top:1px;font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.15;color:var(--ink)}
+  .dial-note{margin:auto 0 0;padding:6px 10px;border-radius:8px;background:#dff4e7;font-size:12px;line-height:1.35;text-align:center;color:#1f5f3a}
+  .pts .spk{margin-left:auto;align-self:center;flex:0 0 62px;width:62px;height:26px;overflow:visible}
+  .pg2 .tile{container-type:inline-size}
+  .pg2 .tiles{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  @container (max-width:144px){.pts .spk{display:none}}
 </style>
 </head>
 <body>
@@ -317,7 +331,25 @@
     <div class="duo">
       <div class="iq is-sel" data-scn="iq" role="button" tabindex="0" aria-pressed="true">
         <div class="l">CygnosIQ</div>
-        <div class="n">71</div>
+        <div class="dial">
+          <svg viewBox="0 0 240 166" aria-hidden="true">
+            <defs>
+              <radialGradient id="dg-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#7fdca3" stop-opacity=".45"/><stop offset=".6" stop-color="#7fdca3" stop-opacity=".18"/><stop offset="1" stop-color="#7fdca3" stop-opacity="0"/></radialGradient>
+              <radialGradient id="dg-disc" cx="50%" cy="55%" r="62%"><stop offset="0" stop-color="#c3f3d8"/><stop offset=".7" stop-color="#e3f8ec"/><stop offset="1" stop-color="#f1fbf5"/></radialGradient>
+            </defs>
+            <linearGradient id="dg-fadeg" gradientUnits="userSpaceOnUse" x1="0" y1="136" x2="0" y2="164"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>
+            <mask id="dg-fade" maskUnits="userSpaceOnUse" x="0" y="0" width="240" height="166"><rect width="240" height="166" fill="url(#dg-fadeg)"/></mask>
+            <g mask="url(#dg-fade)">
+              <circle cx="120" cy="130" r="107" fill="#fff"/>
+              <circle cx="120" cy="130" r="118" fill="url(#dg-glow)"/>
+              <circle cx="120" cy="130" r="108" fill="none" stroke="#bfe3cd" stroke-width="2.6"/>
+              <circle cx="120" cy="130" r="78" fill="url(#dg-disc)" stroke="#c6e8d3" stroke-width="2.6"/>
+            </g>
+            <path d="M30.6 159.05 A94 94 0 1 1 209.4 159.05 L197.99 155.34 A82 82 0 1 0 42.01 155.34 Z" fill="#e1f5e9" stroke="#e1f5e9" stroke-width="6" stroke-linejoin="round"/>
+            <path d="M30.6 159.05 A94 94 0 0 1 185.37 62.45 L177.02 71.07 A82 82 0 0 0 42.01 155.34 Z" fill="#8fd6ab" stroke="#8fd6ab" stroke-width="6" stroke-linejoin="round"/>
+          </svg>
+          <div class="dial-c"><div class="dial-n"><b>71</b><span>/100</span></div><div class="dial-l">Good</div></div>
+        </div>
       </div>
       <div class="iq" data-scn="iqd" role="button" tabindex="0" aria-pressed="false">
         <div class="l">Change since August</div>
@@ -626,6 +658,18 @@ plotEl.addEventListener("pointermove",showTip);plotEl.addEventListener("pointerl
     matchMedia("(prefers-reduced-motion: reduce)").matches?go():setTimeout(go,260);
   });
   addEventListener("pageshow",e=>{if(e.persisted)document.body.classList.remove("leaving")});
+})();
+/* small trend line beside each part's points (same monthly series as the chart) */
+(function(){
+  ["vd","su","rl","sd"].forEach(function(k){
+    var s=SC[k],t=document.querySelector('.tile[data-scn="'+k+'"] .pts');
+    if(!s||!t)return;
+    var mn=Math.min.apply(null,s.pts),mx=Math.max.apply(null,s.pts),n=s.pts.length-1,c=s.bad?"#d3262b":"#1f9d4c";
+    var P=s.pts.map(function(v,i){return[(i/n*100).toFixed(1),(28-(v-mn)/((mx-mn)||1)*24).toFixed(1)]});
+    var line=P.map(function(p,i){return(i?"L":"M")+p[0]+" "+p[1]}).join(" ");
+    var id="spk-"+k;
+    t.insertAdjacentHTML("beforeend",'<svg class="spk" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c+'" stop-opacity=".22"/><stop offset="1" stop-color="'+c+'" stop-opacity="0"/></linearGradient></defs><path d="'+line+' L100 32 L0 32 Z" fill="url(#'+id+')"/><path d="'+line+'" fill="none" stroke="'+c+'" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>');
+  });
 })();
 const rightEl=document.querySelector(".right"),navEl=document.querySelector(".pager"),axEl=document.getElementById("xaxis");function alignChart(){const lgEl=document.getElementById("legend"),ft=document.querySelector(".foot");rightEl.style.paddingBottom="";lgEl.style.marginTop="";if(!matchMedia("(min-width:821px)").matches)return;const r=rightEl.getBoundingClientRect(),n0=navEl.getBoundingClientRect(),n={top:n0.bottom+8*S,height:28*S},f=ft.getBoundingClientRect(),h=axEl.getBoundingClientRect().height,lh=lgEl.getBoundingClientRect().height,nc=n.top+n.height/2,m=14;lgEl.style.marginTop=m+"px";rightEl.style.paddingBottom=(Math.max(0,r.bottom-(nc+lh/2))/S)+"px"}
 addEventListener("resize",alignChart);addEventListener("load",alignChart);if(document.fonts)document.fonts.ready.then(alignChart);alignChart();
