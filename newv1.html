@@ -515,9 +515,104 @@
     #br-view .br-up { font-weight: 500; color: #1d7a0d; }    #br-view .br-dn { font-weight: 500; color: var(--red); }    #br-view .br-na { color: var(--muted); }
     #br-view .br-pt { font-style: normal; font-size: 11px; color: var(--muted); }
     #br-view .ovsrc__nm { display: inline; }    #br-view .br-latest { display: inline-block; vertical-align: middle; margin-left: 8px; background: #d6efdf; color: #1a6e0c; }
-    #br-view .br-act { text-align: right; white-space: nowrap; }    #br-view .br-act .tbtn + .tbtn { margin-left: 6px; }    #br-view tbody td:first-child { white-space: nowrap; }
+    #br-view .br-act { text-align: right; white-space: nowrap; }    #br-view .br-act .ov-btn { margin-left: auto; }    #br-view tbody td:first-child { white-space: nowrap; }
     #br-view .br-act .tbtn { height: 28px; padding-inline: 10px; font-size: 13px; }
     #br-view .facts .tbtn--primary { border-color: var(--accent-btn); background: var(--accent-btn); color: #fff; box-shadow: none; }
+    .br-top { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: stretch; margin: 0 0 18px; }
+    .br-top #br-chart { margin: 0; }
+    .br-ask { flex: none; padding: 18px; gap: 0; margin-top: 40px; }
+    .br-ask__h { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink); }
+    .br-ask__p { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+    .br-ask__dates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+    .br-ask__dates label { display: grid; gap: 6px; min-width: 0; font-size: 12.5px; font-weight: 500; color: var(--muted); }
+    .br-ask__dates .rp__in { width: 100%; box-sizing: border-box; }
+    .br-ask__note { margin: 12px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+    .br-ask__go { align-self: flex-start; margin-top: auto; }    .br-ask__note { margin-bottom: 16px; }
+    .br-ask .tbtn--primary { border-color: var(--accent-btn); background: var(--accent-btn); color: #fff; box-shadow: none; }
+    @media (max-width: 1000px) { .br-top { grid-template-columns: minmax(0, 1fr); } }
+    .ov-dd { position: relative; }
+    .ov-dd__menu { position: absolute; z-index: 20; top: calc(100% + 4px); left: 0; min-width: 190px; margin: 0; padding: 4px; list-style: none; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 8px 24px rgba(26, 31, 54, .12); }
+    .ov-dd__menu[hidden] { display: none; }
+    .ov-dd__pop { position: absolute; z-index: 20; top: calc(100% + 6px); left: 0; width: 290px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 8px 24px rgba(26, 31, 54, .12); }
+    .ov-dd__pop[hidden] { display: none; }
+    .ov-dd__pop h3 { margin: 0 0 12px; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .ov-sel { position: relative; display: block; }
+    .ov-sel::after { content: ""; position: absolute; right: 12px; top: 50%; width: 7px; height: 7px; margin-top: -6px; border-right: 1.6px solid #6b7385; border-bottom: 1.6px solid #6b7385; transform: rotate(45deg); pointer-events: none; }
+    .ov-sel select { width: 100%; height: 34px; padding: 0 30px 0 10px; border: 1px solid #d5dbe4; border-radius: 8px; background: #fff; font: inherit; font-size: 13.5px; color: var(--ink); appearance: none; -webkit-appearance: none; }
+    .ov-rg { display: grid; grid-template-columns: 22px 64px minmax(0, 1fr); align-items: center; gap: 8px; margin-top: 10px; }
+    .ov-rg__ret { width: 18px; height: 18px; color: #6b7385; }
+    .ov-num { width: 100%; height: 34px; padding: 0 8px; border: 1px solid #d5dbe4; border-radius: 8px; font: inherit; font-size: 13.5px; color: var(--ink); box-sizing: border-box; }
+    .ov-num:focus-visible, .ov-sel select:focus-visible { outline: 2px solid #262626; outline-offset: 1px; }
+    .ov-rg__hint { margin: 10px 0 0; font-size: 12px; color: var(--muted); }
+    .ov-apply { width: 100%; height: 36px; margin-top: 16px; border-radius: 999px; background: #262626; font-size: 13.5px; font-weight: 600; color: #fff; text-align: center; }
+    .ov-apply:hover { background: #404040; }
+    /* Date range picker: presets on the left, start and end, two months, Clear and Apply. */
+    .ov-dd__pop.rp { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 20px; width: 680px; max-width: calc(100vw - 32px); padding: 16px; }
+    .ov-dd__pop.rp[hidden] { display: none; }
+    .rp__presets { display: flex; flex-direction: column; gap: 2px; }
+    .rp__presets button { padding: 7px 10px; border-radius: 6px; text-align: left; font-size: 13px; font-weight: 500; color: var(--ink); }
+    .rp__presets button:hover { background: var(--panel); }
+    .rp__presets button.is-on { background: #f3f3f3; }
+    .rp__main { min-width: 0; }
+    .rp__inputs { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-bottom: 16px; }
+    .rp__inputs label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+    .rp__in { width: 128px; height: 34px; padding: 0 10px; border: 1px solid #d5dbe4; border-radius: 8px; font: inherit; font-size: 13.5px; color: var(--ink); box-sizing: border-box; }
+    .rp__in:focus-visible { outline: 2px solid #262626; outline-offset: 1px; }
+    .rp__cals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .rp__hd { display: flex; align-items: center; justify-content: space-between; height: 28px; margin-bottom: 8px; }
+    .rp__hd b { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .rp__nav, .rp__sp { width: 28px; height: 28px; }
+    .rp__nav { display: grid; place-items: center; border-radius: 6px; color: var(--ink); }
+    .rp__nav:hover { background: var(--panel); }
+    .rp__nav:disabled { opacity: .3; pointer-events: none; }
+    .rp__nav svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .rp__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); row-gap: 2px; text-align: center; }
+    .rp__wd { height: 28px; line-height: 28px; font-size: 12px; color: var(--muted); }
+    .rp__d { height: 32px; padding: 0; font-size: 13px; color: var(--ink); }
+    .rp__d span { display: grid; place-items: center; width: 32px; height: 32px; margin: 0 auto; border-radius: 50%; }
+    .rp__d:hover span { background: #f3f3f3; }
+    .rp__d.in { background: #eceef2; }
+    .rp__d.is-s:not(.is-e) { background: linear-gradient(90deg, transparent 50%, #eceef2 50%); }
+    .rp__d.is-e:not(.is-s) { background: linear-gradient(90deg, #eceef2 50%, transparent 50%); }
+    .rp__d.is-s.is-e { background: none; }
+    .rp__d.is-s span, .rp__d.is-e span { background: #262626; color: #fff; }
+    .rp__d.off { color: #b3b9c4; pointer-events: none; }
+    .rp__foot { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+    .rp__note { flex: 1; min-width: 0; margin: 0; font-size: 12px; line-height: 1.4; color: var(--muted); }
+    .rp__clear { display: inline-flex; align-items: center; height: 28px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+    .rp__clear:hover { background: var(--panel); }
+    .rp__apply { display: inline-flex; align-items: center; height: 28px; padding: 0 14px; border: 1px solid #262626; border-radius: 8px; background: #262626; font-size: 13px; font-weight: 500; color: #fff; white-space: nowrap; }
+    .rp__apply:hover { background: #404040; }
+    @media (max-width: 900px) { .ov-dd__pop.rp { grid-template-columns: minmax(0, 1fr); width: 340px; } .rp__presets { flex-direction: row; flex-wrap: wrap; } .rp__cals { grid-template-columns: minmax(0, 1fr); } .rp__foot { flex-wrap: wrap; } }
+    .ov-dd__menu li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 7px 10px; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--ink); cursor: pointer; }
+    .ov-dd__menu li small { font-size: 12px; font-weight: 400; color: var(--muted); }
+    .ov-dd__menu li:hover { background: var(--panel); }
+    .ov-dd__menu li[aria-selected="true"] { background: #f3f3f3; }
+    .ov-chard.br-ask { overflow: visible; }
+    .ovpw { position: relative; }
+    .ov-dd__pop.rp--bf { left: 0; top: calc(100% + 6px); }
+    .rp__ttl { padding: 4px 8px; border-radius: 6px; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .rp__ttl:hover { background: var(--panel); }
+    .rp__mgrid { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 6px 0; }
+    .rp__mgrid button { height: 36px; border-radius: 8px; font-size: 13px; color: var(--ink); }
+    .rp__mgrid button:hover { background: #f3f3f3; }
+    .rp__mgrid button.cur { background: #262626; color: #fff; }
+    .rp__mgrid button:disabled { color: #b3b9c4; pointer-events: none; }
+    .br-ask__dates { position: relative; }
+    .br-ask__dates .ov-dd__pop.rp--ask { display: block; left: auto; right: 0; top: calc(100% + 6px); width: 560px; max-width: calc(100vw - 48px); }
+    .br-ask__dates .ov-dd__pop.rp--ask[hidden] { display: none; }
+    .br-ask__dates { grid-template-columns: 1fr 1fr; }
+    .br-ask__dates .ov-dd__pop { grid-column: 1 / -1; }
+    .br-chart__head { padding: 14px 16px 0; }
+    .br-chart__head h2 { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.35; color: var(--ink); }
+    .br-chart__head p { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); }
+    #br-chart { margin: 0 0 18px; }
+    #br-chart .is-dn .ov-plot__svg path[fill="none"] { stroke: #c4352b; }
+    #br-chart .ov-plot { height: 170px; min-height: 170px; }
+    #br-chart .ov-tab { text-align: left; cursor: pointer; }
+    #br-chart .ov-tab:hover:not(.is-on) { background: #f1f3f6; }
+    #br-chart .is-dn #br-fill stop { stop-color: #c4352b; }
+    @media (max-width: 700px) { #br-chart .ov-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     .bd-lbl { display: block; margin: 18px 0 6px; font-size: 13px; font-weight: 500; color: var(--ink); }
     .bd-in { width: 100%; height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: inherit; font-size: 14px; color: var(--ink); }
     .bd-in:focus { outline: 0; border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
@@ -1245,39 +1340,144 @@
         <p>Every monthly Brief Cygnos has sent, with its score and change, plus a way to ask for one for any dates you choose.</p>
       </section>
       <section class="ovsrc srcpage brpage" aria-label="Briefs">
-        <div class="brcards" role="group" aria-label="Filter by biggest mover">
-          <button type="button" class="brcard is-on" data-k="all" aria-pressed="true"><span>All</span><b>7</b></button>
-          <button type="button" class="brcard" data-k="value" aria-pressed="false"><span>Value Delivered</span><b>2</b></button>
-          <button type="button" class="brcard" data-k="safe" aria-pressed="false"><span>Safe Use</span><b>1</b></button>
-          <button type="button" class="brcard" data-k="rel" aria-pressed="false"><span>Reliability</span><b>1</b></button>
-          <button type="button" class="brcard" data-k="spend" aria-pressed="false"><span>Spend Discipline</span><b>2</b></button>
+        <div class="br-top">
+        <div class="ov-ch brch" id="br-chart">
+          <div class="ov-ch__bar">
+            <div class="ov-dd" id="rangeDd">
+              <button type="button" class="ov-btn ov-btn--split" id="rangeBtn" aria-haspopup="listbox" aria-expanded="false"><span>Date Range</span><b><i id="rangeLabel">All time</i><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></b></button>
+                            <div class="ov-dd__pop rp" id="rangeMenu" role="dialog" aria-label="Choose a date range" hidden>
+                <div class="rp__presets" id="rpPresets">
+                  <button type="button" data-p="month">This month</button>
+                  <button type="button" data-p="last3m">Last 3 months</button>
+                  <button type="button" data-p="last6m">Last 6 months</button>
+                  <button type="button" data-p="year">This year</button>
+                  <button type="button" data-p="all" class="is-on">All time</button>
+                </div>
+                <div class="rp__main">
+                  <div class="rp__inputs">
+                    <label>Start <input id="rpS" class="rp__in" type="text" inputmode="numeric" placeholder="MM / DD / YYYY" aria-label="Start date"></label>
+                    <label>End <input id="rpE" class="rp__in" type="text" inputmode="numeric" placeholder="MM / DD / YYYY" aria-label="End date"></label>
+                  </div>
+                  <div class="rp__cals">
+                    <div class="rp__cal">
+                      <div class="rp__hd"><button type="button" class="rp__nav" id="rpPrev" aria-label="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><b id="rpTL"></b><span class="rp__sp"></span></div>
+                      <div class="rp__grid" id="rpL"></div>
+                    </div>
+                    <div class="rp__cal">
+                      <div class="rp__hd"><span class="rp__sp"></span><b id="rpTR"></b><button type="button" class="rp__nav" id="rpNext" aria-label="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+                      <div class="rp__grid" id="rpR"></div>
+                    </div>
+                  </div>
+                  <div class="rp__foot">
+                    <p class="rp__note">Scores are monthly, so the chart shows the whole months a range touches, from Mar to Sep.</p>
+                    <button type="button" class="rp__clear" id="rpClear">Clear</button>
+                    <button type="button" class="rp__apply" id="rpApply">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <article class="ov-chard">
+            <div class="br-chart__head"><h2>Where your score stood in each Brief</h2></div>
+            <div class="ov-chard__body">
+              <div class="ov-plot">
+                <div class="ov-plot__y"><span>80</span><span>70</span><span>60</span><span>50</span></div>
+                <div class="ov-plot__c">
+                <svg class="ov-plot__svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="Score from each monthly brief since Cygnos connected on 2 Mar 2026, from 59 in March to 71 in September">
+                  <defs><linearGradient id="pg-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a9d5c" stop-opacity=".22"/><stop offset="1" stop-color="#2a9d5c" stop-opacity="0"/></linearGradient></defs>
+                  <g stroke="#e3e8ee" stroke-width="1" vector-effect="non-scaling-stroke">
+                    <line x1="0" y1="0" x2="100" y2="0" stroke-dasharray="0.6 0.6" vector-effect="non-scaling-stroke"/>
+                    <line x1="0" y1="33.33" x2="100" y2="33.33" stroke-dasharray="0.6 0.6" vector-effect="non-scaling-stroke"/>
+                    <line x1="0" y1="66.67" x2="100" y2="66.67" stroke-dasharray="0.6 0.6" vector-effect="non-scaling-stroke"/>
+                    <line x1="0" y1="100" x2="100" y2="100" vector-effect="non-scaling-stroke"/>
+                  </g>
+                  <path id="plotFill" d="" fill="url(#pg-fill)"/>
+                  <path id="plotLine" d="" fill="none" stroke="#2a9d5c" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                </svg>
+                <span class="ov-plot__dot" id="plotDot" style="top:30%"></span>
+                </div>
+              </div>
+              <div class="ov-plot__x"><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span></div>
+            </div>
+          </article>
+        </div>
+        <aside class="ov-chard br-ask" aria-labelledby="br-ask-h">
+          <h2 class="br-ask__h" id="br-ask-h">Ask for a Brief</h2>
+          <p class="br-ask__p">Need a Brief before the next one arrives? Choose the dates it should cover and Cygnos will prepare it.</p>
+          <div class="br-ask__dates" id="askDates">
+            <label>From<input class="rp__in" id="askFrom" type="text" placeholder="MM / DD / YYYY" value="10 / 01 / 2026" aria-label="From date" aria-haspopup="dialog"></label>
+            <label>To<input class="rp__in" id="askTo" type="text" placeholder="MM / DD / YYYY" value="10 / 14 / 2026" aria-label="To date" aria-haspopup="dialog"></label>
+            <div class="ov-dd__pop rp rp--ask" id="askPop" role="dialog" aria-label="Choose dates" hidden>
+              <div class="rp__main">
+                <div class="rp__cals">
+                  <div class="rp__cal">
+                    <div class="rp__hd"><button type="button" class="rp__nav" id="askPrev" aria-label="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button type="button" class="rp__ttl" id="askTL" aria-label="Choose month"></button><span class="rp__sp"></span></div>
+                    <div class="rp__grid" id="askL"></div>
+                  </div>
+                  <div class="rp__cal">
+                    <div class="rp__hd"><span class="rp__sp"></span><button type="button" class="rp__ttl" id="askTR" aria-label="Choose month"></button><button type="button" class="rp__nav" id="askNext" aria-label="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+                    <div class="rp__grid" id="askR"></div>
+                  </div>
+                </div>
+                <div class="rp__foot">
+                  <span class="rp__note"></span>
+                  <button type="button" class="rp__clear" id="askClear">Clear</button>
+                  <button type="button" class="rp__apply" id="askApply">Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="tbtn tbtn--primary br-ask__go">Prepare this Brief</button>
+        </aside>
         </div>
         <div class="ftools ovsrc__tools" id="br-tools">
           <div class="ftools__l">
             <label class="srcsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="br-search" placeholder="Search" aria-label="Search Briefs"></label>
             <div class="srcpills">
-              <span class="ovpw"><button type="button" class="pillbtn" data-f="month"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Month</span></button></span>
+              <span class="ovpw" id="bfWrap"><button type="button" class="pillbtn" id="bfBtn" aria-haspopup="dialog" aria-expanded="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Issued</span></button>
+                <div class="ov-dd__pop rp rp--bf" id="bfPop" role="dialog" aria-label="Choose issue dates" hidden>
+                  <div class="rp__presets">
+                    <button type="button" data-p="month">This month</button>
+                    <button type="button" data-p="last3m">Last 3 months</button>
+                    <button type="button" data-p="last6m">Last 6 months</button>
+                    <button type="button" data-p="year">This year</button>
+                    <button type="button" data-p="all">All time</button>
+                  </div>
+                  <div class="rp__main">
+                    <div class="rp__cals">
+                      <div class="rp__cal">
+                        <div class="rp__hd"><button type="button" class="rp__nav" id="bfPrev" aria-label="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button type="button" class="rp__ttl" id="bfTL" aria-label="Choose month"></button><span class="rp__sp"></span></div>
+                        <div class="rp__grid" id="bfL"></div>
+                      </div>
+                      <div class="rp__cal">
+                        <div class="rp__hd"><span class="rp__sp"></span><button type="button" class="rp__ttl" id="bfTR" aria-label="Choose month"></button><button type="button" class="rp__nav" id="bfNext" aria-label="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+                        <div class="rp__grid" id="bfR"></div>
+                      </div>
+                    </div>
+                    <div class="rp__foot"><span class="rp__note"></span><button type="button" class="rp__clear" id="bfClear">Clear</button><button type="button" class="rp__apply" id="bfApply">Apply</button></div>
+                  </div>
+                </div></span>
               <span class="ovpw"><button type="button" class="pillbtn" data-f="kind"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Change</span></button></span>
               <button type="button" class="pillclear" id="br-clear" hidden>Clear filters</button>
             </div>
           </div>
           <div class="facts">
             <button type="button" class="tbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M8 7l4-4 4 4M5 13v6.5h14V13"/></svg> Export</button>
-            <button type="button" class="tbtn" id="br-ask">Ask for a Brief</button>
+            
           </div>
         </div>
         <h2 class="findings__head ovsrc__h" id="br-head"><span>Monthly Briefs <b>7</b></span></h2>
         <div class="ovsrc__card" id="br-card"><div class="tablewrap"><table class="ftable">
-          <colgroup><col style="width:28%"><col style="width:20%"><col style="width:14%"><col style="width:16%"><col style="width:22%"></colgroup>
-          <thead><tr><th>Brief</th><th>Issued</th><th>Cygnos IQ</th><th>Change</th><th>Biggest mover</th></tr></thead>
+          <colgroup><col style="width:30%"><col style="width:22%"><col style="width:18%"><col style="width:20%"><col style="width:10%"></colgroup>
+          <thead><tr><th>Month</th><th>Issued</th><th>Cygnos IQ</th><th>Change</th><th></th></tr></thead>
           <tbody>
-            <tr data-kind="up" data-m="September" data-f="spend"><td><b class="ovsrc__nm">September</b> <span class="stat br-latest">Latest</span></td><td>14 Oct 2026</td><td class="br-iq">71</td><td><span class="br-up">+3</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--spend">Spend Discipline</span></td></tr>
-            <tr data-kind="up" data-m="August" data-f="value"><td><b class="ovsrc__nm">August</b></td><td>14 Sep 2026</td><td class="br-iq">68</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--value">Value Delivered</span></td></tr>
-            <tr data-kind="up" data-m="July" data-f="rel"><td><b class="ovsrc__nm">July</b></td><td>14 Aug 2026</td><td class="br-iq">66</td><td><span class="br-up">+4</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--rel">Reliability</span></td></tr>
-            <tr data-kind="down" data-m="June" data-f="safe"><td><b class="ovsrc__nm">June</b></td><td>14 Jul 2026</td><td class="br-iq">62</td><td><span class="br-dn">&minus;1</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--safe">Safe Use</span></td></tr>
-            <tr data-kind="up" data-m="May" data-f="value"><td><b class="ovsrc__nm">May</b></td><td>12 Jun 2026</td><td class="br-iq">63</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--value">Value Delivered</span></td></tr>
-            <tr data-kind="up" data-m="April" data-f="spend"><td><b class="ovsrc__nm">April</b></td><td>14 May 2026</td><td class="br-iq">61</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td><span class="chip chip--spend">Spend Discipline</span></td></tr>
-            <tr data-kind="first" data-m="March" data-f=""><td><b class="ovsrc__nm">March</b></td><td>14 Apr 2026</td><td class="br-iq">59</td><td><span class="br-na">First reading</span> <i class="br-pt">PTS</i></td><td><span class="br-na">&mdash;</span></td></tr>
+            <tr data-kind="up" data-m="September" data-issued="2026-10-14" data-f="spend"><td><b class="ovsrc__nm">September</b> <span class="stat br-latest">Latest</span></td><td>14 Oct 2026</td><td class="br-iq">71</td><td><span class="br-up">+3</span> <i class="br-pt">PTS</i></td><td class="br-act"><button type="button" class="ov-btn ov-btn--icon" aria-label="Download Brief"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg></button></td></tr>
+            <tr data-kind="up" data-m="August" data-issued="2026-09-14" data-f="value"><td><b class="ovsrc__nm">August</b></td><td>14 Sep 2026</td><td class="br-iq">68</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td class="br-act"><button type="button" class="ov-btn ov-btn--icon" aria-label="Download Brief"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg></button></td></tr>
+            <tr data-kind="up" data-m="July" data-issued="2026-08-14" data-f="rel"><td><b class="ovsrc__nm">July</b></td><td>14 Aug 2026</td><td class="br-iq">66</td><td><span class="br-up">+4</span> <i class="br-pt">PTS</i></td><td class="br-act"><button type="button" class="ov-btn ov-btn--icon" aria-label="Download Brief"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg></button></td></tr>
+            <tr data-kind="down" data-m="June" data-issued="2026-07-14" data-f="safe"><td><b class="ovsrc__nm">June</b></td><td>14 Jul 2026</td><td class="br-iq">62</td><td><span class="br-dn">&minus;1</span> <i class="br-pt">PTS</i></td><td class="br-act"><button type="button" class="ov-btn ov-btn--icon" aria-label="Download Brief"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg></button></td></tr>
+            <tr data-kind="up" data-m="May" data-issued="2026-06-12" data-f="value"><td><b class="ovsrc__nm">May</b></td><td>12 Jun 2026</td><td class="br-iq">63</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td class="br-act"><button type="button" class="ov-btn ov-btn--icon" aria-label="Download Brief"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg></button></td></tr>
+            <tr data-kind="up" data-m="April" data-issued="2026-05-14" data-f="spend"><td><b class="ovsrc__nm">April</b></td><td>14 May 2026</td><td class="br-iq">61</td><td><span class="br-up">+2</span> <i class="br-pt">PTS</i></td><td class="br-act"><button type="button" class="ov-btn ov-btn--icon" aria-label="Download Brief"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg></button></td></tr>
+            <tr data-kind="first" data-m="March" data-issued="2026-04-14" data-f=""><td><b class="ovsrc__nm">March</b></td><td>14 Apr 2026</td><td class="br-iq">59</td><td><span class="br-na">First reading</span></td><td class="br-act"><button type="button" class="ov-btn ov-btn--icon" aria-label="Download Brief"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M8 11l4 4 4-4M5 20h14"/></svg></button></td></tr>
           </tbody>
         </table></div></div>
         <p class="ovsrc__empty" id="br-empty" hidden>No Briefs match these filters.</p>
@@ -2610,6 +2810,290 @@
     })();
   </script>
   <script>
+    /* Ask for a Brief: the From and To boxes open the same two-month calendar as the Date Range picker */
+    (function () {
+      var wrap = document.getElementById('askDates'); if (!wrap) return;
+      var pop = document.getElementById('askPop'), fi = document.getElementById('askFrom'), ti = document.getElementById('askTo');
+      var TODAY = new Date(2026, 9, 14), FIRST = new Date(2026, 2, 2);
+      var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      var rs = new Date(2026, 9, 1), re = new Date(2026, 9, 14), view = new Date(2026, 8, 1);
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function fmt(d) { return d ? pad(d.getMonth() + 1) + ' / ' + pad(d.getDate()) + ' / ' + d.getFullYear() : ''; }
+      function monthHtml(y, m) {
+        var h = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(function (w) { return '<span class="rp__wd">' + w + '</span>'; }).join('');
+        var first = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate(), i;
+        for (i = 0; i < first; i++) h += '<span></span>';
+        for (i = 1; i <= days; i++) {
+          var t = new Date(y, m, i), c = 'rp__d';
+          if (t > TODAY || t < FIRST) c += ' off';
+          if (rs && re && t >= rs && t <= re) c += ' in';
+          if (rs && +t === +rs) c += ' is-s';
+          if (re && +t === +re) c += ' is-e';
+          h += '<button type="button" class="' + c + '" data-t="' + t.getTime() + '"><span>' + i + '</span></button>';
+        }
+        return h;
+      }
+      function draw() {
+        var y = view.getFullYear(), m = view.getMonth(), n = new Date(y, m + 1, 1);
+        document.getElementById('askTL').textContent = MONTHS[m] + ' ' + y;
+        document.getElementById('askTR').textContent = MONTHS[n.getMonth()] + ' ' + n.getFullYear();
+        document.getElementById('askL').innerHTML = monthHtml(y, m);
+        document.getElementById('askR').innerHTML = monthHtml(n.getFullYear(), n.getMonth());
+        document.getElementById('askNext').disabled = n.getFullYear() === 2026 && n.getMonth() >= 9;
+        document.getElementById('askPrev').disabled = y === 2026 && m <= 2;
+      }
+      function pick(e) {
+        var b = e.target.closest('.rp__d'); if (!b) return;
+        var t = new Date(+b.getAttribute('data-t'));
+        if (!rs || re) { rs = t; re = null; } else if (t < rs) { re = rs; rs = t; } else { re = t; }
+        draw();
+      }
+      function open() { pop.hidden = false; draw(); }
+      function close() { pop.hidden = true; }
+      [fi, ti].forEach(function (i) { i.readOnly = true; i.style.cursor = 'pointer'; i.addEventListener('click', function (e) { e.stopPropagation(); open(); }); });
+      /* Clicking a month name swaps its days for a list of months, so the dates can be changed quickly */
+      function monthPicker(which) {
+        var grid = document.getElementById(which === 'L' ? 'askL' : 'askR'), y = view.getFullYear() + (which === 'R' && view.getMonth() === 11 ? 1 : 0);
+        var cur = which === 'L' ? view.getMonth() : (view.getMonth() + 1) % 12, h = '';
+        MONTHS.forEach(function (n, i) {
+          var ok = y === 2026 && i >= 2 && i <= 9;
+          h += '<button type="button"' + (ok ? '' : ' disabled') + (i === cur ? ' class="cur"' : '') + ' data-m="' + i + '">' + n.slice(0, 3) + '</button>';
+        });
+        grid.innerHTML = '<div class="rp__mgrid">' + h + '</div>';
+        grid.onclick = function (e) {
+          var b = e.target.closest('button[data-m]'); if (!b) return;
+          var m = +b.getAttribute('data-m'); view = new Date(y, which === 'L' ? m : m - 1, 1);
+          if (view < new Date(2026, 2, 1)) view = new Date(2026, 2, 1);
+          if (view > new Date(2026, 8, 1)) view = new Date(2026, 8, 1);
+          grid.onclick = null; draw();
+        };
+      }
+      document.getElementById('askTL').addEventListener('click', function () { monthPicker('L'); });
+      document.getElementById('askTR').addEventListener('click', function () { monthPicker('R'); });
+      document.getElementById('askL').addEventListener('click', pick);
+      document.getElementById('askR').addEventListener('click', pick);
+      document.getElementById('askPrev').addEventListener('click', function () { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); draw(); });
+      document.getElementById('askNext').addEventListener('click', function () { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); draw(); });
+      document.getElementById('askClear').addEventListener('click', function () { rs = null; re = null; draw(); });
+      document.getElementById('askApply').addEventListener('click', function () { if (rs && !re) re = rs; fi.value = fmt(rs); ti.value = fmt(re); close(); });
+      pop.addEventListener('click', function (e) { e.stopPropagation(); });
+      document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    })();
+  </script>
+  <script>
+    /* Briefs: the download icon on each row saves that month's Brief as a file (sample content for the mock-up) */
+    (function () {
+      var rows = document.querySelectorAll('#br-view tbody tr[data-kind]'); if (!rows.length) return;
+      var MON = ['March', 'April', 'May', 'June', 'July', 'August', 'September'];
+      var PARTS = [[14, 14, 15, 15, 16, 16, 19], [16, 17, 17, 16, 18, 18, 14], [14, 15, 16, 16, 17, 18, 17], [15, 15, 15, 15, 15, 16, 21]];
+      var NAMES = ['Value Delivered', 'Safe Use', 'Reliability', 'Spend Discipline'];
+      Array.prototype.forEach.call(rows, function (tr) {
+        var b = tr.querySelector('.br-act .ov-btn'); if (!b) return;
+        b.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var m = tr.getAttribute('data-m'), i = MON.indexOf(m), c = tr.children;
+          var lines = ['Cygnos Monthly Brief: ' + m + ' 2026', 'Kestrel Vane Consulting', '', 'Issued: ' + c[1].textContent.trim(), 'Cygnos IQ: ' + c[2].textContent.trim() + ' / 100', 'Change: ' + c[3].textContent.replace(/\s+/g, ' ').trim(), '', 'The four parts:'];
+          PARTS.forEach(function (p, k) { var d = i > 0 ? p[i] - p[i - 1] : null; lines.push('  ' + NAMES[k] + ': ' + p[i] + ' / 25' + (d === null ? '' : ' (' + (d > 0 ? '+' : d < 0 ? '−' : '') + (d === 0 ? 'no change' : Math.abs(d)) + ')')); });
+          var blob = new Blob([lines.join('\n') + '\n'], { type: 'text/plain' }), a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = 'Cygnos-Brief-' + m + '-2026.txt';
+          document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+        });
+      });
+    })();
+  </script>
+  <script>
+    /* Briefs chart: the same chart, tabs and date range as the Score page */
+    (function () {
+      var box = document.getElementById("br-chart");
+      var M = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+      var V = [59, 61, 63, 62, 66, 68, 71];
+      var dd = document.getElementById('rangeDd'), btn = document.getElementById('rangeBtn');
+      var menu = document.getElementById('rangeMenu'), label = document.getElementById('rangeLabel');
+      var line = document.getElementById('plotLine'), fill = document.getElementById('plotFill'), dot = document.getElementById('plotDot');
+      var prev = dot.cloneNode(false); prev.removeAttribute('id'); dot.parentNode.appendChild(prev);
+      var lbl = [document.createElement('em'), document.createElement('em')]; lbl.forEach(function (l) { l.className = 'pt-lbl'; dot.parentNode.appendChild(l); }); /* the figure above each marked month */ /* the month before: the same marker, so the change since last month reads at a glance */
+var tip = document.createElement('div'); tip.className = 'sc-tip'; dot.parentNode.appendChild(tip);
+      var xs = box.querySelector('.ov-plot__x');
+      var ys = box.querySelector('.ov-plot__y');
+      var tabEls = box.querySelectorAll('.ov-tab');
+      var tabs = box.querySelectorAll('.ov-tab b');
+      var from = 0, to = 6, tab = -1; /* opens on Last 4 weeks, which shows Aug and Sep */ /* the part shown; one is always picked, Value Delivered first */
+
+      /* Sample figures for the mock-up. Each part is out of 25; the four add up to the overall score every month, and the September moves match the brief (+3, -4, -1, +5). */
+      var PARTS = [
+        [14, 14, 15, 15, 16, 16, 19],
+        [16, 17, 17, 16, 18, 18, 14],
+        [14, 15, 16, 16, 17, 18, 17],
+        [15, 15, 15, 15, 15, 16, 21]
+      ];
+      var OVERALL = { first: 0, max: 80, min: 50, val: function (i) { return V[i]; } };
+      var PART_SERIES = PARTS.map(function (p) { return { first: 0, max: 25, min: 10, val: function (i) { return p[i]; } }; });
+
+      function fmt(n) { return n < 0 ? '\u2212' + Math.abs(n) : String(n); }
+
+      /* Draws the points as a smooth curve: two points ease from one to the other, more points follow a monotone curve so it never overshoots. */
+      function smooth(P) {
+        var n = P.length, d = [], m = [], i, k, a, b, s, d3, out = 'M' + P[0][0].toFixed(2) + ',' + P[0][1].toFixed(2);
+        for (i = 0; i < n - 1; i++) d.push((P[i + 1][1] - P[i][1]) / (P[i + 1][0] - P[i][0]));
+        m[0] = n === 2 ? 0 : d[0]; m[n - 1] = n === 2 ? 0 : d[n - 2];
+        for (i = 1; i < n - 1; i++) m[i] = d[i - 1] * d[i] <= 0 ? 0 : (d[i - 1] + d[i]) / 2;
+        for (i = 0; i < n - 1; i++) {
+          if (d[i] === 0) { m[i] = 0; m[i + 1] = 0; continue; }
+          a = m[i] / d[i]; b = m[i + 1] / d[i]; s = a * a + b * b;
+          if (s > 9) { k = 3 / Math.sqrt(s); m[i] = k * a * d[i]; m[i + 1] = k * b * d[i]; }
+        }
+        for (i = 0; i < n - 1; i++) {
+          d3 = (P[i + 1][0] - P[i][0]) / 3;
+          out += ' C' + (P[i][0] + d3).toFixed(2) + ',' + (P[i][1] + m[i] * d3).toFixed(2) + ' ' + (P[i + 1][0] - d3).toFixed(2) + ',' + (P[i + 1][1] - m[i + 1] * d3).toFixed(2) + ' ' + P[i + 1][0].toFixed(2) + ',' + P[i + 1][1].toFixed(2);
+        }
+        return out;
+      }
+
+      function render() {
+        var s = tab < 0 ? OVERALL : PART_SERIES[tab], start = Math.max(from, s.first);
+        var idx = [], i;
+        for (i = start; i <= to; i++) idx.push(i);
+        var n = idx.length, span = s.max - s.min;
+        function y(v) { return (s.max - v) / span * 100; }
+        var P = idx.map(function (k, j) { return [j * 100 / (n - 1), y(s.val(k))]; });
+        var curve = smooth(P);
+        line.setAttribute('d', curve);
+        fill.setAttribute('d', curve + ' L100,100 L0,100 Z');
+        dot.style.top = P[n - 1][1].toFixed(2) + '%';
+        box.querySelector('.ov-chard').classList.toggle('is-dn', s.val(idx[n - 1]) < s.val(idx[n - 2])); /* a drop since last month draws the chart in red */
+        lbl[0].style.left = P[n - 2][0].toFixed(2) + '%'; lbl[0].style.top = P[n - 2][1].toFixed(2) + '%'; lbl[0].textContent = s.val(idx[n - 2]);
+        lbl[1].style.left = '100%'; lbl[1].style.top = dot.style.top; lbl[1].textContent = s.val(idx[n - 1]);
+var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML = (dl === 0 ? '<b>No change</b>' : '<b>' + (dl > 0 ? '+' : '−') + Math.abs(dl) + ' PTS</b>') + ' since ' + M[idx[n - 2]] + ', ' + (dl === 0 ? 'still ' + pb : 'from ' + pa + ' to ' + pb);
+        prev.style.left = P[n - 2][0].toFixed(2) + '%'; prev.style.top = P[n - 2][1].toFixed(2) + '%';
+        Array.prototype.forEach.call(dot.parentNode.querySelectorAll('.x-pt'), function (el) { el.remove(); });
+        idx.forEach(function (k, j) { if (j >= n - 2) return; var d = document.createElement('span'); d.className = 'ov-plot__dot x-pt'; d.style.left = P[j][0].toFixed(2) + '%'; d.style.top = P[j][1].toFixed(2) + '%'; dot.parentNode.appendChild(d); var l = document.createElement('em'); l.className = 'pt-lbl x-pt'; l.style.left = P[j][0].toFixed(2) + '%'; l.style.top = P[j][1].toFixed(2) + '%'; l.textContent = s.val(k); dot.parentNode.appendChild(l); });
+        xs.innerHTML = idx.map(function (k) { return '<span>' + M[k] + '</span>'; }).join('');
+        ys.innerHTML = [0, 1, 2, 3].map(function (j) { return '<span>' + fmt(Math.round(s.max - span * j / 3)) + '</span>'; }).join('');
+
+        /* Latest month's card shows by default; hovering another point shows that month's card */
+        var pts = [], ex = dot.parentNode.querySelectorAll('.x-pt.ov-plot__dot');
+        Array.prototype.forEach.call(ex, function (el, j) { pts[j] = el; });
+        pts[n - 2] = prev; pts[n - 1] = dot;
+        function showTip(j) {
+          var k = idx[j], b = s.val(k), x = P[j][0], y = P[j][1];
+          if (k === 0) tip.innerHTML = '<b>First reading</b>, ' + b + ' in ' + M[0];
+          else { var a = s.val(k - 1), d = b - a; tip.innerHTML = (d === 0 ? '<b>No change</b>' : '<b>' + (d > 0 ? '+' : '−') + Math.abs(d) + ' PTS</b>') + ' since ' + M[k - 1] + ', ' + (d === 0 ? 'still ' + b : 'from ' + a + ' to ' + b); }
+          if (j === n - 1) { tip.style.left = tip.style.right = tip.style.top = tip.style.transform = ''; return; }
+          tip.style.right = 'auto'; tip.style.left = Math.min(78, Math.max(22, x)) + '%'; tip.style.transform = 'translateX(-50%)';
+          tip.style.top = (y < 50 ? Math.min(y + 14, 60) : Math.max(y - 40, 0)) + '%';
+        }
+        pts.forEach(function (el, j) { el.style.cursor = 'pointer'; el.addEventListener('mouseenter', function () { showTip(j); }); el.addEventListener('mouseleave', function () { showTip(n - 1); }); });
+        showTip(n - 1);
+      }
+
+      Array.prototype.forEach.call(tabEls, function (el, k) {
+        el.addEventListener('click', function () {
+          tab = -1;
+          Array.prototype.forEach.call(tabEls, function (t) {
+            var on = t === el;
+            t.classList.toggle('is-on', on);
+            t.setAttribute('aria-selected', String(on));
+          });
+          render();
+        });
+      });
+
+      render();
+      function close() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = menu.hidden;
+        menu.hidden = !open;
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      /* Date range: pick a start and an end, or a preset. The scores are monthly (Mar to Sep 2026), so the chart shows the whole months the range touches, at least two. "Today" is 21 Oct 2026. */
+      var TODAY = new Date(2026, 9, 21), FIRST = new Date(2026, 2, 2);
+      var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      var rs = new Date(2026, 2, 2), re = new Date(TODAY), view = new Date(2026, 8, 1), picked = 'all';
+      var inS = document.getElementById('rpS'), inE = document.getElementById('rpE');
+      function day(y, m, d) { return new Date(y, m, d); }
+      function addDays(d, n) { return day(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function fmtDate(d) { return d ? pad(d.getMonth() + 1) + ' / ' + pad(d.getDate()) + ' / ' + d.getFullYear() : ''; }
+      var PRESETS = {
+        month: function () { return [day(2026, 9, 1), TODAY]; },
+        last3m: function () { return [day(2026, 6, 21), TODAY]; },
+        last6m: function () { return [day(2026, 3, 21), TODAY]; },
+        year: function () { return [day(2026, 0, 1), TODAY]; },
+        all: function () { return [FIRST, TODAY]; }
+      };
+      function monthHtml(y, m) {
+        var h = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(function (w) { return '<span class="rp__wd">' + w + '</span>'; }).join('');
+        var first = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate(), i;
+        for (i = 0; i < first; i++) h += '<span></span>';
+        for (i = 1; i <= days; i++) {
+          var t = new Date(y, m, i), c = 'rp__d';
+          if (t > TODAY) c += ' off';
+          if (rs && re && t >= rs && t <= re) c += ' in';
+          if (rs && +t === +rs) c += ' is-s';
+          if (re && +t === +re) c += ' is-e';
+          h += '<button type="button" class="' + c + '" data-t="' + t.getTime() + '"><span>' + i + '</span></button>';
+        }
+        return h;
+      }
+      function drawCal() {
+        var y = view.getFullYear(), m = view.getMonth(), n = new Date(y, m + 1, 1);
+        document.getElementById('rpTL').textContent = MONTHS[m] + ' ' + y;
+        document.getElementById('rpTR').textContent = MONTHS[n.getMonth()] + ' ' + n.getFullYear();
+        document.getElementById('rpL').innerHTML = monthHtml(y, m);
+        document.getElementById('rpR').innerHTML = monthHtml(n.getFullYear(), n.getMonth());
+        document.getElementById('rpNext').disabled = n.getFullYear() === 2026 && n.getMonth() >= 9;
+        document.getElementById('rpPrev').disabled = y === 2026 && m <= 0;
+        inS.value = fmtDate(rs); inE.value = fmtDate(re);
+        Array.prototype.forEach.call(document.querySelectorAll('#rpPresets button'), function (b) { b.classList.toggle('is-on', b.getAttribute('data-p') === picked); });
+      }
+      function pickDay(e) {
+        var b = e.target.closest('.rp__d'); if (!b) return;
+        var t = new Date(+b.getAttribute('data-t')); picked = '';
+        if (!rs || re) { rs = t; re = null; } else if (t < rs) { re = rs; rs = t; } else { re = t; }
+        drawCal();
+      }
+      document.getElementById('rpL').addEventListener('click', pickDay);
+      document.getElementById('rpR').addEventListener('click', pickDay);
+      document.getElementById('rpPresets').addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        var r = PRESETS[b.getAttribute('data-p')]();
+        rs = r[0]; re = r[1]; picked = b.getAttribute('data-p');
+        view = new Date(re.getFullYear(), re.getMonth() - 1, 1); drawCal();
+      });
+      document.getElementById('rpPrev').addEventListener('click', function () { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); drawCal(); });
+      document.getElementById('rpNext').addEventListener('click', function () { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); drawCal(); });
+      function typed(inp, isStart) {
+        inp.addEventListener('change', function () {
+          var p = /^\s*(\d{1,2})\D+(\d{1,2})\D+(\d{4})\s*$/.exec(inp.value), d = p && new Date(+p[3], +p[1] - 1, +p[2]);
+          if (!d || d.getMonth() !== +p[1] - 1 || d > TODAY) { inp.style.borderColor = '#c4352b'; return; }
+          inp.style.borderColor = ''; picked = '';
+          if (isStart) rs = d; else re = d;
+          if (rs && re && re < rs) { var x = rs; rs = re; re = x; }
+          view = new Date((re || rs).getFullYear(), (re || rs).getMonth() - 1, 1); drawCal();
+        });
+      }
+      typed(inS, true); typed(inE, false);
+      document.getElementById('rpClear').addEventListener('click', function () { rs = null; re = null; picked = ''; inS.style.borderColor = inE.style.borderColor = ''; drawCal(); });
+      var PNAMES = { month: 'This month', last3m: 'Last 3 months', last6m: 'Last 6 months', year: 'This year', all: 'All time' };
+      function dShort(d) { return d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3); }
+      function monthIdx(d) { return d.getFullYear() > 2026 ? 6 : Math.min(6, Math.max(0, d.getMonth() - 2)); }
+      function applyRange() {
+        if (!rs) { inS.style.borderColor = '#c4352b'; inS.focus(); return; }
+        var e = re || rs, a = monthIdx(rs), b = monthIdx(e);
+        if (b - a < 1) { if (b === 0) b = 1; a = b - 1; }
+        from = a; to = b; render();
+        label.textContent = picked ? PNAMES[picked] : (+rs === +e ? dShort(rs) : dShort(rs) + ' – ' + dShort(e)); /* the button names the preset, or the dates picked */
+        close();
+      }
+      document.getElementById('rpApply').addEventListener('click', applyRange);
+      document.addEventListener('click', function (e) { if (e.target.isConnected && !dd.contains(e.target)) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+      drawCal();
+    })();
+  </script>
+  <script>
     /* Briefs: change cards, search, Month and Change checklists, and the Ask for a Brief panel */
     (function () {
       var root = document.querySelector('.brpage'); if (!root) return;
@@ -2617,10 +3101,9 @@
       var search = document.getElementById('br-search'), clear = document.getElementById('br-clear'), empty = document.getElementById('br-empty'), card = document.getElementById('br-card'), head = document.getElementById('br-head');
       var cards = Array.prototype.slice.call(root.querySelectorAll('.brcard')), tab = 'all';
       var OPTS = {
-        month: { title: 'Month', list: [['September', 'September'], ['August', 'August'], ['July', 'July'], ['June', 'June'], ['May', 'May'], ['April', 'April'], ['March', 'March']] },
-        kind: { title: 'Change', list: [['up', 'Improved'], ['down', 'Dropped'], ['first', 'First reading']] }
+        kind: { title: 'Change', list: [['up', 'Improved'], ['down', 'Dropped']] }
       };
-      var applied = { month: [], kind: [] }, pops = {};
+      var applied = { month: [], kind: [] }, pops = {}, range = null;
       function closeAll(except) { Object.keys(pops).forEach(function (k) { if (pops[k].el !== except) { pops[k].el.hidden = true; pops[k].btn.setAttribute('aria-expanded', 'false'); } }); }
       function label(k) {
         var n = applied[k].length, o = OPTS[k], t = o.title;
@@ -2631,13 +3114,13 @@
         var q = search.value.trim().toLowerCase(), n = 0;
         rows.forEach(function (r) {
           var show = (tab === 'all' || r.getAttribute('data-f') === tab) &&
-                     (!applied.month.length || applied.month.indexOf(r.getAttribute('data-m')) > -1) &&
+                     inRange(r) &&
                      (!applied.kind.length || applied.kind.indexOf(r.getAttribute('data-kind')) > -1) &&
                      (!q || r.textContent.toLowerCase().indexOf(q) > -1);
           r.hidden = !show; if (show) n++;
         });
         head.querySelector('b').textContent = n; head.hidden = card.hidden = n === 0; empty.hidden = n > 0;
-        clear.hidden = !(q || applied.month.length || applied.kind.length);
+        clear.hidden = !(q || range || applied.kind.length);
       }
       cards.forEach(function (c) { c.addEventListener('click', function () { tab = c.getAttribute('data-k'); cards.forEach(function (x) { var on = x === c; x.classList.toggle('is-on', on); x.setAttribute('aria-pressed', String(on)); }); apply(); }); });
       Object.keys(OPTS).forEach(function (k) {
@@ -2658,11 +3141,98 @@
       });
       document.addEventListener('click', function () { closeAll(null); });
       search.addEventListener('input', apply);
-      clear.addEventListener('click', function () { applied = { month: [], kind: [] }; search.value = ''; Object.keys(pops).forEach(label); apply(); });
+      clear.addEventListener('click', function () { applied = { month: [], kind: [] }; range = null; rs = re = null; picked = ''; setLabel(); search.value = ''; Object.keys(pops).forEach(label); apply(); });
+      /* Issued filter: presets plus the same two-month calendar as the Date Range picker */
+      var bfWrap = document.getElementById('bfWrap'), bfBtn = document.getElementById('bfBtn'), bfPop = document.getElementById('bfPop');
+      var TODAY = new Date(2026, 9, 21), MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      var rs = null, re = null, view = new Date(2026, 8, 1), picked = '';
+      var PRESETS = {
+        month: ['This month', new Date(2026, 9, 1)],
+        last3m: ['Last 3 months', new Date(2026, 6, 21)],
+        last6m: ['Last 6 months', new Date(2026, 3, 21)],
+        year: ['This year', new Date(2026, 0, 1)],
+        all: ['All time', new Date(2026, 0, 1)]
+      };
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function short(d) { return d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3); }
+      function inRange(r) {
+        if (!range) return true;
+        var p = r.getAttribute('data-issued').split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]);
+        return d >= range[0] && d <= range[1];
+      }
+      function setLabel() {
+        var l = bfBtn.querySelector('.pl');
+        l.textContent = !range ? 'Issued' : 'Issued: ' + (picked ? PRESETS[picked][0] : short(range[0]) + ' – ' + short(range[1]));
+        bfBtn.classList.toggle('is-active', !!range);
+      }
+      function monthHtml(y, m) {
+        var h = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(function (w) { return '<span class="rp__wd">' + w + '</span>'; }).join('');
+        var first = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate(), i;
+        for (i = 0; i < first; i++) h += '<span></span>';
+        for (i = 1; i <= days; i++) {
+          var t = new Date(y, m, i), c = 'rp__d';
+          if (t > TODAY) c += ' off';
+          if (rs && re && t >= rs && t <= re) c += ' in';
+          if (rs && +t === +rs) c += ' is-s';
+          if (re && +t === +re) c += ' is-e';
+          h += '<button type="button" class="' + c + '" data-t="' + t.getTime() + '"><span>' + i + '</span></button>';
+        }
+        return h;
+      }
+      function bfDraw() {
+        var y = view.getFullYear(), m = view.getMonth(), n = new Date(y, m + 1, 1);
+        document.getElementById('bfTL').textContent = MONTHS[m] + ' ' + y;
+        document.getElementById('bfTR').textContent = MONTHS[n.getMonth()] + ' ' + n.getFullYear();
+        document.getElementById('bfL').innerHTML = monthHtml(y, m);
+        document.getElementById('bfR').innerHTML = monthHtml(n.getFullYear(), n.getMonth());
+        document.getElementById('bfNext').disabled = n.getFullYear() === 2026 && n.getMonth() >= 9;
+        document.getElementById('bfPrev').disabled = y === 2026 && m <= 0;
+        Array.prototype.forEach.call(bfPop.querySelectorAll('.rp__presets button'), function (b) { b.classList.toggle('is-on', b.getAttribute('data-p') === picked); });
+      }
+      function bfMonths(which) {
+        var grid = document.getElementById(which === 'L' ? 'bfL' : 'bfR'), y = view.getFullYear() + (which === 'R' && view.getMonth() === 11 ? 1 : 0), cur = which === 'L' ? view.getMonth() : (view.getMonth() + 1) % 12, h = '';
+        MONTHS.forEach(function (nm, i) { h += '<button type="button"' + (y === 2026 && i <= 9 ? '' : ' disabled') + (i === cur ? ' class="cur"' : '') + ' data-m="' + i + '">' + nm.slice(0, 3) + '</button>'; });
+        grid.innerHTML = '<div class="rp__mgrid">' + h + '</div>';
+        grid.onclick = function (e) {
+          var b = e.target.closest('button[data-m]'); if (!b) return;
+          var m = +b.getAttribute('data-m'); view = new Date(y, which === 'L' ? m : m - 1, 1);
+          if (view > new Date(2026, 8, 1)) view = new Date(2026, 8, 1);
+          grid.onclick = null; bfDraw();
+        };
+      }
+      function bfPick(e) {
+        var b = e.target.closest('.rp__d'); if (!b) return;
+        var t = new Date(+b.getAttribute('data-t')); picked = '';
+        if (!rs || re) { rs = t; re = null; } else if (t < rs) { re = rs; rs = t; } else { re = t; }
+        bfDraw();
+      }
+      bfBtn.addEventListener('click', function (e) {
+        e.stopPropagation(); closeAll(null);
+        var open = bfPop.hidden; bfPop.hidden = !open; bfBtn.setAttribute('aria-expanded', String(open));
+        if (open) { if (range) { rs = range[0]; re = range[1]; } bfDraw(); }
+      });
+      bfPop.addEventListener('click', function (e) { e.stopPropagation(); });
+      document.getElementById('bfL').addEventListener('click', bfPick);
+      document.getElementById('bfR').addEventListener('click', bfPick);
+      document.getElementById('bfTL').addEventListener('click', function () { bfMonths('L'); });
+      document.getElementById('bfTR').addEventListener('click', function () { bfMonths('R'); });
+      document.getElementById('bfPrev').addEventListener('click', function () { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); bfDraw(); });
+      document.getElementById('bfNext').addEventListener('click', function () { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); bfDraw(); });
+      bfPop.querySelector('.rp__presets').addEventListener('click', function (e) {
+        var b = e.target.closest('button'); if (!b) return;
+        picked = b.getAttribute('data-p'); rs = PRESETS[picked][1]; re = TODAY;
+        view = new Date(re.getFullYear(), re.getMonth() - 1, 1); bfDraw();
+      });
+      document.getElementById('bfClear').addEventListener('click', function () { rs = null; re = null; picked = ''; range = null; setLabel(); bfDraw(); apply(); });
+      document.getElementById('bfApply').addEventListener('click', function () {
+        if (!rs) { range = null; } else { if (!re) re = rs; range = [rs, re]; if (picked === 'all') range = null; }
+        setLabel(); bfPop.hidden = true; bfBtn.setAttribute('aria-expanded', 'false'); apply();
+      });
+      document.addEventListener('click', function () { bfPop.hidden = true; });
       var bd = document.getElementById('bd'), bs = document.getElementById('bd-scrim');
       function bopen() { bd.classList.add('is-open'); bd.setAttribute('aria-hidden', 'false'); bs.classList.add('is-open'); }
       function bclose() { bd.classList.remove('is-open'); bd.setAttribute('aria-hidden', 'true'); bs.classList.remove('is-open'); }
-      document.getElementById('br-ask').addEventListener('click', bopen);
+      var ask = document.getElementById('br-ask'); if (ask) ask.addEventListener('click', bopen);
       ['bd-close', 'bd-cancel', 'bd-go'].forEach(function (i) { document.getElementById(i).addEventListener('click', bclose); });
       bs.addEventListener('click', bclose);
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') bclose(); });
