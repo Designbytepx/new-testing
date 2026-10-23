@@ -25,13 +25,13 @@
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 
   .card{
-    width:100%;min-height:calc(100vh - 28px);display:grid;grid-template-columns:minmax(280px,32%) minmax(0,1fr);
+    width:100%;display:grid;grid-template-columns:minmax(280px,32%) minmax(0,1fr);
     gap:clamp(24px,4vw,64px);--pad:clamp(20px,4.4vw,56px);padding:var(--pad);position:relative;align-items:stretch;
     background:var(--cream);border:0;border-radius:32px;box-shadow:0 12px 32px rgba(26,31,54,.10),0 2px 6px rgba(26,31,54,.06);
   }
   .left{display:flex;flex-direction:column;min-width:0;--g:calc(12px + 1.25 * clamp(18px,1.7vw,22px))}
 
-.export{position:absolute;top:var(--pad);right:var(--pad);z-index:1;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 16px;border-radius:999px;background:var(--panel);font-size:13px;font-weight:500;color:var(--ink);transition:background .2s}  .export:hover{background:#e2dfd9}
+.export{position:absolute;top:var(--pad);right:var(--pad);z-index:1;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 16px;border-radius:999px;background:#262626;font-size:13px;font-weight:500;color:#fff;transition:background .2s}  .export:hover{background:#404040}
   .tabs{display:inline-flex;align-self:flex-start;padding:3px;gap:2px;background:var(--panel);border:0;border-radius:999px}
   .tabs button{padding:5px 16px;border-radius:999px;font-size:13px;color:var(--muted)}
   .tabs .on{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(60,66,87,.12)}
@@ -39,7 +39,7 @@
   h1{margin-top:24px;font-size:clamp(18px,1.7vw,22px);font-weight:700;line-height:1.25;letter-spacing:-.01em}
   .sub{margin-top:8px;font-size:15px;color:var(--muted)}
 
-  .iq{margin-top:28px;padding:20px;background:var(--panel);border:0;border-radius:12px}
+  .iq{margin-top:28px;padding:20px;background:#fff;border:0;border-radius:12px}
   .iq .l{font-size:12px;font-weight:500;color:var(--muted)}
   .iq .n{margin-top:8px;font-size:36px;line-height:1;font-weight:600;letter-spacing:-.02em}
   .iq .top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
@@ -98,7 +98,7 @@
   .tile{display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:140px;padding:14px;border-radius:12px}
   .tile .s{font-size:12px;line-height:1.4}
   .tile .big{font-size:15px;line-height:1.35;font-weight:500;letter-spacing:0;white-space:normal}
-  .tile{border:0;text-align:left;font:inherit;background:var(--panel);color:var(--text);cursor:pointer;transition:background .25s,color .25s,transform .15s}
+  .tile{border:0;text-align:left;font:inherit;background:#fff;color:var(--text);cursor:pointer;transition:background .25s,color .25s,transform .15s}
   .tile:hover{transform:translateY(-1px)}
   .tile .s{margin:0}
   .tile .big{color:var(--ink)}
@@ -173,7 +173,7 @@
     .tiles{grid-template-columns:1fr}
   }
   /* selected = black outline, not a green fill */
-  .tile.is-sel,.iq.is-sel{background:var(--panel);color:var(--text);box-shadow:inset 0 0 0 1.5px rgba(26,31,54,.55)}
+  .tile.is-sel,.iq.is-sel{background:#fff;color:var(--text);box-shadow:inset 0 0 0 1.5px rgba(26,31,54,.28)}
   .tile.is-sel .s{opacity:1}
   .tile.is-sel .big,.tile.is-sel .fname,.tile.is-sel .subhead{color:var(--ink)}
   .tile.is-sel .fsub,.tile.is-sel .meta,.tile.is-sel .prio{color:var(--muted);opacity:1}
@@ -244,8 +244,8 @@
   @media (prefers-reduced-motion:reduce){.drawer,.scrim{transition:none}}
 .left>h1:first-child{margin-top:0}
 .left>.sub:first-child{margin-top:0}  .left>.sub+h1{margin-top:16px}
-  .tooverview{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:34px;margin-top:18px;padding:0 16px;border-radius:999px;background:var(--panel);font-size:13px;font-weight:500;color:var(--ink);text-decoration:none;transition:background .2s}
-  .tooverview:hover{background:#e2dfd9}
+  .tooverview{align-self:flex-start;display:inline-flex;align-items:center;gap:4px;height:34px;margin-top:18px;padding:0 16px;border-radius:999px;background:#262626;font-size:13px;font-weight:500;color:#fff;text-decoration:none;transition:background .2s}
+  .tooverview:hover{background:#404040}
   .tooverview svg{transition:transform .2s}
   html.embed .tooverview,html.embed .export{display:none}
   html.embed body{background:#fff}
@@ -299,6 +299,10 @@
   @view-transition{navigation:auto}
   @keyframes pagein{from{opacity:0}to{opacity:1}}
   @keyframes pagerise{from{transform:translateY(8px)}to{transform:none}}
+  /* A peek of the next page under the card, when the screen is taller than the card */
+  .peek{position:fixed;z-index:1;overflow:hidden;cursor:pointer;-webkit-mask-image:linear-gradient(#000 35%,transparent);mask-image:linear-gradient(#000 35%,transparent)}
+  .hello{margin:4px 0 12px clamp(20px,4.4vw,56px);font-size:18px;line-height:1.3;font-weight:600;color:var(--text)}
+  html.embed .hello{display:none}
   .runway{animation:pagerise .4s ease both}
   body{animation:pagein .4s ease both}
   body.leaving{opacity:0;transition:opacity .28s ease}
@@ -322,6 +326,7 @@
 </head>
 <body>
 <script>if(self!==top)document.documentElement.classList.add("embed")</script>
+<p class="hello">Welcome back, Mark</p>
 <div class="runway" id="runway">
 <main class="card">
   <button class="export" type="button"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 2v8m0 0L5 7m3 3 3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Export</button>
@@ -731,6 +736,8 @@ function sizeRunway(){
   runway.style.height=(cardEl.offsetHeight+14+PAGES*R+(PAGES-1)*L)+"px";
   alignChart();alignRight();
 }
+/* the greeting above the card pushes the scroll range down by its own height */
+const OFF=()=>Math.max(0,runway.offsetTop-14);
 function pinDist(){return runway.offsetHeight-cardEl.offsetHeight-14}
 /* The cards sit one after another: the card on screen scrolls up and out while the next one follows it up from below, at the speed of the scroll.
    The card that is leaving is a still copy of the page that was showing; the live card switches to the next page and rides in behind it. */
@@ -745,10 +752,29 @@ function makeGhost(){
   document.body.appendChild(g); /* on the page itself, because the runway has an animation transform that would make fixed positions relative to it */
   return g;
 }
+let PK=null;
+function clearPeek(){if(PK){PK.remove();PK=null}}
+function showPeek(k){
+  clearPeek();
+  if(k>=PAGES-1||!wide.matches)return;
+  const r=cardEl.getBoundingClientRect(),top=r.bottom+14,room=innerHeight-top;
+  if(room<40)return;
+  const w=document.createElement("div");w.className="peek";w.setAttribute("role","button");w.tabIndex=0;w.setAttribute("aria-label","Show the next page");
+  const g=cardEl.cloneNode(true);
+  g.removeAttribute("id");g.querySelectorAll("[id]").forEach(e=>e.removeAttribute("id"));g.setAttribute("aria-hidden","true");g.inert=true;
+  g.style.cssText=cardEl.style.cssText;g.style.position="absolute";g.style.top="0";g.style.left="0";g.style.width=cardEl.offsetWidth+"px";g.style.transform=S===1?"":"scale("+S+")";g.style.transformOrigin="top left";g.style.pointerEvents="none";
+  g.querySelector(".track").style.transform="translateX("+(-100*(k+1))+"%)";g.querySelector(".left>h1").textContent=HEADS[k+1];
+  w.appendChild(g);
+  w.style.cssText="left:"+r.left+"px;top:"+top+"px;width:"+r.width+"px;height:"+Math.min(80,room)+"px";
+  const next=()=>scrollTo({top:Math.round((k+1)*(R+L)+R/2)+OFF(),behavior:"smooth"});
+  w.addEventListener("click",next);w.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();next()}});
+  document.body.appendChild(w);PK=w;
+}
 function onScrollPage(){
-  if(!wide.matches){clearGhost();place(cardEl,0);return}
-  const total=pinDist(),y=Math.min(total,Math.max(0,scrollY)),P=R+L,k=Math.min(PAGES-1,Math.floor(y/P)),o=y-k*P;
-  if(k===PAGES-1||o<=R){clearGhost();if(pg!==k)go(k,false,true);place(cardEl,0);return}
+  if(!wide.matches){clearGhost();clearPeek();place(cardEl,0);return}
+  const total=pinDist(),y=Math.min(total,Math.max(0,scrollY-OFF())),P=R+L,k=Math.min(PAGES-1,Math.floor(y/P)),o=y-k*P;
+  if(k===PAGES-1||o<=R){clearGhost();if(pg!==k)go(k,false,true);place(cardEl,0);showPeek(k);return}
+  clearPeek();
   const p=o-R;
   if(!GH){
     if(pg!==k&&pg!==k+1)go(k,false,true);
@@ -757,7 +783,7 @@ function onScrollPage(){
   place(GH,ghPage===k?-p:L-p);
   place(cardEl,pg===k?-p:L-p);
 }
-dotEls.forEach((d,i)=>d.addEventListener("click",()=>{if(!wide.matches){go(i);return}scrollTo({top:Math.round(i*(R+L)+R/2),behavior:"smooth"})}));
+dotEls.forEach((d,i)=>d.addEventListener("click",()=>{if(!wide.matches){go(i);return}scrollTo({top:Math.round(i*(R+L)+R/2)+OFF(),behavior:"smooth"})}));
 addEventListener("scroll",onScrollPage,{passive:true});
 addEventListener("resize",()=>{sizeRunway();onScrollPage()});
 sizeRunway();go(0,true);onScrollPage();
