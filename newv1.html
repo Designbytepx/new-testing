@@ -13,7 +13,7 @@
     /* soft page-to-page transition (used when opening this page from exeview.html) */
     @view-transition { navigation: auto; }
     @keyframes pagein { from { opacity: 0; } to { opacity: 1; } }
-    body { animation: pagein .4s ease both; }
+    /* the page-to-page fade comes from the view transition above; a second fade on the body made the page flash */
     @media (prefers-reduced-motion: reduce) { body { animation: none; } }
     :root {
       --ink: #1a1f36;
@@ -121,7 +121,7 @@
       align-items: center;
       gap: 24px;
       height: 48px;
-      margin-top: 2px;
+      margin-top: 18px;
     }
 
     .top__right { display: flex; align-items: center; gap: 22px; margin-left: auto; color: #4f566b; }
@@ -521,6 +521,9 @@
     .br-top { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: stretch; margin: 0 0 18px; }
     .br-top #br-chart { margin: 0; }
     .br-ask { flex: none; padding: 18px; gap: 0; margin-top: 40px; }
+    .br-ask { position: relative; }
+    .br-ask__art { position: absolute; right: 8px; bottom: 18px; width: 130px; height: auto; pointer-events: none; user-select: none; }
+    @media (max-width: 1180px) { .br-ask__art { display: none; } }
     .br-ask__h { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink); }
     .br-ask__p { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
     .br-ask__dates { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
@@ -674,9 +677,9 @@
     .dr-card .tbtn { margin-top: 16px; }
     @media (max-width: 900px) { .dr-grid { grid-template-columns: minmax(0, 1fr); } }
     #al-view { display: none; }    .main.is-al #al-view { display: block; }    .main.is-al > #ov-view, .main.is-al > .hero, .main.is-al > .findings { display: none; }
-    .main.is-al .top { margin-top: 0; margin-bottom: 0; }
-    #al-view .hero--sources { margin-bottom: -17px; }
-    #al-view .hero--sources { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; }
+    .main.is-al .top { margin-bottom: 0; }
+    #al-view .hero--sources { margin-bottom: 0; }
+    #al-view .hero--sources { display: block; }
     .al-hero__t { flex: 1; min-width: 0; }
     .al-attn { flex: none; width: 300px; margin-top: 4px; display: flex; flex-direction: column; align-items: stretch; padding: 0; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(26, 31, 54, .04); overflow: hidden; }
     .al-attn__h { flex: none; padding: 12px 16px; font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; }
@@ -685,6 +688,10 @@
     .al-attn .al-attn__row { display: flex; align-items: flex-start; gap: 10px; }
     .al-attn__row:hover { background: #fafbfc; }
     .al-attn .al-attn__row, .al-attn .al-attn__row:hover, .al-attn .al-attn__row:hover * { text-decoration: none; }
+    .al-attn--box { display: inline-flex; width: auto; flex-direction: row; align-items: center; margin: 16px 0 24px; cursor: pointer; text-align: left; }
+    .al-attn--box:hover { background: #fafbfc; border-color: #d5dbe4; }
+    .al-attn--box:focus-visible { outline: 2px solid #262626; outline-offset: 2px; }
+    .al-attn--box .al-attn__h { display: flex; align-items: center; }
     .al-attn__n { flex: 1; min-width: 0; font-size: 13.5px; font-weight: 600; }
     .al-attn__n small { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 400; color: var(--muted); white-space: normal; }
     .al-attn__row .ico { flex: none; align-self: center; width: 14px; height: 14px; color: #8792a2; }
@@ -748,10 +755,20 @@
     .al-sbar--thin { height: 14px; margin-top: 12px; gap: 0; border-radius: 99px; overflow: hidden; }
     .al-split { display: flex; gap: 16px; align-items: stretch; }
     .al-donutc .al-dnc__ring { margin: 0; }
-    .al-dnc__ring { position: relative; flex: none; width: 180px; height: 180px; }
-    .al-dnc__ring .al-dn { width: 180px; height: 180px; }
-    .al-dnc__ring .al-dn__c { top: 0; height: 180px; padding: 0 34px; text-align: center; }
-    .al-dnc__ring .al-dn__c span { font-size: 11.5px; line-height: 1.3; }
+    .al-dnc__ring { position: relative; flex: none; width: 150px; height: 150px; }
+    .al-donutc { flex-direction: column; gap: 12px; }
+    .al-dnl { display: grid; gap: 8px; width: 100%; max-width: 220px; margin-top: 4px; }
+    .al-dnl span { display: grid; grid-template-columns: 8px minmax(0, 1fr) auto; align-items: center; gap: 10px; }
+    .al-dnl span b { font-variant-numeric: tabular-nums; }
+    /* the table fills the card, so its rows share the height and the table ends level with the donut card */
+    .al-split > .ovsrc__card:last-child { display: flex; flex-direction: column; }
+    .al-split > .ovsrc__card:last-child .tablewrap { flex: 1; display: flex; flex-direction: column; }
+    .al-split > .ovsrc__card:last-child .ftable { flex: 1; height: 100%; }
+    .al-split .ovsrc__card .al-table tbody td { vertical-align: middle; }
+    .al-dnc__ring .al-dn { width: 150px; height: 150px; }
+    .al-dnc__ring .al-dn__c { top: 0; height: 150px; padding: 0 28px; text-align: center; }
+    .al-dnc__ring .al-dn__c b { font-size: 17px; }
+    .al-dnc__ring .al-dn__c span { font-size: 10.5px; line-height: 1.3; }
     .al-dnc__k { flex: 1; min-width: 0; margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
     .al-dnc__k li { display: flex; gap: 12px; padding: 14px 0; border-top: 1px solid #edf0f4; }
     .al-dnc__k li:first-child { border-top: 0; padding-top: 0; }
@@ -787,8 +804,8 @@
     .al-dn__k li b { margin-left: auto; font-weight: 600; color: var(--ink); }
     @media (max-width: 980px) { .al-split { flex-direction: column; } .al-donut { width: auto; } }
     .al-pbar { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
-    .al-pbar__t { flex: 1; height: 18px; border-radius: 4px; background: #eef1f5; overflow: hidden; }
-    .al-pbar__t i { display: block; height: 100%; background: #262626; }
+    .al-pbar__t { flex: 1; height: 18px; border-radius: 4px; background: #e4f4f0; overflow: hidden; }
+    .al-pbar__t i { display: block; height: 100%; background: #7cc9ba; }
     .al-stat .al-pbar b { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink); }
     .al-sbar__k i { width: 8px; height: 8px; border-radius: 50%; }
     .al-stat__src { display: block; margin-top: auto; padding-top: 10px; font-size: 12px; color: #8792a2; }
@@ -830,12 +847,12 @@
     .ag-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin-top: 4px; }
     .ag-head .dr-st { display: inline-flex; align-items: center; gap: 6px; }
     .ag-head .dr-st svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .al-agents .al-od { display: block; width: fit-content; }
+    .al-agents .al-od { display: block; width: fit-content; margin-top: 6px; }
     #ag-foot:empty { display: none; }
     .dp__foot .ag-go { margin-left: auto; }
     .dp__foot .tbtn--primary .ico { color: #fff; }
     .al-agents td:first-child .ovsrc__nm { display: block; }
-    .al-agents th, .al-agents td { padding-inline: 14px; }
+    .al-agents th, .al-agents td { padding-inline: 18px; }
     .al-agents td { overflow: visible; text-overflow: clip; }
     .al-agents tbody td:nth-child(5) { overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; }
     .al-agents .al-none { font-weight: 500; color: var(--red); }
@@ -1090,7 +1107,7 @@
     .ftz input:checked + i { border: 5px solid #262626; }
     .ftz input:focus-visible + i { outline: 2px solid #262626; outline-offset: 2px; }
     .fbar[hidden] { display: none; }
-    .pcards { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 0 0 14px; }
+    .pcards { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 0 0 14px; padding-bottom: 14px; border-bottom: 1px solid #edf0f4; }
     .pcard { display: grid; gap: 0; padding: 7px 12px 8px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); transition: border-color .12s ease, background-color .12s ease; }
     .pcard span { font-size: 12.5px; line-height: 1.35; color: var(--muted); }
     .pcard b { font-size: 15px; line-height: 1.35; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); }
@@ -1138,6 +1155,105 @@
     .ov-btn.ov-back { text-decoration: none; }
     .main:not(.is-ov) .ov-btn.ov-back { display: none; }
     .main.is-ov .top, .main.is-dr .top { margin-top: 18px; margin-bottom: 16px; }
+    .ov-dcard__head { position: relative; }
+    .ov-dial__i:focus-visible { outline: 2px solid #262626; outline-offset: 2px; border-radius: 50%; }
+    .ov-dial__i { position: relative; }
+    .ov-tip { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; width: 220px; padding: 9px 12px; border-radius: 8px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .14), 0 0 0 1px rgba(26, 31, 54, .06); font-size: 12.5px; font-weight: 400; line-height: 1.45; color: var(--text); cursor: default; opacity: 0; visibility: hidden; transform: translate(-50%, -2px); transition: opacity .12s ease, transform .12s ease, visibility .12s; pointer-events: none; }
+    .ov-dial__i:hover .ov-tip, .ov-dial__i:focus .ov-tip, .ov-dial__i:focus-visible .ov-tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+    .bell { cursor: pointer; border-radius: 50%; }
+    .bell:focus-visible { outline: 2px solid #262626; outline-offset: 3px; }
+    .nt-list { margin: 18px 0 0; padding: 0; list-style: none; }
+    .nt-list > li { border-top: 1px solid var(--line); }
+    .nt-list > li:first-child { border-top: 0; }
+    .nt-msg { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; width: 100%; padding: 14px 8px; margin: 0 -8px; border-radius: 10px; text-align: left; }
+    button.nt-msg { cursor: pointer; }
+    button.nt-msg:hover { background: #fafbfc; }
+    button.nt-msg:focus-visible { outline: 2px solid #262626; outline-offset: 0; }
+    .nt-av { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--panel); color: #4f566b; }
+    .nt-av svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .nt-av--crit { background: #fdecea; color: #d3262b; }
+    .nt-av--late { background: #fbe3c4; color: #9a5a12; }
+    .nt-h { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .nt-t { display: block; margin-top: 2px; font-size: 14px; line-height: 1.5; font-weight: 400; color: #3b4252; }
+    .nt-d { display: block; margin-top: 4px; font-size: 12.5px; color: var(--muted); }
+    .nt-d.is-late { color: #b5651d; }
+    /* Score drivers open the finding panel; one with no finding behind it opens the same panel without the tabs and actions. */
+    #dp-props:has(.dp-prop--w) .dp-prop { grid-template-columns: 140px minmax(0, 1fr); }
+    #dp-props:has(.dp-prop--w) .dp-prop dt { white-space: nowrap; }
+    #dp-pn-summary .dp-p b { font-weight: 600; color: var(--ink); }
+    .dp-ptb { display: grid; place-items: center; min-width: 40px; padding: 3px 8px; border-radius: 6px; background: var(--panel); font-size: 14px; font-weight: 600; line-height: 1.3; }
+    .dp-ptb.up { background: #e3f5ea; color: #2a8a52; }
+    .dp-ptb.dn { background: #fdecea; color: #c4352b; }    /* Create brief: a centred pop-up from Quick access */
+    .cm-scrim { position: fixed; inset: 0; z-index: 300; background: rgba(26, 31, 54, .45); }
+    .cm-scrim[hidden], .cm[hidden] { display: none; }
+    .cm { position: fixed; top: 0; bottom: 0; left: 0; width: 100vw; z-index: 301; display: grid; place-items: center; padding: 24px; pointer-events: none; }
+    .cm__box:focus { outline: none; }
+    .cm__box { pointer-events: auto; width: min(480px, 100%); max-height: calc(100vh - 48px); overflow-y: auto; padding: 22px 24px 20px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 24px 60px rgba(26, 31, 54, .22); }
+    .cm__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .cm__head h2 { font-size: 17px; font-weight: 700; color: var(--ink); }
+    .cm__sub { margin: 4px 0 0; font-size: 13.5px; color: var(--muted); }
+    .cm__opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .cm-opt { position: relative; display: block; cursor: pointer; }
+    .cm-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .cm-opt > span { display: block; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; transition: border-color .12s ease, background .12s ease; }
+    .cm-opt b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .cm-opt small { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+    .cm-opt:hover > span { background: #fafbfc; }
+    .cm-opt input:checked + span { border-color: #262626; box-shadow: inset 0 0 0 1px #262626; }
+    .cm-opt input:focus-visible + span { outline: 2px solid #262626; outline-offset: 2px; }
+    .cm__f { display: grid; gap: 6px; margin-top: 16px; }
+    .cm__f > label, .cm__f > span.cm__l { font-size: 12.5px; font-weight: 500; color: var(--muted); }
+    .cm__f select, .cm__f input[type="text"] { width: 100%; height: 36px; padding: 0 10px; border: 1px solid #d5dbe4; border-radius: 8px; background: #fff; font: inherit; font-size: 13.5px; color: var(--ink); }
+    .cm__f select:focus-visible, .cm__f input[type="text"]:focus-visible { outline: 2px solid #262626; outline-offset: 1px; }
+    .cm__f input[aria-invalid="true"] { border-color: #c4352b; }
+    .cm__r { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--ink); cursor: pointer; }
+    .cm__r input { accent-color: #262626; }
+    .cm__row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cm__f input[type="date"] { width: 100%; height: 36px; padding: 0 10px; border: 1px solid #d5dbe4; border-radius: 8px; background: #fff; font: inherit; font-size: 13.5px; color: var(--ink); }
+    .cm__f input[type="date"]:focus-visible { outline: 2px solid #262626; outline-offset: 1px; }
+    .cm__f input[aria-invalid="true"][type="date"] { border-color: #c4352b; }
+    /* Upload AI budget: a pop-up with a drop zone (uses the Create a Brief pop-up's shell) */
+    .ub-drop { display: grid; justify-items: center; gap: 6px; margin-top: 18px; padding: 26px 16px; border: 1.5px dashed #cfd4dc; border-radius: 12px; background: #fafbfc; text-align: center; cursor: pointer; transition: background .12s ease, border-color .12s ease; }
+    .ub-drop:hover, .ub-drop.is-over { border-color: #262626; background: #f3f4f6; }
+    .ub-drop:focus-within { outline: 2px solid #262626; outline-offset: 2px; }
+    .ub-drop input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .ub-drop .ico { width: 26px; height: 26px; color: #6b7385; }
+    .ub-drop b { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .ub-drop small { font-size: 12.5px; color: var(--muted); }
+    .ub-file { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .ub-file[hidden] { display: none; }
+    .ub-file .ico { width: 20px; height: 20px; color: #6b7385; flex: none; }
+    .ub-file span { flex: 1; min-width: 0; font-size: 13.5px; font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ub-file small { flex: none; font-size: 12.5px; color: var(--muted); }
+    .ub-file button { flex: none; font-size: 12.5px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+    .ub-file button:hover { color: var(--ink); }
+    .cm__foot .tbtn[disabled] { opacity: .5; cursor: default; }    .cm__msg { margin: 14px 0 0; padding: 10px 12px; border-radius: 8px; background: #e3f5ea; font-size: 13px; line-height: 1.45; color: #1f5f3a; }
+    .cm__msg.is-bad { background: #fdecea; color: #a8232f; }
+    .cm__msg[hidden] { display: none; }
+    .cm__foot { display: flex; align-items: center; gap: 8px; margin-top: 20px; }
+    .cm__foot .tbtn--primary { margin-left: auto; }
+    @media (max-width: 480px) { .cm__opts { grid-template-columns: 1fr; } }    /* Profile menu in the top bar */
+    .prof { position: relative; }
+    .prof__btn { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: #4f566b; transition: background .12s ease, border-color .12s ease; }
+    .prof__btn:hover, .prof__btn[aria-expanded="true"] { background: var(--panel); border-color: #d5dbe4; color: var(--ink); }
+    .prof__btn:focus-visible { outline: 2px solid #262626; outline-offset: 2px; }
+    .prof__btn .ico { width: 16px; height: 16px; }
+    .prof__menu { position: absolute; z-index: 50; top: calc(100% + 6px); right: 0; width: 210px; padding: 4px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 8px 24px rgba(26, 31, 54, .12); }
+    .prof__menu[hidden] { display: none; }
+    .prof__who { padding: 7px 10px 9px; border-bottom: 1px solid #edf0f4; margin-bottom: 4px; }
+    .prof__who b { display: block; font-size: 13px; font-weight: 600; color: var(--ink); }
+    .prof__who span { display: block; margin-top: 1px; font-size: 12px; color: var(--muted); }
+    .prof__item { display: flex; align-items: center; gap: 9px; width: 100%; padding: 7px 10px; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--ink); text-align: left; }
+    .prof__item:hover, .prof__item:focus-visible { background: var(--panel); outline: none; }
+    .prof__item .ico { width: 15px; height: 15px; color: #6b7385; }
+    /* Sources: a logo beside each source name */
+    .ovsrc__nm.has-lg { display: flex; align-items: center; gap: 10px; }
+    .src-lg { flex: none; width: 20px; height: 20px; object-fit: contain; }
+    .src-lg--ph { display: grid; place-items: center; border-radius: 5px; background: #eceef2; font-size: 11px; font-weight: 600; color: #4f566b; }
+    .src-lg--ic { display: grid; place-items: center; border-radius: 5px; background: #eceef2; color: #4f566b; }
+    .src-lg--ic svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    /* the framed Score page takes the whole window, so the page behind gives up its scrollbar and the icons line up with the other pages */
+    html:has(#score-frame:not([hidden])) { overflow: hidden; }
     .hl--late { color: #c4352b; }
     .hl--ok { color: #2a8a52; }
     .ov-needs .ftable { min-width: 0; }
@@ -1490,7 +1606,8 @@
         <a href="exeview.html" class="ov-btn ov-back"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>Executive view</a>
         <button type="button" class="ov-btn dr-topback" id="dr-back"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>Score</button>
         <div class="top__right">
-          <span class="bell"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/></svg></span>
+          <span class="bell" id="bell" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Notifications"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/></svg></span>
+          <div class="prof"><button type="button" class="prof__btn" id="prof-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Account menu"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></button><div class="prof__menu" id="prof-menu" role="menu" hidden><div class="prof__who"><b>Mark</b><span>Kestrel Vane Consulting</span></div><button type="button" class="prof__item" id="prof-out" role="menuitem"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5H6.5A1.5 1.5 0 0 0 5 6v12a1.5 1.5 0 0 0 1.5 1.5H9M15 8l4 4-4 4M19 12H9"/></svg>Log out</button></div></div>
         </div>
       </div>
 
@@ -1502,7 +1619,7 @@
 
       <section class="ov-dial" aria-label="Cygnos IQ Score">
         <article class="ov-dcard">
-          <div class="ov-dcard__head"><h2>Cygnos IQ Score</h2><span class="ov-dial__i" title="Score out of 100. The purple marker shows the safe score."><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span></div>
+          <div class="ov-dcard__head"><h2>Cygnos IQ Score</h2><span class="ov-dial__i" tabindex="0" aria-describedby="iq-tip" aria-label="What the Cygnos IQ Score means"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span class="ov-tip" role="tooltip" id="iq-tip">A score from 0 to 100 for the health of your company&rsquo;s AI. Higher is healthier.</span></span></div>
           <div class="ov-dcard__body">
             <div class="ov-dial__wrap">
               <svg class="ov-dial__svg" viewBox="0 0 240 166" aria-hidden="true">
@@ -1590,7 +1707,6 @@
           <div class="ovsrc__bar"><h2 class="ovw__h">Sources</h2><a href="sources.html" class="tbtn">All sources<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div>
           <div class="ftools ovsrc__tools" id="src-tools">
             <div class="ftools__l">
-              <label class="srcsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="src-search" placeholder="Search sources" aria-label="Search sources"></label>
               <div class="srcpills">
                 <span class="ovpw"><button type="button" class="pillbtn" data-f="type"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Type</span></button></span>
                 <span class="ovpw"><button type="button" class="pillbtn" data-f="freq"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Update</span></button></span>
@@ -1604,12 +1720,12 @@
             <colgroup><col style="width:24%"><col style="width:17%"><col style="width:20%"><col style="width:39%"></colgroup>
             <thead><tr><th>Source</th><th>Type</th><th>Last updated</th><th>Next update</th></tr></thead>
             <tbody>
-              <tr data-type="people" data-freq="daily"><td><b class="ovsrc__nm">Staff directory</b></td><td>Workday</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
-              <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm">ChatGPT Enterprise admin</b></td><td>Seat vendor</td><td>13 Oct, 23:00</td><td>Daily. OpenAI publishes once a day</td></tr>
-              <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm">Claude for Work admin</b></td><td>Seat vendor</td><td>13 Oct, 23:10</td><td>Daily. Anthropic publishes once a day</td></tr>
-              <tr data-type="code" data-freq="realtime"><td><b class="ovsrc__nm">Code host</b></td><td>GitHub</td><td>Real time</td><td>As it happens</td></tr>
-              <tr data-type="work" data-freq="hourly"><td><b class="ovsrc__nm">Work tracker</b></td><td>Jira</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
-              <tr data-type="ticketing" data-freq="hourly"><td><b class="ovsrc__nm">Ticketing system</b></td><td>ServiceNow</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
+              <tr data-type="people" data-freq="daily"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/workday.png" alt="">Staff directory</b></td><td>Workday</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
+              <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/openai.png" alt="">ChatGPT Enterprise admin</b></td><td>Seat vendor</td><td>13 Oct, 23:00</td><td>Daily. OpenAI publishes once a day</td></tr>
+              <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/claude.png" alt="">Claude for Work admin</b></td><td>Seat vendor</td><td>13 Oct, 23:10</td><td>Daily. Anthropic publishes once a day</td></tr>
+              <tr data-type="code" data-freq="realtime"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/git.png" alt="">Code host</b></td><td>GitHub</td><td>Real time</td><td>As it happens</td></tr>
+              <tr data-type="work" data-freq="hourly"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/jira.png" alt="">Work tracker</b></td><td>Jira</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
+              <tr data-type="ticketing" data-freq="hourly"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/servicenow.png" alt="">Ticketing system</b></td><td>ServiceNow</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
             </tbody>
           </table></div></div>
           <h3 class="findings__head ovsrc__h"><button type="button" class="fold" id="st-fold" aria-expanded="true" aria-controls="st-card" data-name="stale sources" aria-label="Collapse stale sources"><svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><span>Stale <b>1</b></span></h3>
@@ -1617,7 +1733,7 @@
             <colgroup><col style="width:24%"><col style="width:17%"><col style="width:20%"><col style="width:39%"></colgroup>
             <thead><tr><th>Source</th><th>Type</th><th>Last updated</th><th>Next update</th></tr></thead>
             <tbody><tr data-type="seats" data-freq="daily" data-status="stale">
-              <td><b class="ovsrc__nm">Microsoft 365 admin</b></td><td>Seat vendor</td>
+              <td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/microsoft.png" alt="">Microsoft 365 admin</b></td><td>Seat vendor</td>
               <td>7 Oct</td>
               <td><b class="ovsrc__nm">Normally daily. Microsoft has not published since 7 Oct.</b><span class="ovsrc__sub">Microsoft 365 Copilot figures carry &ldquo;as of 7 Oct&rdquo; wherever they appear. Cygnos reads again as soon as Microsoft publishes.</span></td>
             </tr></tbody>
@@ -1650,18 +1766,18 @@
           <colgroup><col style="width:25%"><col style="width:22%"><col style="width:19%"><col style="width:34%"></colgroup>
           <thead><tr><th>Source</th><th>Type</th><th>Last updated</th><th>Next update</th></tr></thead>
           <tbody>
-            <tr data-type="people" data-freq="daily"><td><b class="ovsrc__nm">Staff directory</b></td><td>Workday</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
-            <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm">ChatGPT Enterprise admin</b></td><td>Seat vendor</td><td>13 Oct, 23:00</td><td>Daily. OpenAI publishes once a day</td></tr>
-            <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm">Claude for Work admin</b></td><td>Seat vendor</td><td>13 Oct, 23:10</td><td>Daily. Anthropic publishes once a day</td></tr>
-            <tr data-type="code" data-freq="realtime"><td><b class="ovsrc__nm">Code host</b></td><td>GitHub</td><td>Real time</td><td>As it happens</td></tr>
-            <tr data-type="work" data-freq="hourly"><td><b class="ovsrc__nm">Work tracker</b></td><td>Jira</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
-            <tr data-type="ticketing" data-freq="hourly"><td><b class="ovsrc__nm">Ticketing system</b></td><td>ServiceNow</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
-            <tr data-type="activity" data-freq="realtime"><td><b class="ovsrc__nm">Agent activity records</b></td><td>Your observability tool</td><td>Real time</td><td>As it happens</td></tr>
-            <tr data-type="identity" data-freq="daily"><td><b class="ovsrc__nm">Sign-in records</b></td><td>Your identity provider</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
-            <tr data-type="devices" data-freq="daily"><td><b class="ovsrc__nm">Network and browser records</b></td><td>Your device management</td><td>14 Oct, 05:00</td><td>Daily</td></tr>
-            <tr data-type="gateway" data-freq="realtime"><td><b class="ovsrc__nm">API gateway</b></td><td>Where your teams&rsquo; AI calls pass</td><td>Real time</td><td>As it happens</td></tr>
-            <tr data-type="registry" data-freq="realtime"><td><b class="ovsrc__nm">Agent registry</b></td><td>Your agent registry</td><td>Real time</td><td>As it happens</td></tr>
-            <tr data-type="finance" data-freq="monthly"><td><b class="ovsrc__nm">Finance invoices</b></td><td>Monthly upload</td><td>Upload of 5 Oct</td><td>Next upload due 5 Nov</td></tr>
+            <tr data-type="people" data-freq="daily"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/workday.png" alt="">Staff directory</b></td><td>Workday</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
+            <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/openai.png" alt="">ChatGPT Enterprise admin</b></td><td>Seat vendor</td><td>13 Oct, 23:00</td><td>Daily. OpenAI publishes once a day</td></tr>
+            <tr data-type="seats" data-freq="daily"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/claude.png" alt="">Claude for Work admin</b></td><td>Seat vendor</td><td>13 Oct, 23:10</td><td>Daily. Anthropic publishes once a day</td></tr>
+            <tr data-type="code" data-freq="realtime"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/git.png" alt="">Code host</b></td><td>GitHub</td><td>Real time</td><td>As it happens</td></tr>
+            <tr data-type="work" data-freq="hourly"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/jira.png" alt="">Work tracker</b></td><td>Jira</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
+            <tr data-type="ticketing" data-freq="hourly"><td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/servicenow.png" alt="">Ticketing system</b></td><td>ServiceNow</td><td>14 Oct, 09:00</td><td>Hourly</td></tr>
+            <tr data-type="activity" data-freq="realtime"><td><b class="ovsrc__nm has-lg"><span class="src-lg src-lg--ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2.5-6 4 12 2.5-6H21"/></svg></span>Agent activity records</b></td><td>Your observability tool</td><td>Real time</td><td>As it happens</td></tr>
+            <tr data-type="identity" data-freq="daily"><td><b class="ovsrc__nm has-lg"><span class="src-lg src-lg--ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="12" r="3.5"/><path d="M12.5 12H21M18 12v3M15.5 12v2"/></svg></span>Sign-in records</b></td><td>Your identity provider</td><td>14 Oct, 06:00</td><td>Daily, 06:00</td></tr>
+            <tr data-type="devices" data-freq="daily"><td><b class="ovsrc__nm has-lg"><span class="src-lg src-lg--ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span>Network and browser records</b></td><td>Your device management</td><td>14 Oct, 05:00</td><td>Daily</td></tr>
+            <tr data-type="gateway" data-freq="realtime"><td><b class="ovsrc__nm has-lg"><span class="src-lg src-lg--ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></svg></span>API gateway</b></td><td>Where your teams&rsquo; AI calls pass</td><td>Real time</td><td>As it happens</td></tr>
+            <tr data-type="registry" data-freq="realtime"><td><b class="ovsrc__nm has-lg"><span class="src-lg src-lg--ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="2.5"/><path d="M12 4v4M9.5 13.5h.01M14.5 13.5h.01"/></svg></span>Agent registry</b></td><td>Your agent registry</td><td>Real time</td><td>As it happens</td></tr>
+            <tr data-type="finance" data-freq="monthly"><td><b class="ovsrc__nm has-lg"><span class="src-lg src-lg--ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3.5h10A1.5 1.5 0 0 1 18.5 5v15.5L16 19l-2 1.5-2-1.5-2 1.5-2-1.5-2.5 1.5V5A1.5 1.5 0 0 1 7 3.5zM9 8.5h6M9 12h6"/></svg></span>Finance invoices</b></td><td>Monthly upload</td><td>Upload of 5 Oct</td><td>Next upload due 5 Nov</td></tr>
           </tbody>
         </table></div></div>
 
@@ -1671,7 +1787,7 @@
           <thead><tr><th>Source</th><th>Type</th><th>Last updated</th><th>Next update</th></tr></thead>
           <tbody>
             <tr data-type="seats" data-freq="daily" data-status="stale">
-              <td><b class="ovsrc__nm">Microsoft 365 admin</b></td><td>Seat vendor</td>
+              <td><b class="ovsrc__nm has-lg"><img class="src-lg" src="icons/microsoft.png" alt="">Microsoft 365 admin</b></td><td>Seat vendor</td>
               <td><span class="stat">Stale</span><span class="ovsrc__as">7 Oct</span></td>
               <td><b class="ovsrc__nm">Normally daily. Microsoft has not published since 7 Oct.</b><span class="ovsrc__sub">Microsoft 365 Copilot figures carry &ldquo;as of 7 Oct&rdquo; wherever they appear. Cygnos reads again as soon as Microsoft publishes.</span></td>
             </tr>
@@ -1761,31 +1877,10 @@
         <aside class="ov-chard br-ask" aria-labelledby="br-ask-h">
           <h2 class="br-ask__h" id="br-ask-h">Ask for a Brief</h2>
           <p class="br-ask__p">The same Brief, for any period: monthly, now, or dates you choose.</p>
-          <div class="br-ask__dates" id="askDates">
-            <label>From<input class="rp__in" id="askFrom" type="text" placeholder="MM / DD / YYYY" value="10 / 01 / 2026" aria-label="From date" aria-haspopup="dialog"></label>
-            <label>To<input class="rp__in" id="askTo" type="text" placeholder="MM / DD / YYYY" value="10 / 14 / 2026" aria-label="To date" aria-haspopup="dialog"></label>
-            <div class="ov-dd__pop rp rp--ask" id="askPop" role="dialog" aria-label="Choose dates" hidden>
-              <div class="rp__main">
-                <div class="rp__cals">
-                  <div class="rp__cal">
-                    <div class="rp__hd"><button type="button" class="rp__nav" id="askPrev" aria-label="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button type="button" class="rp__ttl" id="askTL" aria-label="Choose month"></button><span class="rp__sp"></span></div>
-                    <div class="rp__grid" id="askL"></div>
-                  </div>
-                  <div class="rp__cal">
-                    <div class="rp__hd"><span class="rp__sp"></span><button type="button" class="rp__ttl" id="askTR" aria-label="Choose month"></button><button type="button" class="rp__nav" id="askNext" aria-label="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
-                    <div class="rp__grid" id="askR"></div>
-                  </div>
-                </div>
-                <div class="rp__foot">
-                  <span class="rp__note"></span>
-                  <button type="button" class="rp__clear" id="askClear">Clear</button>
-                  <button type="button" class="rp__apply" id="askApply">Apply</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          
           <p class="br-ask__note">Readings start on 2 Mar 2026, when Cygnos connected.</p>
-          <button type="button" class="tbtn tbtn--primary br-ask__go">Prepare this Brief</button>
+          <img class="br-ask__art" src="icons/brief-small.png" alt="">
+          <button type="button" class="tbtn tbtn--primary br-ask__go">Create brief</button>
         </aside>
         </div>
         <div class="ftools ovsrc__tools" id="br-tools">
@@ -1816,7 +1911,6 @@
                     <div class="rp__foot"><span class="rp__note"></span><button type="button" class="rp__clear" id="bfClear">Clear</button><button type="button" class="rp__apply" id="bfApply">Apply</button></div>
                   </div>
                 </div></span>
-              <span class="ovpw"><button type="button" class="pillbtn" data-f="kind"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Change</span></button></span>
               <button type="button" class="pillclear" id="br-clear" hidden>Clear filters</button>
             </div>
             <button type="button" class="tbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M8 7l4-4 4 4M5 13v6.5h14V13"/></svg> Export</button>
@@ -1854,17 +1948,13 @@
           <h1>AI landscape</h1>
           <p>The AI your people use and the AI your teams build on, in one view.</p>
         </div>
-        <div class="al-attn" role="group" aria-label="Needs attention">
-          <div class="al-attn__h">Needs attention <b>2</b></div>
-          <a href="#" class="al-open al-attn__row" data-go="findings"><span class="al-attn__n">AI note-taking tool<small>Not approved, used by 11 people</small></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
-          <a href="#" class="al-open al-attn__row" data-go="findings"><span class="al-attn__n">Client-intake agent<small>No named owner, past its deadline</small></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
-        </div>
+        <button type="button" class="al-attn al-attn--box" id="al-attn-go" aria-label="Needs attention, 2: go to the agents section"><span class="al-attn__h">Needs attention <b>2</b></span></button>
       </section>
       <section class="al-page" aria-label="AI landscape">        <article class="al-sec">
           <header class="al-sec__h"><span class="al-sec__t">Where AI stands</span></header>
           <div class="al-sec__b">
                         <div class="al-stats">
-              <div class="al-stat"><b>$184,300 <small>spent in Sept</small></b><div class="al-sbar" aria-hidden="true"><i style="width:54.9%;background:#262626;color:#fff">$101,340</i><i style="width:45.1%;background:#d3d8e0;color:#1a1f36">$82,960</i></div><div class="al-sbar__k"><span><i style="background:#262626"></i>AI tools <b>55%</b></span><span><i style="background:#d3d8e0"></i>AI services <b>45%</b></span></div><span class="al-stat__src">From invoices</span></div>
+              <div class="al-stat"><b>$184,300 <small>spent in Sept</small></b><div class="al-sbar" aria-hidden="true"><i style="width:54.9%;background:#ee8fbd;color:#6e1747">$101,340</i><i style="width:45.1%;background:#fbc9e0;color:#6e1747">$82,960</i></div><div class="al-sbar__k"><span><i style="background:#ee8fbd"></i>AI tools <b>55%</b></span><span><i style="background:#fbc9e0"></i>AI services <b>45%</b></span></div><span class="al-stat__src">From invoices</span></div>
               <div class="al-stat"><b>1,212 <small>of 1,840</small></b><div class="al-pbar"><span class="al-pbar__t" aria-hidden="true"><i style="width:66%"></i></span><b>66%</b></div><span class="al-stat__l al-stat__l--low">People used AI in September</span><span class="al-stat__src">From seat vendors</span></div>
               <div class="al-stat"><b>4</b><span class="al-stat__l al-stat__l--low">Agents your teams built</span><span class="al-stat__src">From agent registry</span></div>
 
@@ -1879,7 +1969,7 @@
             <thead><tr><th>Tool</th><th>Teams</th><th class="al-r">Seats</th><th class="al-r">Used in Sept</th><th class="al-r">Sept spend, from invoices</th></tr></thead>
             <tbody>
               <tr><td><b class="ovsrc__nm">ChatGPT Enterprise</b><small class="al-sub"><img class="al-vl" src="icons/openai.png" alt="">OpenAI</small></td><td>All teams</td><td class="al-r">900</td><td class="al-r">812</td><td class="al-r">$54,000</td></tr>
-              <tr><td><b class="ovsrc__nm">Claude for Work</b><small class="al-sub"><img class="al-vl" src="icons/anthropic.png" alt="">Anthropic</small></td><td>Advisory, Delivery</td><td class="al-r">600</td><td class="al-r">571</td><td class="al-r">$18,000</td></tr>
+              <tr><td><b class="ovsrc__nm">Claude for Work</b><small class="al-sub"><img class="al-vl" src="icons/anthropic%20(2).png" alt="">Anthropic</small></td><td>Advisory, Delivery</td><td class="al-r">600</td><td class="al-r">571</td><td class="al-r">$18,000</td></tr>
               <tr><td><b class="ovsrc__nm">Microsoft 365 Copilot</b><small class="al-sub"><img class="al-vl" src="icons/microsoft.png" alt="">Microsoft</small></td><td>All teams</td><td class="al-r">640</td><td class="al-r">611</td><td class="al-r">$19,200</td></tr>
               <tr><td><b class="ovsrc__nm">GitHub Copilot</b><small class="al-sub"><img class="al-vl" src="icons/git.png" alt="">GitHub</small></td><td>Delivery, Engineering</td><td class="al-r">520</td><td class="al-r">498</td><td class="al-r">$10,140</td></tr>
               <tr><td><b class="ovsrc__nm">AI note-taking tool</b><small class="al-sub">Not under contract</small></td><td>Sales</td><td class="al-r"><span class="dr-st dr-st--bad">Not approved</span></td><td class="al-r">11</td><td class="al-r"><span class="al-na">Not on your invoices</span></td></tr>
@@ -1892,15 +1982,15 @@
           <div class="al-sec__row"><p class="al-sec__p">The services behind the agents and tools your teams built, and how each is billed. On a flat monthly commitment, using less does not lower the bill.</p><button type="button" class="tbtn" id="al-spend">Spend Discipline<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
           <div class="al-split">
           <div class="ovsrc__card al-donutc">
-            <div class="al-dnc__ring"><svg class="al-dn" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15.9155" fill="none" stroke="#262626" stroke-width="4" stroke-dasharray="41.1 58.9" transform="rotate(-90 18 18)"/><circle cx="18" cy="18" r="15.9155" fill="none" stroke="#7a828f" stroke-width="4" stroke-dasharray="27 73" stroke-dashoffset="-41.1" transform="rotate(-90 18 18)"/><circle cx="18" cy="18" r="15.9155" fill="none" stroke="#d3d8e0" stroke-width="4" stroke-dasharray="31.9 68.1" stroke-dashoffset="-68.1" transform="rotate(-90 18 18)"/></svg><div class="al-dn__c"><b>$82,960</b><span>Sept spend, from invoices</span></div></div></div>
+            <div class="al-dnc__ring"><svg class="al-dn" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15.9155" fill="none" stroke="#f28b4a" stroke-width="4" stroke-dasharray="41.1 58.9" transform="rotate(-90 18 18)"/><circle cx="18" cy="18" r="15.9155" fill="none" stroke="#7cc9ba" stroke-width="4" stroke-dasharray="27 73" stroke-dashoffset="-41.1" transform="rotate(-90 18 18)"/><circle cx="18" cy="18" r="15.9155" fill="none" stroke="#5b8ff0" stroke-width="4" stroke-dasharray="31.9 68.1" stroke-dashoffset="-68.1" transform="rotate(-90 18 18)"/></svg><div class="al-dn__c"><b>$82,960</b><span>Sept spend, from invoices</span></div></div><div class="al-sbar__k al-dnl"><span><i style="background:#f28b4a"></i>Anthropic API <b>41%</b></span><span><i style="background:#5b8ff0"></i>Vertex AI <b>32%</b></span><span><i style="background:#7cc9ba"></i>OpenAI API <b>27%</b></span></div></div>
           <div class="ovsrc__card">
             <div class="tablewrap"><table class="ftable al-table">
               <colgroup><col style="width:29%"><col style="width:31%"><col style="width:22%"><col style="width:18%"></colgroup>
               <thead><tr><th>Service</th><th>What runs on it</th><th>Billing</th><th class="al-r">Sept spend</th></tr></thead>
               <tbody>
-                <tr><td><b class="ovsrc__nm"><i class="al-dnd" style="background:#262626"></i>Anthropic API</b><small class="al-sub"><img class="al-vl" src="icons/anthropic.png" alt="">Anthropic</small></td><td>Support agent, proposal-writing assistant</td><td>Flat monthly commitment</td><td class="al-r">$34,100<small class="al-sub">41%</small></td></tr>
-                <tr><td><b class="ovsrc__nm"><i class="al-dnd" style="background:#d3d8e0"></i>Vertex AI</b><small class="al-sub"><img class="al-vl" src="icons/Google-G-Logo-PNG-Image.png" alt="">Google</small></td><td>Code-review bot, data team</td><td>Paid by use</td><td class="al-r">$26,460<small class="al-sub">32%</small></td></tr>
-                <tr><td><b class="ovsrc__nm"><i class="al-dnd" style="background:#7a828f"></i>OpenAI API</b><small class="al-sub"><img class="al-vl" src="icons/openai.png" alt="">OpenAI</small></td><td>Client-intake agent, internal tools</td><td>Paid by use</td><td class="al-r">$22,400<small class="al-sub">27%</small></td></tr>
+                <tr><td><b class="ovsrc__nm">Anthropic API</b><small class="al-sub" style="color:#c2561a"><img class="al-vl" src="icons/anthropic%20(2).png" alt="">Anthropic</small></td><td>Support agent, proposal-writing assistant</td><td>Flat monthly commitment</td><td class="al-r">$34,100</td></tr>
+                <tr><td><b class="ovsrc__nm">Vertex AI</b><small class="al-sub" style="color:#2a5fc4"><img class="al-vl" src="icons/Google-G-Logo-PNG-Image.png" alt="">Google</small></td><td>Code-review bot, data team</td><td>Paid by use</td><td class="al-r">$26,460</td></tr>
+                <tr><td><b class="ovsrc__nm">OpenAI API</b><small class="al-sub" style="color:#2f8f7e"><img class="al-vl" src="icons/openai.png" alt="">OpenAI</small></td><td>Client-intake agent, internal tools</td><td>Paid by use</td><td class="al-r">$22,400</td></tr>
               </tbody>
             </table></div></div>
         </div>
@@ -1910,13 +2000,13 @@
           <header class="al-sec__h"><span class="al-sec__t">Agents your teams built</span></header>
           <div class="al-sec__row"><p class="al-sec__p">Each agent, the team that runs it, who is accountable for it, and how it is holding up.</p><button type="button" class="tbtn" id="al-rel">Reliability<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
           <div class="ovsrc__card"><div class="tablewrap"><table class="ftable al-table al-agents">
-            <colgroup><col style="width:17%"><col style="width:13%"><col style="width:12%"><col style="width:13%"><col style="width:17%"><col style="width:9%"><col style="width:19%"></colgroup>
-            <thead><tr><th>Agent name</th><th>Team</th><th>Runs on</th><th>Owner</th><th>How it is holding up</th><th>Priority</th><th></th></tr></thead>
+            <colgroup><col style="width:16%"><col style="width:15%"><col style="width:13%"><col style="width:13%"><col style="width:17%"><col style="width:12%"><col style="width:14%"></colgroup>
+            <thead><tr><th>Agent name</th><th>Team</th><th>Runs on</th><th>Owner</th><th>How it is holding up</th><th>Priority</th><th>Status</th></tr></thead>
             <tbody>
-              <tr><td><b class="ovsrc__nm">Support agent</b></td><td>Customer Support</td><td>Anthropic API</td><td>Engineering lead</td><td>Error rate 6%</td><td><span class="prio prio--high"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>High</span></td><td><span class="dr-st dr-st--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 20h18.4L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>Needs attention</span></td></tr>
-              <tr><td><b class="ovsrc__nm">Client-intake agent</b></td><td>Sales operations</td><td>OpenAI API</td><td><span class="al-none">No named owner</span></td><td>Nobody is accountable for it. Moved up on 22 Sep, the day after its deadline. In the executive team&rsquo;s Brief from 14 Oct.</td><td><span class="stat stat--overdue al-od">Overdue</span></td><td><span class="dr-st dr-st--bad"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></svg>Act now</span></td></tr>
-              <tr><td><b class="ovsrc__nm">Proposal-writing assistant</b></td><td>Advisory</td><td>Anthropic API</td><td>Advisory platform team</td><td>44% slower since 2 Oct</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="dr-st dr-st--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 20h18.4L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>Needs attention</span></td></tr>
-              <tr><td><b class="ovsrc__nm">Code-review bot</b></td><td>Delivery</td><td>Vertex AI</td><td>Delivery engineering</td><td>Steady</td><td class="al-na">&mdash;</td><td><span class="dr-st dr-st--ok"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>On track</span></td></tr>
+              <tr data-state="warn"><td><b class="ovsrc__nm">Support agent</b></td><td>Customer Support</td><td>Anthropic API</td><td>Engineering lead</td><td>Error rate 6%</td><td><span class="prio prio--high"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>High</span></td><td><span class="stat stat--open">Open</span></td></tr>
+              <tr data-state="bad"><td><b class="ovsrc__nm">Client-intake agent</b></td><td>Sales operations</td><td>OpenAI API</td><td><span class="al-none">No named owner</span></td><td>Nobody is accountable for it. Moved up on 22 Sep, the day after its deadline. In the executive team&rsquo;s Brief from 14 Oct.</td><td><span class="prio prio--high"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>High</span></td><td><span class="stat stat--overdue">Overdue</span></td></tr>
+              <tr data-state="warn"><td><b class="ovsrc__nm">Proposal-writing assistant</b></td><td>Advisory</td><td>Anthropic API</td><td>Advisory platform team</td><td>44% slower since 2 Oct</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="stat stat--open">Open</span></td></tr>
+              <tr data-state="ok"><td><b class="ovsrc__nm">Code-review bot</b></td><td>Delivery</td><td>Vertex AI</td><td>Delivery engineering</td><td>Steady</td><td class="al-na">&mdash;</td><td class="al-na">&mdash;</td></tr>
             </tbody>
           </table></div></div>
         </article>
@@ -1949,7 +2039,7 @@
           <label class="fsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search" aria-label="Search findings"></label>
           <div class="fpills">
             <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Property</button>
-            <button type="button" class="pillbtn" data-date><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Date and time</button>
+            <button type="button" class="pillbtn" data-date><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Date</button>
             <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Status</button>
             <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Due date</button>
             <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> More filters</button>
@@ -2160,14 +2250,13 @@
       /* Date range: findings found between two moments (date and time). Open ended is fine: set only From or only To. */
       var range = null, datePill = wrap.querySelector('[data-date]');
       var dEl = document.createElement('div');
-      dEl.className = 'fpop fpop--date'; dEl.hidden = true; dEl.setAttribute('role', 'dialog'); dEl.setAttribute('aria-label', 'Filter by date and time');
-      dEl.innerHTML = '<div class="fdate__head"><h3>Filter by Date and time</h3><button type="button" class="fdate__clear">Clear</button></div><div class="fdate"><label><span>From</span><input type="datetime-local" class="fdate__from"></label><label><span>To</span><input type="datetime-local" class="fdate__to"></label></div>' +
-        '<div class="ftz" role="radiogroup" aria-label="Time zone"><span>Time zone</span><label><input type="radio" name="ftz" value="7" checked><i></i>GMT+7</label><label><input type="radio" name="ftz" value="0"><i></i>UTC</label></div>' +
+      dEl.className = 'fpop fpop--date'; dEl.hidden = true; dEl.setAttribute('role', 'dialog'); dEl.setAttribute('aria-label', 'Filter by date');
+      dEl.innerHTML = '<div class="fdate__head"><h3>Filter by Date</h3><button type="button" class="fdate__clear">Clear</button></div><div class="fdate"><label><span>From</span><input type="date" class="fdate__from"></label><label><span>To</span><input type="date" class="fdate__to"></label></div>' +
         '<button type="button" class="fpop__apply">Apply</button>';
       wrap.appendChild(dEl);
-      pops.push({ el: dEl, pill: datePill, label: 'Date and time', date: true });
+      pops.push({ el: dEl, pill: datePill, label: 'Date', date: true });
       var dFrom = dEl.querySelector('.fdate__from'), dTo = dEl.querySelector('.fdate__to');
-      function clearDate() { range = null; dFrom.value = ''; dTo.value = ''; datePill.lastChild.textContent = ' Date and time'; datePill.classList.remove('is-active'); }
+      function clearDate() { range = null; dFrom.value = ''; dTo.value = ''; datePill.lastChild.textContent = ' Date'; datePill.classList.remove('is-active'); }
       datePill.setAttribute('aria-haspopup', 'dialog'); datePill.setAttribute('aria-expanded', 'false');
       datePill.addEventListener('click', function () {
         var open = dEl.hidden; closeAll(dEl);
@@ -2176,13 +2265,15 @@
         dEl.hidden = false; datePill.setAttribute('aria-expanded', 'true'); dFrom.focus();
       });
       dEl.querySelector('.fpop__apply').addEventListener('click', function () {
-        var off = +dEl.querySelector('input[name="ftz"]:checked').value, a = stamp2(dFrom.value, off), b = stamp2(dTo.value, off);
-        if (a !== null && b !== null && a > b) { var x = a; a = b; b = x; var fv = dFrom.value; dFrom.value = dTo.value; dTo.value = fv; }
-        if (!a && !b) clearDate(); else { range = { from: a, to: b }; datePill.lastChild.textContent = ' Date and time \u00b7 1'; datePill.classList.add('is-active'); }
+        var off = 7;
+        if (dFrom.value && dTo.value && dFrom.value > dTo.value) { var fv = dFrom.value; dFrom.value = dTo.value; dTo.value = fv; }
+        var a = stamp2(dFrom.value, off, false), b = stamp2(dTo.value, off, true);
+        if (!a && !b) clearDate(); else { range = { from: a, to: b }; datePill.lastChild.textContent = ' Date \u00b7 1'; datePill.classList.add('is-active'); }
         dEl.hidden = true; datePill.setAttribute('aria-expanded', 'false'); apply(); datePill.focus();
       });
       dEl.querySelector('.fdate__clear').addEventListener('click', function () { clearDate(); dEl.hidden = true; datePill.setAttribute('aria-expanded', 'false'); apply(); });
-      function stamp2(v, off) { if (!v) return null; var m = /^(\d+)-(\d+)-(\d+)T(\d+):(\d+)$/.exec(v); return m ? Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]) - off * 36e5 : null; }
+      /* a date only: From counts from the start of that day, To up to the end of it */
+      function stamp2(v, off, end) { if (!v) return null; var m = /^(\d+)-(\d+)-(\d+)$/.exec(v); return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) - off * 36e5 + (end ? 864e5 - 1 : 0) : null; }
       function toLocal(d) { function z(n) { return (n < 10 ? '0' : '') + n; } return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate()) + 'T' + z(d.getHours()) + ':' + z(d.getMinutes()); }
       document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) closeAll(); });
       document.addEventListener('keydown', function (e) {
@@ -2284,7 +2375,7 @@
         pops[k].btn.classList.toggle('is-active', n > 0);
       }
       function apply() {
-        var q = search.value.trim().toLowerCase(), any = { ok: 0, stale: 0 };
+        var q = search ? search.value.trim().toLowerCase() : '', any = { ok: 0, stale: 0 };
         rows.forEach(function (r) {
           var st = r.getAttribute('data-status') || 'ok';
           var show = (!applied.type.length || applied.type.indexOf(r.getAttribute('data-type')) > -1) &&
@@ -2323,9 +2414,9 @@
       });
       document.addEventListener('click', function () { closeAll(null); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(null); });
-      search.addEventListener('input', apply);
+      if (search) search.addEventListener('input', apply);
       clear.addEventListener('click', function () {
-        applied = { type: [], freq: [], status: [] }; search.value = '';
+        applied = { type: [], freq: [], status: [] }; if (search) search.value = '';
         Object.keys(pops).forEach(label); apply();
       });
       /* folding a list by hand must survive filtering */
@@ -2532,6 +2623,14 @@
     <div class="dp__foot" id="ag-foot"></div>
   </aside>
   <div class="dp-scrim" id="ag-scrim" aria-hidden="true"></div>
+  <aside class="dp" id="nt" role="dialog" aria-modal="true" aria-labelledby="nt-title" aria-hidden="true">
+    <div class="dp__bar"><button type="button" class="dbtn" id="nt-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dp__scroll">
+      <h2 class="dp__title" id="nt-title">Notifications</h2>
+      <div id="nt-body"></div>
+    </div>
+  </aside>
+  <div class="dp-scrim" id="nt-scrim" aria-hidden="true"></div>
   <div class="mo" id="bmo" role="dialog" aria-modal="true" aria-labelledby="bmo-t" hidden>
     <div class="mo__box">
       <div class="mo__bar"><span></span><div class="mo__title"><h2 id="bmo-t"></h2><span class="fd-bar__id" id="bmo-id"></span></div><button type="button" class="dbtn" id="bmo-x" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
@@ -3319,7 +3418,7 @@
       var scoreLink = links[2];
       scoreLink.addEventListener('click', function (e) { e.preventDefault(); var sf = document.getElementById('score-frame'); sf.hidden = false; sf.style.display = 'block'; });
       window.addEventListener('message', function (e) {
-        if (!e.data || !e.data.cygGo) return;
+        if (!e.data || !e.data.cygGo || e.data.cygGo === 'briefs' || e.data.cygGo === 'landscape') return;
         var sf2 = document.getElementById('score-frame'); sf2.hidden = true; sf2.style.display = 'none'; show(e.data.cygGo === 'overview', e.data.cygGo === 'sources', false, e.data.cygGo === 'drivers');
       });
       Array.prototype.forEach.call(document.querySelectorAll('.ovsrc__bar a.tbtn'), function (a) { a.addEventListener('click', function (e) { e.preventDefault(); show(false, true); }); });
@@ -3970,9 +4069,7 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       var rows = Array.prototype.slice.call(root.querySelectorAll('tbody tr[data-kind]'));
       var search = document.getElementById('br-search'), clear = document.getElementById('br-clear'), empty = document.getElementById('br-empty'), card = document.getElementById('br-card'), head = document.getElementById('br-head');
       var cards = Array.prototype.slice.call(root.querySelectorAll('.brcard')), tab = 'all';
-      var OPTS = {
-        kind: { title: 'Change', list: [['up', 'Improved'], ['down', 'Dropped']] }
-      };
+      var OPTS = {}; /* the Change filter was removed; applied.kind stays empty */
       var applied = { month: [], kind: [] }, pops = {}, range = null;
       function closeAll(except) { Object.keys(pops).forEach(function (k) { if (pops[k].el !== except) { pops[k].el.hidden = true; pops[k].btn.setAttribute('aria-expanded', 'false'); } }); }
       function label(k) {
@@ -4010,7 +4107,7 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
         });
       });
       document.addEventListener('click', function () { closeAll(null); });
-      search.addEventListener('input', apply);
+      if (search) search.addEventListener('input', apply);
       clear.addEventListener('click', function () { applied = { month: [], kind: [] }; range = null; rs = re = null; picked = ''; setLabel(); search.value = ''; Object.keys(pops).forEach(label); apply(); });
       /* Issued filter: presets plus the same two-month calendar as the Date Range picker */
       var bfWrap = document.getElementById('bfWrap'), bfBtn = document.getElementById('bfBtn'), bfPop = document.getElementById('bfPop');
@@ -4242,8 +4339,8 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       });
       document.addEventListener('click', function () { closeAll(null); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(null); });
-      search.addEventListener('input', apply);
-      clear.addEventListener('click', function () { applied = { type: [], freq: [], status: [] }; search.value = ''; Object.keys(pops).forEach(label); apply(); });
+      if (search) search.addEventListener('input', apply);
+      clear.addEventListener('click', function () { applied = { type: [], freq: [], status: [] }; if (search) search.value = ''; Object.keys(pops).forEach(label); apply(); });
       Array.prototype.forEach.call(root.querySelectorAll('.fold'), function (btn) {
         var name = btn.getAttribute('data-name') || 'this list';
         btn.addEventListener('click', function () {
@@ -4490,7 +4587,7 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       align-items: center;
       gap: 24px;
       height: 48px;
-      margin-top: 2px;
+      margin-top: 18px;
     }
 
     .top__right { display: flex; align-items: center; gap: 22px; margin-left: auto; color: #4f566b; }
@@ -4930,9 +5027,26 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
     .ov-dcard { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
     .ov-dcard__head { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--line); }
     .ov-dcard__head h2 { font-size: 16px; font-weight: 600; color: var(--ink); }
+    /* Profile menu in the top bar */
+    .prof { position: relative; }
+    .prof__btn { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: #4f566b; transition: background .12s ease, border-color .12s ease; }
+    .prof__btn:hover, .prof__btn[aria-expanded=&quot;true&quot;] { background: var(--panel); border-color: #d5dbe4; color: var(--ink); }
+    .prof__btn:focus-visible { outline: 2px solid #262626; outline-offset: 2px; }
+    .prof__btn .ico { width: 16px; height: 16px; }
+    .prof__menu { position: absolute; z-index: 50; top: calc(100% + 6px); right: 0; width: 210px; padding: 4px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 8px 24px rgba(26, 31, 54, .12); }
+    .prof__menu[hidden] { display: none; }
+    .prof__who { padding: 7px 10px 9px; border-bottom: 1px solid #edf0f4; margin-bottom: 4px; }
+    .prof__who b { display: block; font-size: 13px; font-weight: 600; color: var(--ink); }
+    .prof__who span { display: block; margin-top: 1px; font-size: 12px; color: var(--muted); }
+    .prof__item { display: flex; align-items: center; gap: 9px; width: 100%; padding: 7px 10px; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--ink); text-align: left; }
+    .prof__item:hover, .prof__item:focus-visible { background: var(--panel); outline: none; }
+    .prof__item .ico { width: 15px; height: 15px; color: #6b7385; }
     .ov-dial__i { display: grid; place-items: center; color: #98a1b2; cursor: help; }
     .ov-dial__i .ico { width: 15px; height: 15px; }
-    .ov-dcard__body { padding: 16px 20px 20px; }
+    .ov-dial__i { position: relative; }
+    .ov-dial__i:focus-visible { outline: 2px solid #262626; outline-offset: 2px; border-radius: 50%; }
+    .ov-tip { position: absolute; z-index: 30; top: calc(100% + 8px); left: 50%; width: 220px; padding: 9px 12px; border-radius: 8px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .14), 0 0 0 1px rgba(26, 31, 54, .06); font-size: 12.5px; font-weight: 400; line-height: 1.45; color: var(--text); cursor: default; opacity: 0; visibility: hidden; transform: translate(-50%, -2px); transition: opacity .12s ease, transform .12s ease, visibility .12s; pointer-events: none; }
+    .ov-dial__i:hover .ov-tip, .ov-dial__i:focus .ov-tip, .ov-dial__i:focus-visible .ov-tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); }    .ov-dcard__body { padding: 16px 20px 20px; }
     .ov-dial__wrap { position: relative; width: 100%; max-width: 280px; margin: 0 auto; }
     .ov-dial__svg { display: block; width: 100%; height: auto; }
     .ov-dial__c { position: absolute; left: 0; right: 0; top: 46%; display: grid; justify-items: center; }
@@ -5044,12 +5158,41 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
     .g4__more { order: 4; display: none; margin-top: 8px; }
     .g4__cell.is-open .g4__more { display: block; }
     .g4__item { margin-top: 12px; padding-top: 12px; border-top: 1px solid #edf0f4; }
-    .g4__ih { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .g4__ih { display: flex; flex-direction: row-reverse; align-items: center; justify-content: flex-end; gap: 10px; }
     .g4__ih h4 { margin: 0; font-size: 14px; font-weight: 600; color: var(--ink); }
-    .g4 .g4__ih b { display: block; margin: 0; font-size: 18px; font-weight: 600; line-height: 1.2; }
+    .g4 .g4__ih b { display: grid; place-items: center; flex: none; min-width: 40px; margin: 0; padding: 3px 8px; border-radius: 6px; background: var(--panel); font-size: 14px; font-weight: 600; line-height: 1.3; }
+    .g4 .g4__ih b.up { background: #e3f5ea; }
+    .g4 .g4__ih b.dn { background: #fdecea; }
     .g4__item p { margin-top: 4px; font-size: 13px; line-height: 1.5; color: var(--muted); }
     .g4__item p.g4__note { margin-top: 6px; font-size: 12.5px; color: #8892a4; }
     .g4__item p.g4__note b { color: var(--ink); }
+    /* Score drivers: each item opens a side panel, the same panel style as a finding. */
+    .g4__item[role=&quot;button&quot;] { cursor: pointer; }
+    .g4__item[role=&quot;button&quot;]:hover h4 { text-decoration: underline; text-underline-offset: 3px; }
+    .g4__item[role=&quot;button&quot;]:focus-visible { outline: 2px solid #262626; outline-offset: 4px; border-radius: 6px; }
+    .dp { position: fixed; z-index: 40; top: 0; right: 0; bottom: 0; display: flex; flex-direction: column; width: min(440px, 100vw); background: #fff; border-left: 1px solid var(--line); box-shadow: -12px 0 32px rgba(26, 31, 54, .10); visibility: hidden; opacity: 0; transform: translateX(28px); transition: transform .22s ease, opacity .18s ease, visibility 0s linear .22s; }
+    .dp.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+    .dp__bar { display: flex; flex: none; align-items: center; justify-content: flex-end; gap: 2px; height: 52px; padding: 0 16px; }
+    .dbtn { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 6px; color: #4f566b; }
+    .dbtn:hover { background: #f1f3f7; color: var(--ink); }
+    .dbtn .ico { width: 17px; height: 17px; }
+    .dp__scroll { flex: 1; overflow-y: auto; padding: 0 24px 36px; }
+    .dp__title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.35; letter-spacing: -.005em; color: var(--ink); }
+    .dp-props { display: grid; gap: 2px; margin: 18px 0 0; }
+    .dp-prop { display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; min-height: 36px; }
+    .dp-prop dt { font-size: 13.5px; color: var(--muted); }
+    .dp-prop dd { display: flex; align-items: center; gap: 8px; min-width: 0; margin: 0; font-size: 14px; color: var(--ink); }
+    .ptb { display: grid; place-items: center; min-width: 40px; padding: 3px 8px; border-radius: 6px; background: var(--panel); font-size: 14px; font-weight: 600; line-height: 1.3; }
+    .ptb.up { background: #e3f5ea; color: #2a8a52; }
+    .ptb.dn { background: #fdecea; color: #c4352b; }
+    .dp-sec { margin-top: 22px; }
+    .dp-sec h3 { margin: 0 0 8px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+    .dp-p { margin: 4px 0 0; font-size: 14px; line-height: 1.6; color: #3b4252; }
+    .dp-p b { font-weight: 600; color: var(--ink); }
+    .dp-note { margin: 16px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+    .dp-scrim { position: fixed; inset: 0; z-index: 39; background: rgba(26, 31, 54, .38); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+    .dp-scrim.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+    @media (prefers-reduced-motion: reduce) { .dp, .dp-scrim { transition: none; } }
     .g4__exp { order: 5; display: inline-flex; align-items: center; gap: 6px; align-self: flex-end; margin-top: auto; padding: 4px 8px 4px 6px; border-radius: 6px; font-size: 13px; color: var(--muted); }
     .g4__cell p:not(.g4__note) { margin-bottom: 14px; }
     .g4__exp:hover { background: #f1f3f7; color: var(--ink); }
@@ -5145,6 +5288,7 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       <div class=&quot;top&quot;>
         <div class=&quot;top__right&quot;>
           <span class=&quot;bell&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0&quot;/></svg></span>
+          <div class=&quot;prof&quot;><button type=&quot;button&quot; class=&quot;prof__btn&quot; id=&quot;prof-btn&quot; aria-haspopup=&quot;menu&quot; aria-expanded=&quot;false&quot; aria-label=&quot;Account menu&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;4&quot;/><path d=&quot;M4.5 21a7.5 7.5 0 0 1 15 0&quot;/></svg></button><div class=&quot;prof__menu&quot; id=&quot;prof-menu&quot; role=&quot;menu&quot; hidden><div class=&quot;prof__who&quot;><b>Mark</b><span>Kestrel Vane Consulting</span></div><button type=&quot;button&quot; class=&quot;prof__item&quot; id=&quot;prof-out&quot; role=&quot;menuitem&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M9 4.5H6.5A1.5 1.5 0 0 0 5 6v12a1.5 1.5 0 0 0 1.5 1.5H9M15 8l4 4-4 4M19 12H9&quot;/></svg>Log out</button></div></div>
         </div>
       </div>
 
@@ -5155,7 +5299,7 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
 
       <section class=&quot;ov-dial&quot; aria-label=&quot;Cygnos IQ Score&quot;>
         <article class=&quot;ov-dcard&quot;>
-          <div class=&quot;ov-dcard__head&quot;><h2>Cygnos IQ Score</h2><span class=&quot;ov-dial__i&quot; title=&quot;The purple marker shows the safe score.&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/><path d=&quot;M12 11v5M12 8h.01&quot;/></svg></span></div>
+          <div class=&quot;ov-dcard__head&quot;><h2>Cygnos IQ Score</h2><span class=&quot;ov-dial__i&quot; tabindex=&quot;0&quot; aria-describedby=&quot;iq-tip&quot; aria-label=&quot;What the Cygnos IQ Score means&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/><path d=&quot;M12 11v5M12 8h.01&quot;/></svg><span class=&quot;ov-tip&quot; role=&quot;tooltip&quot; id=&quot;iq-tip&quot;>A score from 0 to 100 for the health of your company&amp;rsquo;s AI. Higher is healthier.</span></span></div>
           <div class=&quot;ov-dcard__body&quot;>
             <div class=&quot;ov-dial__wrap&quot;>
               <svg class=&quot;ov-dial__svg&quot; viewBox=&quot;0 0 240 166&quot; aria-hidden=&quot;true&quot;>
@@ -5259,8 +5403,8 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
           <h2>What drives your score</h2><a class=&quot;tbtn&quot; href=&quot;newv1.html#drivers&quot;>View all parts<svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;m9 6 6 6-6 6&quot;/></svg></a></div>
         <div class=&quot;g4&quot;>
           <div class=&quot;g4__cell is-open&quot;><span class=&quot;ov-ins__st ov-ins__st--warn&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M12 4 2.8 20h18.4L12 4z&quot;/><path d=&quot;M12 10v4.5M12 17.5h.01&quot;/></svg>Needs attention</span><h3>Value Delivered</h3><b class=&quot;pts up&quot;>+3<small> PTS</small></b><p>Delivery closes work items <b>12%</b> faster (AI&amp;rsquo;s part: strong signs). Managed Services&amp;rsquo; cost per ticket is <b>9%</b> above normal (no signs yet). Advisory can&amp;rsquo;t be read yet.</p><div class=&quot;g4__more&quot;><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Delivery</h4><b class=&quot;pts up&quot;>+4</b></div><p>Delivery closes work items <b>12%</b> faster than its normal range. AI&amp;rsquo;s part in the gain: strong signs.</p></div><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Managed Services</h4><b class=&quot;pts dn&quot;>&amp;minus;1</b></div><p>Managed Services&amp;rsquo; cost per ticket is <b>9%</b> above its normal range. AI&amp;rsquo;s part in the rise: no signs yet.</p></div></div><button type=&quot;button&quot; class=&quot;g4__exp&quot; aria-expanded=&quot;false&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 12h14&quot;/><path class=&quot;v&quot; d=&quot;M12 5v14&quot;/></svg><span>Expand</span></button></div>
-          <div class=&quot;g4__cell&quot;><span class=&quot;ov-ins__st ov-ins__st--bad&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/><path d=&quot;M12 7.5v5M12 16h.01&quot;/></svg>Act now</span><h3>Safe Use</h3><b class=&quot;pts dn&quot;>&amp;minus;4<small> PTS</small></b><p><b>14</b> AI seats are still active for people who have left. Sensitive-data protection is not measured yet.</p><div class=&quot;g4__more&quot;><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Access after people leave</h4><b class=&quot;pts dn&quot;>&amp;minus;3</b></div><p><b>14</b> AI seats are still active for people who have left; <b>3</b> were used in September.</p><dl class=&quot;dp-props g4__props&quot;><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;4&quot;/><path d=&quot;M4.5 21a7.5 7.5 0 0 1 15 0&quot;/></svg>Owner</dt><dd>IT admin team</dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/><path d=&quot;m8.5 12.5 2.5 2.5 4.5-5&quot;/></svg>Status</dt><dd><span class=&quot;stat stat--ack&quot;>Acknowledged</span></dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 21V4M5 4.5h12l-2.5 4 2.5 4H5&quot;/></svg>Priority</dt><dd><span class=&quot;prio prio--critical&quot;><svg class=&quot;flag&quot; viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;><path d=&quot;M3.5 14V2&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot;/><path d=&quot;M3.5 2.5h9L10 6l2.5 3.5h-9z&quot; fill=&quot;currentColor&quot;/></svg>Critical</span></dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><rect x=&quot;4&quot; y=&quot;5.5&quot; width=&quot;16&quot; height=&quot;14.5&quot; rx=&quot;2&quot;/><path d=&quot;M4 10h16M8.5 3.5v4M15.5 3.5v4&quot;/></svg>Due date</dt><dd>Fri 16 Oct</dd></div></dl></div><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Agents with a named owner</h4><b class=&quot;pts dn&quot;>&amp;minus;1</b></div><p>The client-intake agent has had no named owner since <b>14 September</b>. Moved up on <b>22 Sep</b>.</p><dl class=&quot;dp-props g4__props&quot;><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;4&quot;/><path d=&quot;M4.5 21a7.5 7.5 0 0 1 15 0&quot;/></svg>Owner</dt><dd>AI owner</dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/><path d=&quot;m8.5 12.5 2.5 2.5 4.5-5&quot;/></svg>Status</dt><dd><span class=&quot;stat stat--overdue&quot;>Overdue</span></dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 21V4M5 4.5h12l-2.5 4 2.5 4H5&quot;/></svg>Priority</dt><dd><span class=&quot;prio prio--high&quot;><svg class=&quot;flag&quot; viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;><path d=&quot;M3.5 14V2&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot;/><path d=&quot;M3.5 2.5h9L10 6l2.5 3.5h-9z&quot; fill=&quot;currentColor&quot;/></svg>High</span></dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><rect x=&quot;4&quot; y=&quot;5.5&quot; width=&quot;16&quot; height=&quot;14.5&quot; rx=&quot;2&quot;/><path d=&quot;M4 10h16M8.5 3.5v4M15.5 3.5v4&quot;/></svg>Due date</dt><dd>Mon 21 Sep</dd></div></dl></div></div><button type=&quot;button&quot; class=&quot;g4__exp&quot; aria-expanded=&quot;false&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 12h14&quot;/><path class=&quot;v&quot; d=&quot;M12 5v14&quot;/></svg><span>Expand</span></button></div>
-          <div class=&quot;g4__cell&quot;><span class=&quot;ov-ins__st ov-ins__st--warn&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M12 4 2.8 20h18.4L12 4z&quot;/><path d=&quot;M12 10v4.5M12 17.5h.01&quot;/></svg>Needs attention</span><h3>Reliability</h3><b class=&quot;pts dn&quot;>&amp;minus;1<small> PTS</small></b><p>Two vendor outages in September stopped the support agent for <b>47 minutes</b> in total.</p><div class=&quot;g4__more&quot;><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Dependence on one vendor</h4><b class=&quot;pts dn&quot;>&amp;minus;1</b></div><p>Two vendor outages in September stopped the support agent for <b>47 minutes</b> in total.</p><dl class=&quot;dp-props g4__props&quot;><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;8&quot; r=&quot;4&quot;/><path d=&quot;M4.5 21a7.5 7.5 0 0 1 15 0&quot;/></svg>Owner</dt><dd>Engineering lead</dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/><path d=&quot;m8.5 12.5 2.5 2.5 4.5-5&quot;/></svg>Status</dt><dd><span class=&quot;stat stat--open&quot;>Open</span></dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 21V4M5 4.5h12l-2.5 4 2.5 4H5&quot;/></svg>Priority</dt><dd><span class=&quot;prio prio--medium&quot;><svg class=&quot;flag&quot; viewBox=&quot;0 0 16 16&quot; aria-hidden=&quot;true&quot;><path d=&quot;M3.5 14V2&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot;/><path d=&quot;M3.5 2.5h9L10 6l2.5 3.5h-9z&quot; fill=&quot;currentColor&quot;/></svg>Medium</span></dd></div><div class=&quot;dp-prop&quot;><dt><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><rect x=&quot;4&quot; y=&quot;5.5&quot; width=&quot;16&quot; height=&quot;14.5&quot; rx=&quot;2&quot;/><path d=&quot;M4 10h16M8.5 3.5v4M15.5 3.5v4&quot;/></svg>Due date</dt><dd>Fri 30 Oct</dd></div></dl></div></div><button type=&quot;button&quot; class=&quot;g4__exp&quot; aria-expanded=&quot;false&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 12h14&quot;/><path class=&quot;v&quot; d=&quot;M12 5v14&quot;/></svg><span>Expand</span></button></div>
+          <div class=&quot;g4__cell&quot;><span class=&quot;ov-ins__st ov-ins__st--bad&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/><path d=&quot;M12 7.5v5M12 16h.01&quot;/></svg>Act now</span><h3>Safe Use</h3><b class=&quot;pts dn&quot;>&amp;minus;4<small> PTS</small></b><p><b>14</b> AI seats are still active for people who have left. Sensitive-data protection is not measured yet.</p><div class=&quot;g4__more&quot;><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Access after people leave</h4><b class=&quot;pts dn&quot;>&amp;minus;3</b></div><p><b>14</b> AI seats are still active for people who have left; <b>3</b> were used in September.</p></div><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Agents with a named owner</h4><b class=&quot;pts dn&quot;>&amp;minus;1</b></div><p>The client-intake agent has had no named owner since <b>14 September</b>. Moved up on <b>22 Sep</b>.</p></div></div><button type=&quot;button&quot; class=&quot;g4__exp&quot; aria-expanded=&quot;false&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 12h14&quot;/><path class=&quot;v&quot; d=&quot;M12 5v14&quot;/></svg><span>Expand</span></button></div>
+          <div class=&quot;g4__cell&quot;><span class=&quot;ov-ins__st ov-ins__st--warn&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M12 4 2.8 20h18.4L12 4z&quot;/><path d=&quot;M12 10v4.5M12 17.5h.01&quot;/></svg>Needs attention</span><h3>Reliability</h3><b class=&quot;pts dn&quot;>&amp;minus;1<small> PTS</small></b><p>Two vendor outages in September stopped the support agent for <b>47 minutes</b> in total.</p><div class=&quot;g4__more&quot;><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Dependence on one vendor</h4><b class=&quot;pts dn&quot;>&amp;minus;1</b></div><p>Two vendor outages in September stopped the support agent for <b>47 minutes</b> in total.</p></div></div><button type=&quot;button&quot; class=&quot;g4__exp&quot; aria-expanded=&quot;false&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 12h14&quot;/><path class=&quot;v&quot; d=&quot;M12 5v14&quot;/></svg><span>Expand</span></button></div>
           <div class=&quot;g4__cell&quot;><span class=&quot;ov-ins__st ov-ins__st--ok&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/><path d=&quot;m8.5 12.5 2.5 2.5 4.5-5&quot;/></svg>On track</span><h3>Spend Discipline</h3><b class=&quot;pts up&quot;>+5<small> PTS</small></b><p><b>212</b> unused Microsoft Copilot seats removed; the September invoice fell <b>$6,360</b>. Verified.</p><div class=&quot;g4__more&quot;><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Unused seats</h4><b class=&quot;pts up&quot;>+3</b></div><p><b>212</b> Copilot seats unused for <b>60 days</b> were removed; the September invoice fell <b>$6,360</b>.</p></div><div class=&quot;g4__item&quot;><div class=&quot;g4__ih&quot;><h4>Repeated requests</h4><b class=&quot;pts up&quot;>+2</b></div><p>Repeated identical requests in proposal drafting fell <b>90%</b> after caching.</p></div></div><button type=&quot;button&quot; class=&quot;g4__exp&quot; aria-expanded=&quot;false&quot;><svg viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M5 12h14&quot;/><path class=&quot;v&quot; d=&quot;M12 5v14&quot;/></svg><span>Expand</span></button></div>
         </div>
         <div class=&quot;ov-ins__row&quot;>
@@ -5489,7 +5633,88 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       });
     })();
   </script>
-<script>document.addEventListener('click',function(e){var a=e.target.closest&amp;&amp;e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';if(/#drivers$/.test(h)){e.preventDefault();parent.postMessage({cygGo:'drivers'},'*');return;}if(/^sources\.html/.test(h)){e.preventDefault();parent.postMessage({cygGo:'sources'},'*');return;}if(/^(newv1|overview)\.html/.test(h)){e.preventDefault();parent.postMessage({cygGo:h.indexOf('overview')===0?'overview':'findings'},'*');}});</script></body>
+  <aside class=&quot;dp&quot; id=&quot;sd&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; aria-labelledby=&quot;sd-title&quot; aria-hidden=&quot;true&quot;>
+    <div class=&quot;dp__bar&quot;><button type=&quot;button&quot; class=&quot;dbtn&quot; id=&quot;sd-close&quot; aria-label=&quot;Close&quot;><svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M6 6l12 12M18 6 6 18&quot;/></svg></button></div>
+    <div class=&quot;dp__scroll&quot; id=&quot;sd-body&quot;></div>
+  </aside>
+  <div class=&quot;dp-scrim&quot; id=&quot;sd-scrim&quot; aria-hidden=&quot;true&quot;></div>
+  <script>
+    /* Score drivers: clicking an item opens a side panel with what moved the score. The text is the item's own text from the card. */
+    (function () {
+      var dr = document.getElementById('sd'), sc = document.getElementById('sd-scrim'), body = document.getElementById('sd-body'), x = document.getElementById('sd-close'), last = null;
+      var items = document.querySelectorAll('.g4__item'); if (!dr || !items.length) return;
+      function esc(s) { return String(s).replace(/&amp;/g, '&amp;amp;').replace(/</g, '&amp;lt;'); }
+      function open(it) {
+        last = it;
+        var part = it.closest('.g4__cell').querySelector('h3').textContent.trim(), title = it.querySelector('h4').textContent.trim(), pb = it.querySelector('.g4__ih b'), pts = pb.textContent.trim(), cls = pb.classList.contains('up') ? 'up' : pb.classList.contains('dn') ? 'dn' : '';
+        var p = it.querySelector('p'), html = p.innerHTML, cut = html.search(/AI(’|&amp;rsquo;)s part/), what = cut > 0 ? html.slice(0, cut).trim() : html, ai = cut > 0 ? html.slice(cut).trim().replace(/^AI(’|&amp;rsquo;)s part in the [a-z]+:\s*/i, '') : ''; if (ai) ai = ai.charAt(0).toUpperCase() + ai.slice(1);
+        var notes = Array.prototype.map.call(it.querySelectorAll('p.g4__note'), function (n) { return '<p class=&quot;dp-note&quot;>' + n.innerHTML + '</p>'; }).join('');
+        if (it.querySelector('p.g4__note') === p) { what = ''; }
+        body.innerHTML = '<h2 class=&quot;dp__title&quot; id=&quot;sd-title&quot;>' + esc(title) + '</h2>' +
+          '<dl class=&quot;dp-props&quot;><div class=&quot;dp-prop&quot;><dt>Part</dt><dd>' + esc(part) + '</dd></div><div class=&quot;dp-prop&quot;><dt>Points</dt><dd><span class=&quot;ptb ' + cls + '&quot;>' + esc(pts) + '</span><span>since August</span></dd></div></dl>' +
+          (what ? '<div class=&quot;dp-sec&quot;><h3>What changed</h3><p class=&quot;dp-p&quot;>' + what + '</p></div>' : '') +
+          (ai ? '<div class=&quot;dp-sec&quot;><h3>AI&amp;rsquo;s part in it</h3><p class=&quot;dp-p&quot;>' + ai + '</p></div>' : '') + notes;
+        dr.classList.add('is-open'); sc.classList.add('is-open'); dr.setAttribute('aria-hidden', 'false'); x.focus({ preventScroll: true });
+      }
+      function close() { dr.classList.remove('is-open'); sc.classList.remove('is-open'); dr.setAttribute('aria-hidden', 'true'); if (last) last.focus({ preventScroll: true }); }
+      /* Inside the app, an item opens the same side panel as a finding. The ones that match a finding open that finding; the rest open the same panel with what the card says. Opened on its own, this page uses the simple panel above. */
+      var FIND = { 'Delivery': null, 'Managed Services': 7, 'Access after people leave': 1, 'Agents with a named owner': 0, 'Dependence on one vendor': 5, 'Unused seats': 13, 'Repeated requests': 12 };
+      function go(it) {
+        var title = it.querySelector('h4').textContent.trim();
+        if (window.parent === window || !(title in FIND)) { open(it); return; }
+        if (FIND[title] !== null) { parent.postMessage({ cygFinding: FIND[title] }, '*'); return; }
+        var pb = it.querySelector('.g4__ih b'), p = it.querySelector('p'), html = p.innerHTML, cut = html.search(/AI(’|&amp;rsquo;)s part/);
+        var ai = cut > 0 ? html.slice(cut).trim().replace(/^AI(’|&amp;rsquo;)s part in the [a-z]+:\s*/i, '') : '';
+        parent.postMessage({ cygInfo: { title: title, part: it.closest('.g4__cell').querySelector('h3').textContent.trim(), pts: pb.textContent.trim(), cls: pb.classList.contains('up') ? 'up' : pb.classList.contains('dn') ? 'dn' : '', what: cut > 0 ? html.slice(0, cut).trim() : html, ai: ai ? ai.charAt(0).toUpperCase() + ai.slice(1) : '' } }, '*');
+      }
+      /* The Monthly briefs button goes to the Briefs page. */
+      Array.prototype.forEach.call(document.querySelectorAll('.ov-chard__foot .ov-btn'), function (b) {
+        if (b.textContent.trim().indexOf('Monthly briefs') !== 0) return;
+        b.addEventListener('click', function () { if (window.parent !== window) parent.postMessage({ cygGo: 'briefs' }, '*'); else location.href = 'newv1.html#briefs'; });
+      });
+      Array.prototype.forEach.call(items, function (it) {
+        it.setAttribute('role', 'button'); it.tabIndex = 0; it.setAttribute('aria-haspopup', 'dialog');
+        it.addEventListener('click', function () { go(it); });
+        it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(it); } });
+      });
+      x.addEventListener('click', close); sc.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' &amp;&amp; dr.classList.contains('is-open')) close(); });
+    })();
+  </script>  <script>
+    /* The bell opens the Notifications panel of the app this page sits in. */
+    (function () {
+      var bell = document.querySelector('.bell'); if (!bell) return;
+      bell.style.cursor = 'pointer'; bell.setAttribute('role', 'button'); bell.tabIndex = 0; bell.setAttribute('aria-label', 'Notifications');
+      function go() { if (window.parent !== window) parent.postMessage({ cygBell: 1 }, '*'); }
+      bell.addEventListener('click', go);
+      bell.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    })();
+  </script>  <script>
+    /* AI landscape and Briefs in this page's sidebar open those pages of the app this page sits in. */
+    (function () {
+      if (window.parent === window) return;
+      Array.prototype.forEach.call(document.querySelectorAll('.quick .nav__item'), function (a) {
+        var tx = a.textContent.trim();
+        if (tx === 'Create brief') a.addEventListener('click', function (e) { e.preventDefault(); parent.postMessage({ cygCreate: 1 }, '*'); });
+        if (tx === 'Upload AI budget') a.addEventListener('click', function (e) { e.preventDefault(); parent.postMessage({ cygUpload: 1 }, '*'); });
+      });
+      var GO = { 'AI landscape': 'landscape', 'Briefs': 'briefs' };
+      Array.prototype.forEach.call(document.querySelectorAll('.nav__item'), function (a) {
+        var k = GO[a.textContent.trim()]; if (!k) return;
+        a.addEventListener('click', function (e) { e.preventDefault(); parent.postMessage({ cygGo: k }, '*'); });
+      });
+    })();
+  </script>  <script>
+    /* Profile menu: the account icon opens a small menu with Log out, which goes back to the sign-in screen. */
+    (function () {
+      var btn = document.getElementById('prof-btn'), menu = document.getElementById('prof-menu'); if (!btn || !menu) return;
+      function set(open) { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); }
+      btn.addEventListener('click', function (e) { e.stopPropagation(); set(menu.hidden); if (!menu.hidden) document.getElementById('prof-out').focus({ preventScroll: true }); });
+      document.addEventListener('click', function (e) { if (!menu.hidden &amp;&amp; !menu.contains(e.target)) set(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' &amp;&amp; !menu.hidden) { set(false); btn.focus({ preventScroll: true }); } });
+      document.getElementById('prof-out').addEventListener('click', function () { if (window.parent !== window) parent.postMessage({ cygLogout: 1 }, '*'); else location.href = 'login.html'; });
+    })();
+  </script><script>document.addEventListener('click',function(e){var a=e.target.closest&amp;&amp;e.target.closest('a');if(!a)return;var h=a.getAttribute('href')||'';if(/#drivers$/.test(h)){e.preventDefault();parent.postMessage({cygGo:'drivers'},'*');return;}if(/^sources\.html/.test(h)){e.preventDefault();parent.postMessage({cygGo:'sources'},'*');return;}if(/^(newv1|overview)\.html/.test(h)){e.preventDefault();parent.postMessage({cygGo:h.indexOf('overview')===0?'overview':'findings'},'*');}});</script></body>
 </html>
 "></iframe>
   
@@ -5528,11 +5753,11 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       var chev = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
       function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
       function open(i) {
-        var tr = rows[i], td = tr.cells, a = AG[i], tag = td[6].querySelector('.dr-st').outerHTML, prio = (td[5].querySelector('.prio') || { outerHTML: '&mdash;' }).outerHTML;
+        var tr = rows[i], td = tr.cells, a = AG[i],  prio = (td[5].querySelector('.prio') || { outerHTML: '&mdash;' }).outerHTML;
         if (sel) sel.classList.remove('is-selected'); sel = tr; tr.classList.add('is-selected');
         var props = [['Team', td[1].textContent.trim()], ['Runs on', td[2].textContent.trim()], ['Owner', td[3].textContent.trim()], ['Priority', prio.indexOf('&mdash;') > -1 || !prio || td[5].classList.contains('al-na') ? 'None' : prio], ['Due date', a.due ? '<span' + (a.late ? ' class="due due--late"' : '') + '>' + a.due + '</span>' : 'None']];
         if (a.late) props.splice(4, 0, ['Status', '<span class="stat stat--overdue">Overdue</span>']);
-        body.innerHTML = '<div class="ag-head"><h2 class="dp__title" id="ag-title">' + esc(td[0].textContent.trim()) + '</h2>' + tag + '</div>' +
+        body.innerHTML = '<div class="ag-head"><h2 class="dp__title" id="ag-title">' + esc(td[0].textContent.trim()) + '</h2></div>' +
           '<dl class="dp-props">' + props.map(function (p) { return '<div class="dp-prop"><dt>' + p[0] + '</dt><dd>' + (p[0] === 'Priority' || p[0] === 'Due date' || p[0] === 'Status' ? p[1] : esc(p[1])) + '</dd></div>'; }).join('') + '</dl>' +
           '<div class="dp-sec"><h3>How it is holding up</h3><p class="dp-p">' + esc(a.why) + '</p></div>' +
           (a.fid ? '<div class="dp-sec"><h3>What to do</h3><p class="dp-p">' + esc(a.next) + '</p></div>' : '<p class="dp-note">No finding is open for this agent.</p>');
@@ -5588,5 +5813,406 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clear(); });
     })();
   </script>
-</body>
+  <script>
+    /* Notifications: the bell opens a side panel with a welcome line and what is Critical or Overdue, read from the Findings table. A row opens that finding. */
+    (function () {
+      var bell = document.getElementById('bell'), dr = document.getElementById('nt'), sc = document.getElementById('nt-scrim'), body = document.getElementById('nt-body'), x = document.getElementById('nt-close');
+      if (!bell || !dr) return;
+      function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+      function build() {
+        var rows = Array.prototype.slice.call(document.querySelectorAll('.findings .ftable tbody tr:not(.empty)')), G = { Critical: [], Overdue: [] };
+        rows.forEach(function (tr, i) {
+          if (tr.closest('.findings--closed')) return;
+          var c = tr.children, pr = c[3].textContent.trim(), st = c[4].textContent.trim(), due = c[5], item = { i: i, title: tr.querySelector('.t-text').textContent.trim(), prio: c[3].innerHTML, stat: c[4].innerHTML, due: due.textContent.trim(), late: due.classList.contains('due--late') };
+          if (pr === 'Critical') G.Critical.push(item);
+          if (st === 'Overdue') G.Overdue.push(item);
+        });
+        var bellSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/></svg>';
+        var flagSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4.5h12l-3 4 3 4H5"/></svg>';
+        var alertSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></svg>';
+        function due(m) { return '<span class="nt-d' + (m.late ? ' is-late' : '') + '">' + (/^\d/.test(m.due) ? 'Due ' + esc(m.due) : esc(m.due)) + '</span>'; }
+        var out = '<li><div class="nt-msg"><span class="nt-av">' + bellSvg + '</span><span><span class="nt-h">Welcome back, Mark</span><span class="nt-t">Here is what needs you now.</span></span></div></li>';
+        G.Critical.forEach(function (m) { out += '<li><button type="button" class="nt-msg" data-ix="' + m.i + '"><span class="nt-av nt-av--crit">' + flagSvg + '</span><span><span class="nt-h">Critical finding</span><span class="nt-t">' + esc(m.title) + '</span>' + due(m) + '</span></button></li>'; });
+        G.Overdue.forEach(function (m) { out += '<li><button type="button" class="nt-msg" data-ix="' + m.i + '"><span class="nt-av nt-av--late">' + alertSvg + '</span><span><span class="nt-h">Overdue finding</span><span class="nt-t">' + esc(m.title) + '</span>' + due(m) + '</span></button></li>'; });
+        body.innerHTML = '<ul class="nt-list">' + out + '</ul>';      }
+      function open() { build(); dr.classList.add('is-open'); sc.classList.add('is-open'); dr.setAttribute('aria-hidden', 'false'); x.focus({ preventScroll: true }); }
+      function close() { dr.classList.remove('is-open'); sc.classList.remove('is-open'); dr.setAttribute('aria-hidden', 'true'); bell.focus({ preventScroll: true }); }
+      bell.addEventListener('click', open);
+      if (/(^|[?&])notifications\b/.test(location.search)) setTimeout(function () { open(); }, 250); /* arriving from the Executive view's bell */
+      bell.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+      x.addEventListener('click', close); sc.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && dr.classList.contains('is-open')) close(); });
+      body.addEventListener('click', function (e) {
+        var b = e.target.closest('button.nt-msg'); if (!b) return;
+        var all = document.querySelectorAll('.findings .ftable tbody tr:not(.empty)'), tr = all[+b.getAttribute('data-ix')];
+        dr.classList.remove('is-open'); sc.classList.remove('is-open'); dr.setAttribute('aria-hidden', 'true');
+        if (tr) tr.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      });
+    })();
+  </script>  <script>
+    /* Score page (the framed copy): a driver item opens a finding's panel here, above the Score page, and the Monthly briefs button opens Briefs. */
+    (function () {
+      var sf = document.getElementById('score-frame'), dp = document.getElementById('dp'), scrim = document.getElementById('dp-scrim'), det = document.getElementById('detail'), nt = document.getElementById('nt');
+      if (!sf || !dp) return;
+      var KEY = { 'Value Delivered': ['value', 'Value delivered'], 'Safe Use': ['safe', 'Safe use'], 'Reliability': ['rel', 'Reliability'], 'Spend Discipline': ['spend', 'Spend discipline'] };
+      function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+      function lower() {
+        sf.style.zIndex = '30';
+        var mo = new MutationObserver(function () {
+          if (dp.classList.contains('is-open') || (nt && nt.classList.contains('is-open')) || (det && !det.hidden)) return;
+          sf.style.zIndex = ''; dp.classList.remove('dp--info'); mo.disconnect();
+        });
+        mo.observe(dp, { attributes: true, attributeFilter: ['class'] });
+        if (det) mo.observe(det, { attributes: true, attributeFilter: ['hidden', 'class'] });
+        if (nt) mo.observe(nt, { attributes: true, attributeFilter: ['class'] });
+      }
+      window.addEventListener('message', function (e) {
+        var d = e.data; if (!d) return;
+        if (d.cygBell) { lower(); var bl = document.getElementById('bell'); if (bl) bl.click(); return; }
+        if (d.cygGo === 'landscape') { sf.hidden = true; sf.style.display = 'none'; if (window.cygShow) window.cygShow(false, false, false, false, true); return; }
+        if (d.cygGo === 'briefs') { sf.hidden = true; sf.style.display = 'none'; if (window.cygShow) window.cygShow(false, false, true); return; }
+        if (typeof d.cygFinding === 'number') {
+          var tr = document.querySelectorAll('.findings .ftable tbody tr:not(.empty)')[d.cygFinding]; if (!tr) return;
+          dp.classList.remove('dp--info'); Array.prototype.forEach.call(dp.querySelectorAll('.dp__foot button'), function (b) { b.disabled = false; }); lower(); tr.dispatchEvent(new MouseEvent('click', { bubbles: true })); return;
+        }
+        if (d.cygInfo) {
+          var m = d.cygInfo, k = KEY[m.part] || ['', m.part], ic = function (p) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + p + '</svg>'; };
+          var none = function (icon, label, v) { return '<div class="dp-prop"><dt>' + icon + label + '</dt><dd>' + v + '</dd></div>'; };
+          dp.classList.add('dp--info'); lower();
+          document.getElementById('dp-title').textContent = m.title;
+          document.getElementById('dp-props').innerHTML =
+            none(ic('<path d="M3.5 3.5h8l9 9-8 8-9-9z"/><circle cx="8" cy="8" r="1.3"/>'), 'Property', '<span class="chip chip--' + k[0] + '">' + esc(k[1]) + '</span>') +
+            none(ic('<path d="M4 17 9.5 11.5l3.5 3.5L20 8M15 8h5v5"/>'), 'Points', '<span class="dp-ptb ' + m.cls + '">' + esc(m.pts) + '</span><span>since August</span>') +
+            none(ic('<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>'), 'Owner', 'None') +
+            none(ic('<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>'), 'Status', 'None open') +
+            none(ic('<path d="M5 21V4M5 4.5h12l-2.5 4 2.5 4H5"/>'), 'Priority', 'None') +
+            none(ic('<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>'), 'Due date', 'None');
+          var s = document.getElementById('dp-pn-summary'), t = document.getElementById('dp-pn-timeline');
+          s.hidden = false; t.hidden = true;
+          Array.prototype.forEach.call(dp.querySelectorAll('.dp-tab'), function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-tab') === 'summary')); });
+          s.innerHTML = '<div class="dp-sec"><p class="dp-q">What changed</p><p class="dp-p">' + m.what + '</p>' + (m.ai ? '<p class="dp-q">AI&rsquo;s part in it</p><p class="dp-p">' + m.ai + '</p>' : '') + '</div>';
+          t.innerHTML = '<div class="dp-sec"><p class="dp-note">No finding is open for this. Cygnos reads it again every month, on the same method.</p></div>';
+          Array.prototype.forEach.call(dp.querySelectorAll('.dp__foot button'), function (b) { b.disabled = true; });
+          document.getElementById('dp-scroll').scrollTop = 0;
+          dp.classList.add('is-open'); dp.setAttribute('aria-hidden', 'false'); scrim.classList.add('is-open');
+          document.getElementById('dp-close').focus({ preventScroll: true });
+        }
+      });
+      if (location.hash === '#briefs' && window.cygShow) window.cygShow(false, false, true);
+    })();
+  </script>  <script>
+    /* AI landscape: the Needs attention box scrolls to the last section, where the agents and their owners are. */
+    (function () {
+      var b = document.getElementById('al-attn-go'); if (!b) return;
+      b.addEventListener('click', function () {
+        var secs = document.querySelectorAll('#al-view .al-sec'), last = secs[secs.length - 1]; if (!last) return;
+        window.scrollTo({ top: last.getBoundingClientRect().top + window.scrollY - 16, behavior: 'smooth' });
+      });
+    })();
+  </script>  <script>
+    /* AI landscape: an agent opens the same side panel as a finding. Three of the four agents have a finding behind them and open it; the code-review bot has none, so it opens the same panel with what the table says. */
+    (function () {
+      var rows = document.querySelectorAll('.al-agents tbody tr'), dp = document.getElementById('dp'), scrim = document.getElementById('dp-scrim'); if (!rows.length || !dp) return;
+      var FIND = [2, 0, 6, null];
+      function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+      function ic(p) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + p + '</svg>'; }
+      function prop(icon, label, v) { return '<div class="dp-prop"><dt>' + ic(icon) + label + '</dt><dd>' + v + '</dd></div>'; }
+      function openFinding(i) {
+        var tr = document.querySelectorAll('.findings .ftable tbody tr:not(.empty)')[i]; if (!tr) return;
+        Array.prototype.forEach.call(dp.querySelectorAll('.dp__foot button'), function (b) { b.disabled = false; });
+        tr.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      }
+      function openPlain(tr) {
+        var c = tr.cells, why = c[4].textContent.trim();
+        document.getElementById('dp-title').textContent = c[0].textContent.trim();
+        document.getElementById('dp-props').innerHTML =
+          prop('<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>', 'Team', esc(c[1].textContent.trim())) +
+          prop('<path d="M3.5 3.5h8l9 9-8 8-9-9z"/><circle cx="8" cy="8" r="1.3"/>', 'Runs on', esc(c[2].textContent.trim())) +
+          prop('<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>', 'Owner', esc(c[3].textContent.trim())) +
+          prop('<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>', 'Status', 'None open') +
+          prop('<path d="M5 21V4M5 4.5h12l-2.5 4 2.5 4H5"/>', 'Priority', 'None') +
+          prop('<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>', 'Due date', 'None');
+        var s = document.getElementById('dp-pn-summary'), tl = document.getElementById('dp-pn-timeline'); s.hidden = false; tl.hidden = true;
+        Array.prototype.forEach.call(dp.querySelectorAll('.dp-tab'), function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-tab') === 'summary')); });
+        s.innerHTML = '<div class="dp-sec"><p class="dp-q">How it is holding up</p><p class="dp-p">' + esc(why) + '. Nothing to do.</p></div>';
+        tl.innerHTML = '<div class="dp-sec"><p class="dp-note">No finding is open for this agent.</p></div>';
+        Array.prototype.forEach.call(dp.querySelectorAll('.dp__foot button'), function (b) { b.disabled = true; });
+        document.getElementById('dp-scroll').scrollTop = 0;
+        dp.classList.add('is-open'); dp.setAttribute('aria-hidden', 'false'); scrim.classList.add('is-open');
+        document.getElementById('dp-close').focus({ preventScroll: true });
+      }
+      function go(tr) { var i = Array.prototype.indexOf.call(rows, tr); if (FIND[i] !== null && FIND[i] !== undefined) openFinding(FIND[i]); else openPlain(tr); }
+      /* capture phase: this runs before the old agent drawer sees the click */
+      document.addEventListener('click', function (e) { var tr = e.target.closest && e.target.closest('.al-agents tbody tr'); if (!tr) return; e.stopPropagation(); e.preventDefault(); go(tr); }, true);
+      document.addEventListener('keydown', function (e) { if (e.key !== 'Enter' && e.key !== ' ') return; var tr = e.target.closest && e.target.closest('.al-agents tbody tr'); if (!tr) return; e.stopPropagation(); e.preventDefault(); go(tr); }, true);
+    })();
+  </script>  <script>
+    /* AI landscape, seats table: a tool opens the same side panel as a finding. The note-taking tool, ChatGPT, Claude and Microsoft Copilot each have a finding and open it; GitHub Copilot has none, so it opens the same panel with what the table says. */
+    (function () {
+      var rows = document.querySelectorAll('.al-seats tbody tr:not(.al-total)'), dp = document.getElementById('dp'), scrim = document.getElementById('dp-scrim'); if (!rows.length || !dp) return;
+      var FIND = [8, 8, 13, null, 3];
+      function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+      function ic(p) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + p + '</svg>'; }
+      var I = { tag: '<path d="M3.5 3.5h8l9 9-8 8-9-9z"/><circle cx="8" cy="8" r="1.3"/>', person: '<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>', ok: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>', cal: '<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>' };
+      function prop(i, label, v) { return '<div class="dp-prop"><dt>' + ic(I[i]) + label + '</dt><dd>' + v + '</dd></div>'; }
+      function num(s) { return +String(s).replace(/[^0-9.]/g, ''); }
+      function usd(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+      function openFinding(i) {
+        var tr = document.querySelectorAll('.findings .ftable tbody tr:not(.empty)')[i]; if (!tr) return;
+        Array.prototype.forEach.call(dp.querySelectorAll('.dp__foot button'), function (b) { b.disabled = false; });
+        tr.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      }
+      function openPlain(tr) {
+        var c = tr.cells, name = c[0].querySelector('b').textContent.trim(), vendor = c[0].querySelector('small').textContent.trim();
+        var seats = num(c[2].textContent), used = num(c[3].textContent), spend = num(c[4].textContent), un = seats - used, per = seats ? spend / seats : 0;
+        document.getElementById('dp-title').textContent = name;
+        /* the first row carries a marker so the labels get a wider column and stay on one line */
+        document.getElementById('dp-props').innerHTML = (
+          prop('tag', 'Vendor', esc(vendor)) + prop('person', 'Teams', esc(c[1].textContent.trim())) +
+          prop('ok', 'Seats', seats.toLocaleString('en-US')) + prop('ok', 'Used in Sept', used.toLocaleString('en-US') + ' (' + Math.round(used / seats * 100) + '%)') +
+          prop('ok', 'Unused seats', un.toLocaleString('en-US')) + prop('cal', 'Sept spend', usd(spend)) + prop('cal', 'Cost per seat', '$' + per.toFixed(2))).replace('class="dp-prop"', 'class="dp-prop dp-prop--w"');
+        var s = document.getElementById('dp-pn-summary'), tl = document.getElementById('dp-pn-timeline'); s.hidden = false; tl.hidden = true;
+        Array.prototype.forEach.call(dp.querySelectorAll('.dp-tab'), function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-tab') === 'summary')); });
+        s.innerHTML = '<div class="dp-sec"><p class="dp-q">What the table says</p><p class="dp-p"><b>' + un + ' of ' + seats + '</b> seats were not used in September. At <b>' + usd(per) + '</b> a seat, that is about <b>' + usd(un * per) + '</b> of the <b>' + usd(spend) + '</b> bill.</p></div>';
+        tl.innerHTML = '<div class="dp-sec"><p class="dp-note">No finding is open for this tool.</p></div>';
+        Array.prototype.forEach.call(dp.querySelectorAll('.dp__foot button'), function (b) { b.disabled = true; });
+        document.getElementById('dp-scroll').scrollTop = 0;
+        dp.classList.add('is-open'); dp.setAttribute('aria-hidden', 'false'); scrim.classList.add('is-open');
+        document.getElementById('dp-close').focus({ preventScroll: true });
+      }
+      function go(tr) { var i = Array.prototype.indexOf.call(rows, tr); if (FIND[i] !== null && FIND[i] !== undefined) openFinding(FIND[i]); else openPlain(tr); }
+      document.addEventListener('click', function (e) { var tr = e.target.closest && e.target.closest('.al-seats tbody tr:not(.al-total)'); if (!tr) return; e.stopPropagation(); e.preventDefault(); go(tr); }, true);
+      document.addEventListener('keydown', function (e) { if (e.key !== 'Enter' && e.key !== ' ') return; var tr = e.target.closest && e.target.closest('.al-seats tbody tr:not(.al-total)'); if (!tr) return; e.stopPropagation(); e.preventDefault(); go(tr); }, true);
+    })();
+  </script>  <div class="cm-scrim" id="cm-scrim" hidden></div>
+  <div class="cm" id="cm" role="dialog" aria-modal="true" aria-labelledby="cm-title" hidden>
+    <div class="cm__box" tabindex="-1">
+      <div class="cm__head"><h2 id="cm-title">Create a Brief</h2><button type="button" class="dbtn" id="cm-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <p class="cm__sub">Create a Brief now, or schedule one to arrive on its own.</p>
+      <div class="cm__opts" role="radiogroup" aria-label="How to create it">
+        <label class="cm-opt"><input type="radio" name="cmmode" value="now" checked><span><b>Create now</b><small>Get a Brief for the period you pick.</small></span></label>
+        <label class="cm-opt"><input type="radio" name="cmmode" value="sch"><span><b>Schedule</b><small>Have it arrive on its own, every period.</small></span></label>
+      </div>
+      <div id="cm-now">
+        <div class="cm__f"><label for="cm-period">Period</label><select id="cm-period"><option>Last month (September 2026)</option><option>Last 3 months</option><option>Year to date</option></select></div>
+        <div class="cm__f"><span class="cm__l">Send to</span>
+          <label class="cm__r"><input type="radio" name="cmsend" value="download" checked>Download as a PDF</label>
+          <label class="cm__r"><input type="radio" name="cmsend" value="email">Email the PDF</label>
+          <input type="text" id="cm-now-mail" placeholder="Email addresses, separated by commas" aria-label="Email addresses" hidden>
+        </div>
+      </div>
+      <div id="cm-sch" hidden>
+        <div class="cm__row">
+          <div class="cm__f"><label for="cm-freq">Repeats</label><select id="cm-freq"><option>Monthly</option><option>Every 2 weeks</option><option>Weekly</option><option>Quarterly</option></select></div>
+          <div class="cm__f"><label for="cm-start">Starts on</label><input type="date" id="cm-start" value="2026-11-14" min="2026-10-24"></div>
+        </div>
+        <div class="cm__f"><label for="cm-time">At</label><select id="cm-time"><option>07:00</option><option>08:00</option><option selected>09:00</option><option>12:00</option><option>17:00</option></select></div>
+        <div class="cm__f"><label for="cm-mail">Send to</label><input type="text" id="cm-mail" value="executive.team@kestrelvane.com" placeholder="Email addresses, separated by commas"></div>
+      </div>
+      <p class="cm__msg" id="cm-msg" role="status" hidden></p>
+      <div class="cm__foot"><button type="button" class="tbtn" id="cm-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="cm-go">Create Brief</button></div>
+    </div>
+  </div>  <script>
+    /* Quick access, Create brief: a pop-up with the ways to create a Brief. Nothing is sent or saved; it only shows what would happen. */
+    (function () {
+      var cm = document.getElementById('cm'), scrim = document.getElementById('cm-scrim'); if (!cm) return;
+      var $ = function (id) { return document.getElementById(id); }, last = null, done = false;
+      var now = $('cm-now'), sch = $('cm-sch'), msg = $('cm-msg'), go = $('cm-go'), nowMail = $('cm-now-mail'), mail = $('cm-mail');
+      function mode() { return cm.querySelector('input[name="cmmode"]:checked').value; }
+      function send() { return cm.querySelector('input[name="cmsend"]:checked').value; }
+      function sync() {
+        var m = mode(); now.hidden = m !== 'now'; sch.hidden = m !== 'sch'; nowMail.hidden = send() !== 'email';
+        go.textContent = done ? 'Done' : (m === 'sch' ? 'Schedule Brief' : 'Create Brief'); msg.hidden = true;
+      }
+      function reset() { done = false; msg.hidden = true; msg.className = 'cm__msg'; nowMail.setAttribute('aria-invalid', 'false'); mail.setAttribute('aria-invalid', 'false'); $('cm-start').setAttribute('aria-invalid', 'false'); sync(); }
+      function open(from) {
+        last = from || document.activeElement; reset();
+        cm.hidden = false; scrim.hidden = false; cm.querySelector('.cm__box').focus({ preventScroll: true });
+      }
+      function close() { cm.hidden = true; scrim.hidden = true; if (last && last.focus) try { last.focus({ preventScroll: true }); } catch (e) {} }
+      function say(text, bad) { msg.textContent = text; msg.className = 'cm__msg' + (bad ? ' is-bad' : ''); msg.hidden = false; }
+      function okMails(v) { var l = v.split(',').map(function (s) { return s.trim(); }).filter(Boolean); return l.length && l.every(function (s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }); }
+      go.addEventListener('click', function () {
+        if (done) { close(); return; }
+        var m = mode();
+        if (m === 'now') {
+          if (send() === 'email' && !okMails(nowMail.value)) { nowMail.setAttribute('aria-invalid', 'true'); say('Enter one or more valid email addresses.', true); nowMail.focus(); return; }
+          say(send() === 'email' ? 'Your Brief for ' + $('cm-period').value + ' is being prepared and will be emailed to ' + nowMail.value.trim() + '.' : 'Your Brief for ' + $('cm-period').value + ' is being prepared. It will download here when it is ready.');
+        } else {
+          if (!okMails(mail.value)) { mail.setAttribute('aria-invalid', 'true'); say('Enter one or more valid email addresses.', true); mail.focus(); return; }
+          var sd = $('cm-start'); if (!sd.value || sd.value < sd.min) { sd.setAttribute('aria-invalid', 'true'); say('Pick a start date from ' + sd.min.split('-').reverse().join('/') + ' on.', true); sd.focus(); return; }
+          var P = sd.value.split('-'), MN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          say('Scheduled: ' + $('cm-freq').value + ', from ' + (+P[2]) + ' ' + MN[+P[1] - 1] + ' ' + P[0] + ' at ' + $('cm-time').value + ', sent to ' + mail.value.trim() + '.');
+        }
+        done = true; go.textContent = 'Done';
+      });
+      Array.prototype.forEach.call(cm.querySelectorAll('input[name="cmmode"], input[name="cmsend"], select'), function (el) { el.addEventListener('change', function () { done = false; sync(); }); });
+      [mail, nowMail, $('cm-start')].forEach(function (el) { el.addEventListener('input', function () { el.setAttribute('aria-invalid', 'false'); }); });
+      $('cm-close').addEventListener('click', close); $('cm-cancel').addEventListener('click', close); scrim.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !cm.hidden) { e.stopPropagation(); close(); } }, true);
+      Array.prototype.forEach.call(document.querySelectorAll('.quick .nav__item'), function (a) {
+        if (a.textContent.trim() !== 'Create brief') return;
+        a.addEventListener('click', function (e) { e.preventDefault(); open(a); });
+      });
+      window.addEventListener('message', function (e) { if (e.data && e.data.cygCreate) open(null); if (e.data && e.data.cygLogout) location.href = 'login.html'; });
+      window.cygCreateBrief = open;
+    })();
+  </script>  <div class="cm-scrim" id="ub-scrim" hidden></div>
+  <div class="cm" id="ub" role="dialog" aria-modal="true" aria-labelledby="ub-title" hidden>
+    <div class="cm__box" tabindex="-1">
+      <div class="cm__head"><h2 id="ub-title">Upload your AI budget</h2><button type="button" class="dbtn" id="ub-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <p class="cm__sub">Lets Cygnos judge total AI spend against what you planned. One upload.</p>
+      <label class="ub-drop" id="ub-drop"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4.5 15v3.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V15"/></svg><b>Choose a file, or drop it here</b><small>Excel, CSV or PDF, up to 10 MB</small><input type="file" id="ub-input" accept=".xlsx,.xls,.csv,.pdf"></label>
+      <div class="ub-file" id="ub-file" hidden><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5"/></svg><span id="ub-name"></span><small id="ub-size"></small><button type="button" id="ub-remove">Remove</button></div>
+      <p class="cm__msg" id="ub-msg" role="status" hidden></p>
+      <div class="cm__foot"><button type="button" class="tbtn" id="ub-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="ub-go" disabled>Upload</button></div>
+    </div>
+  </div>  <script>
+    /* Quick access, Upload AI budget: a pop-up with a drop zone. The file is only read for its name and size; nothing is uploaded or saved. */
+    (function () {
+      var ub = document.getElementById('ub'), scrim = document.getElementById('ub-scrim'); if (!ub) return;
+      var $ = function (id) { return document.getElementById(id); }, last = null, file = null, done = false;
+      var input = $('ub-input'), drop = $('ub-drop'), card = $('ub-file'), msg = $('ub-msg'), go = $('ub-go');
+      var OK = /\.(xlsx|xls|csv|pdf)$/i, MAX = 10 * 1024 * 1024;
+      function say(text, bad) { msg.textContent = text; msg.className = 'cm__msg' + (bad ? ' is-bad' : ''); msg.hidden = false; }
+      function size(n) { return n < 1024 * 1024 ? Math.max(1, Math.round(n / 1024)) + ' KB' : (n / 1024 / 1024).toFixed(1) + ' MB'; }
+      function clearFile() { file = null; input.value = ''; card.hidden = true; drop.hidden = false; go.disabled = true; msg.hidden = true; done = false; go.textContent = 'Upload'; }
+      function take(f) {
+        if (!f) return;
+        if (!OK.test(f.name)) { say('Choose an Excel, CSV or PDF file.', true); return; }
+        if (f.size > MAX) { say('That file is ' + size(f.size) + '. The limit is 10 MB.', true); return; }
+        file = f; done = false; go.textContent = 'Upload'; msg.hidden = true;
+        $('ub-name').textContent = f.name; $('ub-size').textContent = size(f.size); card.hidden = false; drop.hidden = true; go.disabled = false;
+      }
+      function open(from) { last = from || document.activeElement; clearFile(); ub.hidden = false; scrim.hidden = false; ub.querySelector('.cm__box').focus({ preventScroll: true }); }
+      function close() { ub.hidden = true; scrim.hidden = true; if (last && last.focus) try { last.focus({ preventScroll: true }); } catch (e) {} }
+      input.addEventListener('change', function () { take(input.files && input.files[0]); });
+      ['dragenter', 'dragover'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.add('is-over'); }); });
+      ['dragleave', 'drop'].forEach(function (n) { drop.addEventListener(n, function (e) { e.preventDefault(); drop.classList.remove('is-over'); }); });
+      drop.addEventListener('drop', function (e) { take(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]); });
+      $('ub-remove').addEventListener('click', clearFile);
+      go.addEventListener('click', function () {
+        if (done) { close(); return; }
+        if (!file) return;
+        say('Received ' + file.name + '. Cygnos will read it and compare it with your spend.'); done = true; go.textContent = 'Done';
+      });
+      $('ub-close').addEventListener('click', close); $('ub-cancel').addEventListener('click', close); scrim.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !ub.hidden) { e.stopPropagation(); close(); } }, true);
+      Array.prototype.forEach.call(document.querySelectorAll('.quick .nav__item, .ovsrc__act .ov-btn'), function (a) {
+        if (!/^Upload (AI|your AI) budget$/.test(a.textContent.trim())) return;
+        a.addEventListener('click', function (e) { e.preventDefault(); open(a); });
+      });
+      window.addEventListener('message', function (e) { if (e.data && e.data.cygUpload) open(null); });
+      window.cygUploadBudget = open;
+    })();
+  </script>  <script>
+    /* Overview: "the September Brief" in the score note opens that Brief in the same window as the Briefs page. */
+    (function () {
+      Array.prototype.forEach.call(document.querySelectorAll('.ov-dial__lnk'), function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          var nm = Array.prototype.filter.call(document.querySelectorAll('#br-card tbody .ovsrc__nm'), function (n) { return /^September/.test(n.textContent.trim()); })[0];
+          if (nm) nm.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        });
+      });
+    })();
+  </script>  <script>
+    /* Profile menu: the account icon opens a small menu with Log out, which goes back to the sign-in screen. */
+    (function () {
+      var btn = document.getElementById('prof-btn'), menu = document.getElementById('prof-menu'); if (!btn || !menu) return;
+      function set(open) { menu.hidden = !open; btn.setAttribute('aria-expanded', String(open)); }
+      btn.addEventListener('click', function (e) { e.stopPropagation(); set(menu.hidden); if (!menu.hidden) document.getElementById('prof-out').focus({ preventScroll: true }); });
+      document.addEventListener('click', function (e) { if (!menu.hidden && !menu.contains(e.target)) set(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus({ preventScroll: true }); } });
+      document.getElementById('prof-out').addEventListener('click', function () { location.href = 'login.html'; });
+    })();
+  </script>
+  <style>
+    /* Findings page: the Export button opens the same side panel as the Executive view. */
+    .exd-scrim { position: fixed; inset: 0; z-index: 79; background: rgba(26, 31, 54, .38); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+    .exd-scrim.on { opacity: 1; visibility: visible; transition-delay: 0s; }
+    .exd { position: fixed; top: 0; right: 0; bottom: 0; z-index: 80; display: flex; flex-direction: column; width: min(440px, 100vw); background: #fff; border-left: 1px solid var(--line); box-shadow: -12px 0 32px rgba(26, 31, 54, .10); visibility: hidden; opacity: 0; transform: translateX(28px); transition: transform .22s ease, opacity .18s ease, visibility 0s linear .22s; }
+    .exd.open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+    .exd__bar { display: flex; flex: none; align-items: center; justify-content: flex-end; height: 52px; padding: 0 16px; }
+    .exd__form { display: flex; flex: 1; flex-direction: column; min-height: 0; margin: 0; }
+    .exd__scroll { flex: 1; overflow-y: auto; padding: 0 24px 28px; }
+    .exd__title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.35; letter-spacing: -.005em; color: var(--ink); }
+    .exd__card { margin-top: 18px; }
+    .exd-xg { border: 0; padding: 0; margin: 22px 0 0; min-width: 0; }
+    .exd__card .exd-xg:first-child { margin-top: 0; }
+    .exd-xg legend { padding: 0; margin-bottom: 8px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+    .exd-rd { position: relative; display: grid; grid-template-columns: 16px minmax(0, 1fr) minmax(0, 1fr); align-items: center; column-gap: 9px; padding: 6px 0; font-size: 13.5px; line-height: 1.3; color: var(--ink); cursor: pointer; }
+    .exd-rd input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .exd-rd i { box-sizing: border-box; width: 16px; height: 16px; border: 1.5px solid #cfd4dc; border-radius: 50%; background: #fff; transition: background-color .12s ease, border-color .12s ease; }
+    .exd-rd input:checked + i { border: 5px solid #262626; }
+    .exd-rd input:focus-visible + i { outline: 2px solid #262626; outline-offset: 2px; }
+    .exd-rd em { font-style: normal; font-size: 13px; color: var(--muted); }
+    .exd-custom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+    .exd-custom[hidden] { display: none; }
+    .exd-custom label { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); }
+    .exd-custom input { width: 100%; height: 30px; padding: 0 8px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font: inherit; font-size: 13px; color: var(--ink); }
+    .exd-custom input::-webkit-calendar-picker-indicator { opacity: .55; cursor: pointer; }
+    .exd-selw { position: relative; display: inline-block; }
+    .exd-selw select { appearance: none; -webkit-appearance: none; height: 30px; padding: 0 30px 0 11px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font: inherit; font-size: 13.5px; font-weight: 500; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); cursor: pointer; }
+    .exd-selw select:hover { background: #f7f8fa; }
+    .exd-selw::after { content: ""; position: absolute; right: 12px; top: 50%; width: 5px; height: 5px; border-right: 1.5px solid #4f566b; border-bottom: 1.5px solid #4f566b; transform: translateY(-70%) rotate(45deg); pointer-events: none; }
+    .exd-cols { margin: 12px 0 0; font-size: 14px; line-height: 1.6; color: #3b4252; }
+    .exd__foot { display: flex; flex: none; align-items: center; gap: 6px; padding: 12px 24px; border-top: 1px solid var(--line); background: #fff; }
+    .exd-btn { height: 32px; padding: 0 12px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font-size: 13px; font-weight: 500; color: var(--ink); }
+    .exd-btn:hover { background: #f7f8fa; }
+    .exd-btn--p { margin-left: auto; border-color: #262626; background: #262626; color: #fff; }
+    .exd-btn--p:hover { border-color: #404040; background: #404040; }
+  </style>
+  <div class="exd-scrim" id="exd-scrim" hidden></div>
+  <aside class="exd" id="exd" role="dialog" aria-modal="true" aria-labelledby="exd-title" aria-hidden="true">
+    <div class="exd__bar"><button class="dbtn" id="exd-x" type="button" aria-label="Close export panel"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <form class="exd__form" id="exd-form">
+      <div class="exd__scroll">
+        <h2 class="exd__title" id="exd-title">Export</h2>
+        <div class="exd__card">
+          <fieldset class="exd-xg"><legend>Date range</legend>
+            <label class="exd-rd"><input type="radio" name="exd-range" value="Today" data-d="14 Oct" checked><i></i><span>Today</span><em>14 Oct</em></label>
+            <label class="exd-rd"><input type="radio" name="exd-range" value="Current month" data-d="1 Oct – 14 Oct"><i></i><span>Current month</span><em>1 Oct – 14 Oct</em></label>
+            <label class="exd-rd"><input type="radio" name="exd-range" value="Last 7 days" data-d="7 Oct – 13 Oct"><i></i><span>Last 7 days</span><em>7 Oct – 13 Oct</em></label>
+            <label class="exd-rd"><input type="radio" name="exd-range" value="Last month" data-d="1 Sep – 30 Sep"><i></i><span>Last month</span><em>1 Sep – 30 Sep</em></label>
+            <label class="exd-rd"><input type="radio" name="exd-range" value="All" data-d="All dates"><i></i><span>All</span></label>
+            <label class="exd-rd"><input type="radio" name="exd-range" value="Custom" data-d="Custom"><i></i><span>Custom</span></label>
+            <div class="exd-custom" id="exd-custom" hidden><label>From<input type="date" id="exd-from"></label><label>To<input type="date" id="exd-to"></label></div>
+          </fieldset>
+          <fieldset class="exd-xg"><legend>Columns</legend>
+            <div class="exd-selw"><select id="exd-which" aria-label="Which findings to export"><option value="all">All findings</option><option value="Overdue">Overdue findings</option><option value="Critical">Critical findings</option></select></div>
+            <p class="exd-cols">Finding ID, Tool / Agent Name, Measure Type, Usage Date, Seat Status, Assigned Owner, Urgency Level,</p>
+          </fieldset>
+        </div>
+      </div>
+      <div class="exd__foot"><button type="button" class="exd-btn" id="exd-cancel">Cancel</button><button type="submit" class="exd-btn exd-btn--p">Export</button></div>
+    </form>
+  </aside>
+  <script>
+    (function () {
+      var dr = document.getElementById('exd'), sc = document.getElementById('exd-scrim'), last = null;
+      function open() { last = document.activeElement; sc.hidden = false; dr.setAttribute('aria-hidden', 'false'); requestAnimationFrame(function () { sc.classList.add('on'); dr.classList.add('open'); }); setTimeout(function () { var f = dr.querySelector('input:checked'); if (f) f.focus({ preventScroll: true }); }, 60); }
+      function close() { if (!dr.classList.contains('open')) return; sc.classList.remove('on'); dr.classList.remove('open'); dr.setAttribute('aria-hidden', 'true'); setTimeout(function () { sc.hidden = true; }, 300); if (last && last.focus) last.focus({ preventScroll: true }); }
+      document.addEventListener('click', function (e) {
+        var b = e.target.closest('.findings .facts .tbtn'); if (!b || !/Export/.test(b.textContent)) return;
+        e.preventDefault(); e.stopPropagation(); open();
+      }, true);
+      sc.addEventListener('click', close); document.getElementById('exd-x').addEventListener('click', close); document.getElementById('exd-cancel').addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && dr.classList.contains('open')) close(); });
+      dr.addEventListener('change', function (e) { if (e.target.name === 'exd-range') document.getElementById('exd-custom').hidden = e.target.value !== 'Custom'; });
+      document.getElementById('exd-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var rg = dr.querySelector('input[name=exd-range]:checked'), which = document.getElementById('exd-which').value;
+        var range = rg.value === 'Custom' ? (document.getElementById('exd-from').value || '…') + ' to ' + (document.getElementById('exd-to').value || '…') : rg.value + ' (' + rg.getAttribute('data-d') + ')';
+        var rows = Array.prototype.slice.call(document.querySelectorAll('.findings .ftable tbody tr:not(.empty)')).filter(function (tr) { return !tr.closest('.findings--closed'); }).map(function (tr) {
+          var c = tr.children; return [tr.querySelector('.t-id').textContent.trim(), tr.querySelector('.t-text').textContent.trim(), tr.querySelector('.chip').textContent.trim(), c[1].textContent.trim(), c[2].textContent.trim(), c[3].textContent.trim(), c[4].textContent.trim(), c[5].textContent.trim()];
+        }).filter(function (r) { return which === 'all' || r[5] === which || r[6] === which; });
+        var head = ['Finding ID', 'Finding', 'Measure Type', 'Created', 'Assigned Owner', 'Urgency Level', 'Status', 'Due', 'Date range'];
+        var q = function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; };
+        var csv = [head].concat(rows.map(function (r) { return r.concat([range]); })).map(function (r) { return r.map(q).join(','); }).join('\r\n');
+        var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'findings-' + rg.value.toLowerCase().replace(/\s+/g, '-') + '.csv';
+        document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000); close();
+      });
+    })();
+  </script></body>
 </html>
