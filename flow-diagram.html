@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow diagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1f36; --text:#353a44; --muted:#687385; --line:#e3e8ee; --panel:#f6f8fa;
+    --accent:#262626;
+    --font:"Figtree",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  /* On its own the page shows the diagram as a window over a dimmed screen, the way it will sit over the other pages. */
+  body{margin:0;min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;padding:28px;background:rgba(26,31,54,.45);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,p{margin:0}
+  button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+  svg{display:block;flex:none}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+  .win{display:flex;flex-direction:column;width:min(1280px,100%);max-height:calc(100vh - 56px);border-radius:18px;background:#f4f3f1;box-shadow:0 24px 64px rgba(26,31,54,.32),0 2px 8px rgba(26,31,54,.1);overflow:hidden}
+  .win[hidden]{display:none}
+  .win__h{display:flex;align-items:center;gap:14px;padding:18px 24px 16px}
+  .win__ico{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:9px;background:#dbe8fb;color:#2a5fc4}
+  .win__ico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .win__t{font-size:17px;font-weight:600;letter-spacing:-.005em}
+  .win__s{margin-top:1px;font-size:13.5px;color:var(--muted)}
+  .win__x{margin-left:auto;display:grid;place-items:center;width:32px;height:32px;border-radius:8px;color:#7b8190}
+  .win__x:hover{background:#e9e8e5;color:var(--ink)}
+  .win__x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+
+  .win__b{overflow:auto;padding:0 12px 14px}
+
+  /* the short version, above the picture */
+  .sum{display:flex;align-items:center;gap:12px;margin:0 12px 12px;padding:12px 16px;border-radius:12px;background:#fff;border:1px solid #ebe9e5}
+  .sum b{font-weight:600;color:var(--ink)}
+  .sum p{font-size:14.5px;line-height:1.5;color:var(--text)}
+  .stat{display:inline-block;padding:2px 9px;border-radius:5px;font-size:12px;font-weight:500;white-space:nowrap}
+  .stat--bad{background:#fbdde1;color:#a8232f}
+  .stat--warn{background:#f6efb5;color:#6b5d0a}
+  .stat--info{background:#e6edfb;color:#2a4a9a}
+
+  .scroller{overflow:hidden}
+  .board{position:relative;display:grid;grid-template-columns:repeat(5,minmax(200px,1fr));gap:8px;min-width:1048px;transform-origin:0 0}
+  .links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:1}
+  .links path{fill:none;stroke:#b3bac6;stroke-width:1.2;stroke-dasharray:1.5 3.5;stroke-linecap:round}
+  .links path.is-done{stroke:#86cfa1}
+  .links circle{fill:#fff;stroke:#b3bac6;stroke-width:1.2}
+  .rail-b{fill:#fff;stroke:#e1dfda;stroke-width:1}
+  .rail-t{font-family:var(--font);font-size:11px;font-weight:600;fill:#a8232f}
+
+  /* each stage is its own panel, like the stages in the reference */
+  .col{position:relative;display:flex;flex-direction:column;min-height:500px;padding:14px 16px 18px;border-radius:12px;background:#fbfaf9;border:1px solid #ecebe8}
+  .col__h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .col__tag{padding:3px 11px;border:1px solid #e1dfda;border-radius:999px;background:#f1f0ed;font-size:11.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:#4d5362}
+  .col__c{display:none}
+  .col__q{margin-top:8px;font-size:13px;color:var(--muted)}
+  .col__b{flex:1;display:flex;flex-direction:column;justify-content:center;gap:30px;position:relative;z-index:2;padding-top:6px}
+
+  .node{position:relative;display:flex;align-items:center;gap:11px;padding:11px 36px 11px 12px;border:1px solid #dcdfe5;border-radius:11px;background:#fff;box-shadow:0 2px 6px rgba(60,66,87,.09)}
+  .node__i{display:grid;place-items:center;flex:none;width:34px;height:34px;border:1px solid #e5e8ee;border-radius:8px;background:#fafbfc;color:#4f566b}
+  .node__i svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .node__t{font-size:14.5px;font-weight:600;line-height:1.3;color:var(--ink)}
+  .node__s{margin-top:2px;font-size:13px;line-height:1.4;color:var(--muted)}
+  .node__s b{font-weight:600;color:var(--ink)}
+  .node__tag{position:absolute;top:-10px;right:10px;box-shadow:0 1px 2px rgba(60,66,87,.14)}
+  .node__ck{position:absolute;right:11px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:#34b45d;display:grid;place-items:center}
+  .node__ck svg{width:10px;height:10px;fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .node__ck--wait{background:none;border:1.5px dashed #b3bac6}
+  .node__ck--warn{background:#e8b13a}
+  .node--done{border-color:#b9e4c8;box-shadow:0 2px 8px rgba(52,180,93,.14)}
+  .node--warn{border-color:#ecd9a3}
+  .node--wait{background:#fdfdfd;opacity:.78;box-shadow:none}
+  .node--key{border:1.5px solid #e58b92;box-shadow:0 4px 14px rgba(196,53,43,.16)}
+  .node__big{display:block;margin:2px 0 4px;font-size:32px;font-weight:600;line-height:1.05;letter-spacing:-.02em;color:#2a8a52}
+  .node__big small{font-size:14px;font-weight:400;letter-spacing:0;color:var(--muted)}
+  .node--big{border-color:#bfe6cc;box-shadow:0 4px 14px rgba(52,180,93,.14)}
+  .node--down .node__s b{color:#c4352b}
+  .node--up .node__s b{color:#2a8a52}
+
+  .legend{display:flex;flex-wrap:wrap;gap:18px;margin:12px 14px 0;font-size:12.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{width:12px;height:12px;border-radius:4px;border:1.5px solid;display:block}
+
+  .reopen{padding:10px 16px;border:1px solid #d5dbe4;border-radius:8px;background:#fff;font-size:14px;font-weight:500}
+  .reopen[hidden]{display:none}
+  @media (max-width:760px){body{padding:0}.win{max-height:100vh;border-radius:0}.legend{display:none}}
+</style>
+</head>
+<body>
+<div class="win" id="win" role="dialog" aria-modal="true" aria-labelledby="fd-t">
+  <header class="win__h">
+    <span class="win__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="12" r="2.4"/><path d="M8.4 6H12v12H8.4M12 12h3.6"/></svg></span>
+    <div><h1 class="win__t" id="fd-t">How a finding moves the score</h1></div>
+    <button type="button" class="win__x" id="x" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </header>
+  <div class="win__b">
+    <div class="scroller"><div class="board" id="board"></div></div>
+    <div class="legend" aria-hidden="true">
+      <span><i style="border-color:#34b45d;background:#34b45d"></i>Done</span>
+      <span><i style="border-color:#e8b13a;background:#e8b13a"></i>Needs a look</span>
+      <span><i style="border-color:#b3bac6;border-style:dashed;background:#fff"></i>Still to do</span>
+      <span><i style="border-color:#e58b92;background:#fff"></i>The finding</span>
+    </div>
+  </div>
+</div>
+<button type="button" class="reopen" id="reopen" hidden>Show the diagram</button>
+
+<script>
+/* One finding, step by step. Each line is taken from the finding's own text on the Findings page and the Score page; nothing new is measured. */
+(function(){
+  const I={
+    people:'<path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 6.5M18.5 14.5A6.5 6.5 0 0 1 21.5 20"/>',
+    seat:'<rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01"/>',
+    cloud:'<path d="M7 18a4.5 4.5 0 0 1-.4-9 6 6 0 0 1 11.6 1.5A3.8 3.8 0 0 1 17.5 18z"/>',
+    match:'<path d="M3.5 7h11M3.5 17h11M14.5 4.5 18 7l-3.5 2.5M14.5 14.5 18 17l-3.5 2.5"/><path d="M20.5 7v10"/>',
+    flag:'<path d="M5 21V4M5 4.5h12l-3 4 3 4H5"/>',
+    bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/>',
+    check:'<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>',
+    trash:'<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v6M14 11v6"/>',
+    list:'<rect x="5" y="3.5" width="14" height="17" rx="2"/><path d="m8.5 9 1.5 1.5 3-3M8.5 15.5h7"/>',
+    down:'<path d="M3.5 7.5 9.5 13.5l3.5-3.5L20.5 17.5M15 17.5h5.5V12"/>',
+    gauge:'<path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="m12 17.5 3.5-5"/>'
+  };
+  const CK='<span class="node__ck"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 12.5 4 4 8-9"/></svg></span>';
+  const CKW='<span class="node__ck node__ck--wait" aria-hidden="true"></span>';
+  const CKN='<span class="node__ck node__ck--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5v7M12 17.5h.01"/></svg></span>';
+  const COLS=[
+    {t:'Sources',c:'3 of 3',q:'Where Cygnos reads',nodes:[
+      {id:'dir',ic:'people',t:'Staff directory',s:'Who left, and when',cls:'done',mk:CK,to:['match']},
+      {id:'chat',ic:'seat',t:'ChatGPT and Claude admins',s:'Which seats are used',cls:'done',mk:CK,to:['match']},
+      {id:'ms',ic:'cloud',t:'Microsoft 365 admin',s:'As of 7 Oct, a little out of date',cls:'warn',mk:CKN,tag:['Stale','warn'],to:['match']}
+    ]},
+    {t:'Reading',c:'1 of 1',q:'What it compares',nodes:[
+      {id:'match',ic:'match',t:'Matched leavers to seats',s:'<b>14 seats</b> were still open after the person left, across 3 tools.',cls:'done',mk:CK,to:['find']}
+    ]},
+    {t:'Finding',c:'1 of 1',q:'What it found',nodes:[
+      {id:'find',ic:'flag',t:'14 AI seats are still active for people who have left',s:'<b>3</b> were used in September.',cls:'key',tag:['Critical','bad'],to:['parts','method','sure']}
+    ]},
+    {t:'Score',c:'The score',q:'What Cygnos tells you',nodes:[
+      {id:'iq',ic:'gauge',t:'Cygnos IQ',s:'<span class="node__big">71<small> / 100</small></span>+3 since August',cls:'up big'}
+    ]}
+  ];
+  /* the evaluation comes first: how Cygnos judges what it found, and so how the score is made */
+  COLS.push({t:'Evaluation',c:'3 checks',q:'How Cygnos judges it',nodes:[
+    {id:'parts',ic:'list',t:'Four parts',s:'They add up to the score',cls:'plain',to:['iq']},
+    {id:'method',ic:'check',t:'Same method every month',s:'Method 2.0, unchanged since March',cls:'plain',to:['iq']},
+    {id:'sure',ic:'flag',t:'How sure we are',s:'Moderate for Safe Use',cls:'plain',to:['iq']}
+  ]});
+  COLS.reverse(); /* read from the left: the score first, then what is done about it, the finding, what Cygnos read, and where from */
+  COLS.unshift(COLS.splice(1,1)[0]); /* the score, then how it is judged, then the action, the finding, the reading and the sources */
+  const board=document.getElementById('board'),TAG={warn:'stat--warn',bad:'stat--bad'};
+  board.innerHTML='<svg class="links" id="links" aria-hidden="true"></svg>'+COLS.map(c=>
+    '<section class="col"><div class="col__h"><span class="col__tag">'+c.t+'</span><span class="col__c">'+c.c+'</span></div><p class="col__q">'+c.q+'</p><div class="col__b">'+
+    c.nodes.map(n=>'<article class="node node--'+n.cls+'" id="n-'+n.id+'">'+
+      (n.tag?'<span class="stat node__tag '+TAG[n.tag[1]]+'">'+n.tag[0]+'</span>':'')+
+      '<span class="node__i"><svg viewBox="0 0 24 24" aria-hidden="true">'+I[n.ic]+'</svg></span>'+
+      '<div><h3 class="node__t">'+n.t+'</h3><p class="node__s">'+n.s+'</p></div>'+(n.mk||'')+'</article>').join('')+
+    '</div></section>').join('');
+  const svg=document.getElementById('links');
+  function draw(){
+    const b=board.getBoundingClientRect(),S=b.width/board.offsetWidth||1; svg.setAttribute('viewBox','0 0 '+board.offsetWidth+' '+board.offsetHeight); let d='',dots='',lab='';
+    const colOf={}; COLS.forEach((c,i)=>c.nodes.forEach(n=>colOf[n.id]=i));
+    const pos=id=>{const r=document.getElementById('n-'+id).getBoundingClientRect();return{l:(r.left-b.left)/S,r:(r.right-b.left)/S,t:(r.top-b.top)/S,b:(r.bottom-b.top)/S,cx:((r.left+r.right)/2-b.left)/S,cy:((r.top+r.bottom)/2-b.top)/S}};
+    const defs='<defs>'+['g:#86cfa1','n:#b3bac6'].map(s=>{const [i,c]=s.split(':');return '<marker id="ah-'+i+'" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M1.5 1.2 6.5 4 1.5 6.8" fill="none" stroke="'+c+'" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></marker>'}).join('')+'</defs>';
+    const dot=(x,y)=>'<circle cx="'+x+'" cy="'+y+'" r="3"/>';
+    COLS.forEach(c=>c.nodes.forEach(n=>(n.to||[]).forEach(to=>{
+      const a=pos(n.id),z=pos(to),done=n.cls.indexOf('done')>-1,k=done?'is-done':'',m=' marker-end="url(#ah-'+(done?'g':'n')+')"';
+      if(Math.abs(a.cx-z.cx)<8){ d+='<path class="'+k+'"'+m+' d="M'+a.cx+' '+a.b+' V'+z.t+'"/>'; }
+      else if(z.l>a.r){ const mx=a.r+(z.l-a.r)/2; d+='<path class="'+k+'"'+m+' d="M'+a.r+' '+a.cy+' H'+mx+' V'+z.cy+' H'+z.l+'"/>'; dots+=dot(a.r,a.cy); }
+      else if(z.r<a.l&&Math.abs(colOf[n.id]-colOf[to])===1){ const mx=z.r+(a.l-z.r)/2; d+='<path class="'+k+'"'+m+' d="M'+a.l+' '+a.cy+' H'+mx+' V'+z.cy+' H'+z.r+'"/>'; dots+=dot(a.l,a.cy); }
+      else if(z.r<a.l){
+        /* a long way back to the score: along the top edge, with what it costs written on it */
+        const ry=7; d+='<path class="'+k+'"'+m+' d="M'+a.cx+' '+a.t+' V'+ry+' H'+z.cx+' V'+z.t+'"/>'; dots+=dot(a.cx,a.t);
+      }
+    })));
+    svg.innerHTML=defs+d+dots+lab;
+  }
+  /* the whole diagram is scaled to the width of the window, so there is nothing to scroll sideways */
+  const sc=document.querySelector('.scroller');
+  function fit(){
+    board.style.transform='none'; board.style.width=''; sc.style.height='0';
+    const wb=document.querySelector('.win__b'), room=innerHeight-56-(sc.getBoundingClientRect().top-document.querySelector(".win").getBoundingClientRect().top)-48;
+    const s=Math.min(1,sc.clientWidth/board.offsetWidth,room/board.offsetHeight);
+    if(sc.clientWidth/s>board.offsetWidth)board.style.width=(sc.clientWidth/s)+'px';
+    board.style.transform='scale('+s+')'; sc.style.height=Math.ceil(board.offsetHeight*s)+'px';
+    draw();
+  }
+  fit(); addEventListener('resize',fit); if(document.fonts)document.fonts.ready.then(fit);
+
+  /* close: tell the page that opened it, or hide the window when it is open on its own */
+  const win=document.getElementById('win'),re=document.getElementById('reopen');
+  function close(){ if(window.parent!==window){ parent.postMessage({cygFlowClose:1},'*'); return; } win.hidden=true; re.hidden=false; document.body.style.background='#fff'; }
+  document.getElementById('x').addEventListener('click',close);
+  addEventListener('keydown',e=>{ if(e.key==='Escape') close(); });
+  re.addEventListener('click',()=>{ win.hidden=false; re.hidden=true; document.body.style.background=''; fit(); });
+})();
+</script>
+</body>
+</html>

@@ -243,7 +243,7 @@
   .tbtn2.primary:hover{border-color:#404040;background:#404040}
   @media (prefers-reduced-motion:reduce){.drawer,.scrim{transition:none}}
 .left>h1:first-child{margin-top:0}
-.left>.sub:first-child{margin-top:0}  .left>.sub+h1{margin-top:16px}
+.left>.sub{display:none}  .left>.sub+h1{margin-top:0}
   .tooverview{align-self:flex-start;display:inline-flex;align-items:center;gap:4px;height:34px;margin-top:18px;padding:0 16px;border-radius:999px;background:#262626;font-size:13px;font-weight:500;color:#fff;text-decoration:none;transition:background .2s}
   .tooverview:hover{background:#404040}
   .tooverview svg{transition:transform .2s}
@@ -276,9 +276,9 @@
   .dp-subh em{font-style:normal;font-weight:700}.dp-subh em.up{color:#1f9d4c}.dp-subh em.dn{color:var(--red)}
   /* the three card sets change as you scroll; the card stays pinned while the page scrolls */
   @media (min-width:821px){
-    .card{position:sticky;top:14px}
+    .card{position:relative}
     .left>h1{width:112%;font-size:clamp(15px,1.28vw,18px)}
-    .runway{margin-inline:clamp(20px,4.4vw,56px)}
+    .runway{margin-inline:0;display:flow-root;overflow:clip;overflow-clip-margin:64px}
   }
   @media (max-width:820px){
     .track{display:block;transform:none!important}
@@ -303,14 +303,14 @@
   @keyframes pagein{from{opacity:0}to{opacity:1}}
   @keyframes pagerise{from{transform:translateY(8px)}to{transform:none}}
   /* A peek of the next page under the card, when the screen is taller than the card */
-  .peek{display:none!important;position:fixed;z-index:1;overflow:hidden;cursor:pointer;-webkit-mask-image:linear-gradient(#000 35%,transparent);mask-image:linear-gradient(#000 35%,transparent)}
+  .peek{position:fixed;z-index:1;overflow:hidden;cursor:pointer}
   .hello{margin:4px 0 12px clamp(20px,4.4vw,56px);font-size:18px;line-height:1.3;font-weight:600;color:var(--text)}
   /* top row: logo, greeting, notifications and profile */
-  .hbar{position:relative;display:flex;align-items:center;min-height:34px;margin:2px 0 10px}
+  .hbar{position:relative;display:flex;align-items:center;min-height:34px;margin:16px 0 30px}
   .hbar__logo{position:absolute;left:10px;top:50%;transform:translateY(-50%);display:block;width:32px;height:32px}
   .hbar__logo img{display:block;width:100%;height:100%;object-fit:contain}
-  .hbar .hello{margin:0 0 0 clamp(20px,4.4vw,56px)}
-  .hbar__r{margin-left:auto;margin-right:clamp(20px,4.4vw,56px);display:flex;align-items:center;gap:22px}
+  .hbar .hello{margin:0}
+  .hbar__r{margin-left:auto;margin-right:0;display:flex;align-items:center;gap:22px}
   .hbar__bell,.prof__btn{color:#4f566b}
   .hbar__bell svg{display:block;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .hbar__bell{border-radius:50%}
@@ -328,6 +328,31 @@
   .prof__item:hover,.prof__item:focus-visible{background:var(--panel);outline:none}
   .prof__item svg{width:15px;height:15px;fill:none;stroke:#6b7385;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   html.embed .hbar{display:none}
+  /* side menu, same as the other pages */
+  .side{position:fixed;top:0;left:0;bottom:0;z-index:20;width:272px;display:flex;flex-direction:column;padding:0 20px 20px;background:#fff;border-right:1px solid var(--line)}
+  .side__org{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;margin-top:4px;padding:8px 0 4px;font-size:15px;font-weight:600;color:var(--ink)}
+  .side__brand{display:flex;align-items:center;gap:8px}
+  .side__logo{flex:none;width:22px;height:22px;margin:0 -1px;object-fit:contain}
+  .side__co{max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:600;color:#262626}
+  .nav{margin-top:34px}
+  .nav__item{display:flex;align-items:center;gap:13px;width:100%;height:29px;margin-bottom:1px;padding-inline:0 4px;font-size:15px;color:var(--text);text-decoration:none}
+  .nav__item .ico{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;color:#6b7385}
+  .nav__item:hover{color:var(--ink)}
+  .vseg{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:4px 0 8px;padding:2px;border-radius:7px;background:var(--panel)}
+  .vseg a{padding:3px 0;border-radius:5px;font-size:12px;text-align:center;color:var(--muted);text-decoration:none}
+  .vseg a:hover{color:var(--ink)}
+  .vseg a.is-on{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(60,66,87,.12)}
+  .quick{margin-top:auto}
+  .quick .nav__item{height:auto;min-height:29px;padding-block:3px;font-size:14px;white-space:nowrap;color:#7b8190}
+  .quick .nav__item:hover{color:var(--ink)}
+  .side__label{margin:0 0 8px;font-size:13px;color:var(--muted)}
+  @media (min-width:821px){body{padding:14px 40px 14px 312px}}
+  @media (max-width:820px){.side{display:none}}
+  .tooverview{display:none!important}
+  .shint .mouse,.shint .stxt{display:none}
+  .shint .scnt{border-left:0;padding-left:0;margin-left:0}
+  html.embed .side{display:none}
+  html.embed body{padding:14px}
   .dp{position:fixed;z-index:40;top:0;right:0;bottom:0;display:flex;flex-direction:column;width:min(440px,100vw);background:#fff;border-left:1px solid var(--line);box-shadow:-12px 0 32px rgba(26,31,54,.10);visibility:hidden;opacity:0;transform:translateX(28px);transition:transform .22s ease,opacity .18s ease,visibility 0s linear .22s}
   .dp.is-open{visibility:visible;opacity:1;transform:none;transition-delay:0s}
   .dp-scrim{position:fixed;inset:0;z-index:39;background:rgba(26,31,54,.38);opacity:0;visibility:hidden;transition:opacity .2s ease,visibility 0s linear .2s}
@@ -416,8 +441,28 @@
 </head>
 <body>
 <script>if(self!==top)document.documentElement.classList.add("embed")</script>
+<aside class="side">
+  <div class="side__org"><div class="side__brand"><img class="side__logo" src="icons/logo.png" alt=""><span>Cygnos</span></div><span class="side__co">Kestrel Vane Consulting</span></div>
+  <nav class="nav" aria-label="Primary">
+    <a class="nav__item" href="newv1.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Overview</a>
+    <div class="vseg" role="group" aria-label="View"><a class="is-on" href="exeview.html" aria-current="page">Executive</a><a href="newv1.html">Detailed</a></div>
+    <a class="nav__item" href="findings.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8 21h8M12 16.5V21"/></svg>Findings</a>
+    <a class="nav__item" href="newv1.html?go=2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="m12 17.5 3.5-5"/><path d="M12 17.5h.01"/></svg>Score</a>
+    <a class="nav__item" href="newv1.html?go=3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></svg>AI landscape</a>
+    <a class="nav__item" href="newv1.html?go=4"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01M2 14h2M20 14h2"/></svg>Sources</a>
+    <a class="nav__item" href="newv1.html?go=5"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M9 13h6M9 16.5h4"/></svg>Briefs</a>
+    <a class="nav__item" href="newv1.html?go=6"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
+  </nav>
+  <nav class="quick" aria-label="Quick access">
+    <p class="side__label">Quick access</p>
+    <a class="nav__item" href="newv1.html?q=0"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M12 11.5v5M9.5 14h5"/></svg>Create brief</a>
+    <a class="nav__item" href="newv1.html?q=1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4.5 15v3.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>Upload AI budget</a>
+    <a class="nav__item" href="newv1.html?q=2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 2.8 7.4 7 9 4.2-1.6 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.2 10"/></svg>Connect data loss prevention</a>
+    <a class="nav__item" href="newv1.html?q=3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8.2 4.5 4.5 4.5v13c3.7 0 6 .5 7.5 2 1.5-1.5 3.8-2 7.5-2v-13c-3.7 0-6 .5-7.5 2zM12 6.5v13"/></svg>Resources</a>
+    <a class="nav__item" href="newv1.html?q=4"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg>Help</a>
+  </nav>
+</aside>
 <div class="hbar">
-  <a class="hbar__logo" href="newv1.html" aria-label="Cygnos"><img src="icons/logo.png" alt="Cygnos"></a>
   <p class="hello">Welcome back, Mark</p>
   <div class="hbar__r">
     <a class="hbar__bell" id="hb-bell" href="newv1.html?notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/></svg></a>
@@ -544,8 +589,27 @@
   <div class="dw-scroll" id="fdBody"></div>
 </aside>
 <script>
+/* The three pages become three separate cards, one under the other, so the page scrolls like any other page. */
+(function(){
+  const orig=document.querySelector("main.card"),wrap=orig.parentNode,N=orig.querySelectorAll(".pg").length;
+  const HEADS=[
+    "This week: one critical finding due Fri 16 Oct, one overdue finding moved up to the executive team, 9 fixed.",
+    "What drives your score: gains in Spend Discipline and Value Delivered, a drop in Safe Use.",
+    "How the system is working: 34 of 41 findings fixed on time in September."
+  ],HINT=["Scroll to explore","Keep scrolling","Scroll back up"];
+  const base=orig.cloneNode(true);
+  for(let i=0;i<N;i++){
+    const c=i===0?orig:base.cloneNode(true);
+    c.querySelectorAll(".pg").forEach((p,j)=>{if(j!==i)p.remove()});
+    c.querySelector(".left>h1").textContent=HEADS[i];
+    const sh=c.querySelector(".shint");sh.querySelector(".stxt").textContent=HINT[i];sh.querySelector(".scnt").textContent=(i+1)+" / "+N;
+    c.dataset.page=i;
+    if(i>0)wrap.appendChild(c);
+  }
+})();
+</script>
+<script>
 const M=["Mar","Apr","May","Jun","Jul","Aug","Sep"];
-let S=1;
 const NAMES={iq:"CygnosIQ",iqd:"Monthly change",vd:"Value Delivered",su:"Safe Use",rl:"Reliability",sd:"Spend Discipline",dueN:"Findings due",fixN:"Fixed on time",odN:"Went overdue",acN:"Accepted with a reason"};
 const GREEN="#1fb80a",REDC="#d3262b";
 const SC={
@@ -572,14 +636,7 @@ function shape(s){
   return{g:bez(s.s,s.g),r:bez(s.s,s.r),base:s.s,ro:1};
 }
 const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,lerp=(a,b,t)=>a+(b-a)*t;
-let cur=null,raf=0;
 function d(a,close,base){const l=a.map((v,i)=>`${i?"L":"M"}${XS[i].toFixed(2)} ${v.toFixed(2)}`).join(" ");return close?`${l} L100 ${base} L0 ${base} Z`:l}
-function paint(st){
-  $("gl").setAttribute("d",d(st.g));$("gf").setAttribute("d",d(st.g,1,st.base));
-  $("rl").setAttribute("d",d(st.r));$("rf").setAttribute("d",d(st.r,1,st.base));
-  $("gd").style.top=st.g[N-1]+"%";$("rd").style.top=st.r[N-1]+"%";
-  ["rl","rf","rd"].forEach(i=>$(i).style.opacity=st.ro);
-}
 const INFO={
   dueN:{big:"+3",unit:"",sub:"since August",dir:"neu"},
   fixN:{big:"+2",unit:"",sub:"since August",dir:"up"},
@@ -597,113 +654,151 @@ const MK={
   seats:[{x:0,y:0,t:"14 today",p:"tl"}],
   bill:[{x:0,y:57,t:"23 days today",p:"tl"}]
 };
-function drawAnn(k){
-  const s=SC[k],A=$("ann"),i=INFO[k];let h="";
-  const dot=(x,y)=>`<i class="mk" style="left:${x}%;top:${y}%"></i>`,lb=(x,y,t,p,c)=>`<span class="lb ${p} ${c||""}" style="left:${x}%;top:${y}%">${t}</span>`;
-  if(s.pts){
-    const n=s.pts.length-1,Y=v=>(s.max-v)/(s.max-s.min)*100;
-    s.pts.forEach((v,j)=>{if(j<n)h+=dot(j/n*100,Y(v))});
-    const F=v=>s.signed&&v>0?"+"+v:String(v).replace("-","−");h+=lb(0,Y(s.pts[0]),F(s.pts[0]),"tl")+lb(100,Y(s.pts[n]),F(s.pts[n]),"tr");
-  }else{
-    const m=MK[k];h+=dot(0,m[0].y);m.forEach(o=>h+=lb(o.x,o.y,o.t,o.p,o.c));
+const wide=matchMedia("(min-width:821px)");
+const cards=[];
+function initCard(card,idx){
+  let S=1,cur=null,raf=0,curKey="iq";
+  const $=id=>card.querySelector("#"+id);
+  function paint(st){
+    $("gl").setAttribute("d",d(st.g));$("gf").setAttribute("d",d(st.g,1,st.base));
+    $("rl").setAttribute("d",d(st.r));$("rf").setAttribute("d",d(st.r,1,st.base));
+    $("gd").style.top=st.g[N-1]+"%";$("rd").style.top=st.r[N-1]+"%";
+    ["rl","rf","rd"].forEach(i=>$(i).style.opacity=st.ro);
   }
-  A.innerHTML=h;requestAnimationFrame(()=>{A.classList.add("on");renderTip(1)});
-}
-function labels(s){
-  $("y1").textContent=s.y[0];$("y2").textContent=s.y[1];$("y3").textContent=s.y[2];
-  $("xaxis").innerHTML=s.xs.map((t,i)=>(s.lg&&i==1?`<span class="lg"><i style="background:var(--green)"></i>${s.lgT[0]}<i style="background:var(--red)"></i>${s.lgT[1]}</span>`:'')+`<span>${t}</span>`).join("");
-}
-let curKey="iq";
-function show(k){
-curKey=k;setLegend(k);hideTip();
-  const s=SC[k],bad=!!s.bad;
-  $("gl").setAttribute("stroke",bad?"#d3262b":"#1fb80a");$("gf").setAttribute("fill",bad?"url(#r)":"url(#g)");$("gd").style.background=bad?"var(--red)":"var(--green)";
-  const to=shape(s),from=cur||to,t0=performance.now(),D=cur?650:0;
-  cancelAnimationFrame(raf);let swapped=!cur;
-  $("ann").classList.remove("on");
-  if(!cur)labels(s);
-  (function step(now){
-    const t=D?Math.min(1,(now-t0)/D):1,e=ease(t);
-    cur={g:to.g.map((v,i)=>lerp(from.g[i],v,e)),r:to.r.map((v,i)=>lerp(from.r[i],v,e)),base:lerp(from.base,to.base,e),ro:lerp(from.ro,to.ro,e)};
-    if(!swapped&&t>=.5){labels(s);swapped=true}
-    paint(cur);
-    if(t<1)raf=requestAnimationFrame(step);else{cur={g:to.g,r:to.r,base:to.base,ro:to.ro};drawAnn(k)}
-  })(t0);
-}
-const picks=document.querySelectorAll(".tile:not(.static),.iq,.mvr");
-const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches,EASE="cubic-bezier(.32,.72,0,1)";
-function xf(dv,t){const v=dv.getBoundingClientRect(),r=t.getBoundingClientRect();return `translate(${r.left-v.left}px,${r.top-v.top}px) scale(${r.width/v.width},${r.height/v.height})`}
-function bg(t){return getComputedStyle(t).backgroundColor}
-function openDv(dv,t){
-  if(dv.classList.contains("open")&&!dv._closing)return;
-  dv._closing=null;dv.classList.remove("closing");
-  dv.getAnimations().forEach(a=>a.cancel());
-  const from=xf(dv,t),c=bg(t);
-  dv.classList.add("open");
-  if(reduced)return;
-  dv.animate([{transform:from,backgroundColor:c},{transform:"none",backgroundColor:"#eceae6"}],{duration:520,easing:EASE});
-}
-function closeDv(dv,instant){
-  if(!dv.classList.contains("open"))return;
-  const t=document.querySelector(`.tile[data-scn="${dv.id.slice(2)}"]`);
-  dv.getAnimations().forEach(a=>a.cancel());
-  if(instant||reduced||!t||!t.offsetParent){dv._closing=null;dv.classList.remove("open","closing");return}
-  dv.classList.add("closing");
-  const a=dv.animate([{transform:"none",backgroundColor:"#eceae6"},{transform:xf(dv,t),backgroundColor:bg(t)}],{duration:420,easing:EASE,fill:"forwards"});
-  dv._closing=a;
-  a.onfinish=()=>{if(dv._closing!==a)return;dv._closing=null;a.cancel();dv.classList.remove("open","closing")};
-}
-function pick(t,openIt){
-  picks.forEach(o=>{const on=o===t;o.classList.toggle("is-sel",on);o.setAttribute("aria-pressed",on)});
-  show(t.dataset.scn);
-  const want="v-"+t.dataset.scn;document.querySelectorAll(".dview.open").forEach(v=>{if(v.id!==want)closeDv(v)});
-  if(openIt)openSide(t.dataset.scn);
-}
-picks.forEach(t=>{t.addEventListener("click",()=>pick(t));t.addEventListener("keydown",e=>{if(e.target===t&&(e.key=="Enter"||e.key==" ")){e.preventDefault();pick(t)}})});
-show("iq");
-function setLegend(k){
-  const s=SC[k],items=s.pts?[[NAMES[k],s.bad?REDC:GREEN]]:[["If closed this week",GREEN],["If left as is",REDC]];
-  $("legend").innerHTML=items.map(([t,c])=>`<span class="lgp"><i style="background:${c}"></i>${t}</span>`).join("");
-}
-const plotEl=document.querySelector(".plot");
-function hideTip(){$("tt").style.display="none";$("xh").style.display="none";document.querySelectorAll(".plot .hl").forEach(e=>e.remove())}
-function showTip(e){const r=plotEl.getBoundingClientRect();renderTip(Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)))}function renderTip(f){  if(!$("ann").classList.contains("on")||!cur)return;  const s=SC[curKey],r=plotEl.getBoundingClientRect();
-  let x,title,rows,dots=[];
-  if(s.pts){
-    const n=s.pts.length-1,i=Math.round(f*n),v=s.pts[i],c=s.bad?REDC:GREEN;
-    const X=s.xs||M;x=i/n*100;title=`${X[i]} 2026`;
-    rows=[[c,NAMES[curKey],s.signed&&v>0?"+"+v:String(v).replace("-","−")]];
-    if(i>0&&!s.signed){const d=v-s.pts[i-1];rows.push(["#9aa0ad","vs "+X[i-1],(d>0?"+":d<0?"−":"")+Math.abs(d)])}
-    dots=[[x,(s.max-v)/(s.max-s.min)*100,c]];
-  }else{
-    const i=Math.round(f*(N-1)),gy=cur.g[i],ry=cur.r[i];
-    x=i/(N-1)*100;const day=Math.round(f*30);title=day===0?"Today":`Day ${day}`;
-    const val=y=>Math.max(0,Math.round(s.top*(1-y/100)*(s.top===53?1:1)));
-    rows=[[GREEN,"If closed this week",`${val(gy)} ${s.unit}`],[REDC,"If left as is",`${val(ry)} ${s.unit}`]];
-    dots=[[x,gy,GREEN],[x,ry,REDC]];
+  function drawAnn(k){
+    const s=SC[k],A=$("ann"),i=INFO[k];let h="";
+    const dot=(x,y)=>`<i class="mk" style="left:${x}%;top:${y}%"></i>`,lb=(x,y,t,p,c)=>`<span class="lb ${p} ${c||""}" style="left:${x}%;top:${y}%">${t}</span>`;
+    if(s.pts){
+      const n=s.pts.length-1,Y=v=>(s.max-v)/(s.max-s.min)*100;
+      s.pts.forEach((v,j)=>{if(j<n)h+=dot(j/n*100,Y(v))});
+      const F=v=>s.signed&&v>0?"+"+v:String(v).replace("-","−");h+=lb(0,Y(s.pts[0]),F(s.pts[0]),"tl")+lb(100,Y(s.pts[n]),F(s.pts[n]),"tr");
+    }else{
+      const m=MK[k];h+=dot(0,m[0].y);m.forEach(o=>h+=lb(o.x,o.y,o.t,o.p,o.c));
+    }
+    A.innerHTML=h;requestAnimationFrame(()=>{A.classList.add("on");renderTip(1)});
   }
-  const xh=$("xh");xh.style.display="block";xh.style.left=x+"%";
-  plotEl.querySelectorAll(".hl").forEach(e=>e.remove());
-  dots.forEach(([dx,dy,c])=>{const d=document.createElement("i");d.className="hl";d.style.cssText=`left:${dx}%;top:${dy}%;background:${c}`;plotEl.appendChild(d)});
-  const tt=$("tt");tt.innerHTML=`<div class="tt-h">${title}</div>`+rows.map(([c,n,v])=>`<div class="tt-r"><i style="background:${c}"></i>${n}<b>${v}</b></div>`).join("");
-  tt.style.display="block";
-  const w=tt.offsetWidth,px=x/100*r.width/S,left=px+16+w>r.width/S?px-16-w:px+16;
-  tt.style.left=Math.max(0,left)+"px";
-  const dy0=dots[0][1]/100*r.height/S,flip=left<px;
-  /* when the card sits to the left of the point it goes below the point, so it never covers the number above it */
-  tt.style.top=Math.max(0,Math.min(r.height/S-tt.offsetHeight,flip?dy0+14:dy0-tt.offsetHeight/2))+"px";
+  function labels(s){
+    $("y1").textContent=s.y[0];$("y2").textContent=s.y[1];$("y3").textContent=s.y[2];
+    $("xaxis").innerHTML=s.xs.map((t,i)=>(s.lg&&i==1?`<span class="lg"><i style="background:var(--green)"></i>${s.lgT[0]}<i style="background:var(--red)"></i>${s.lgT[1]}</span>`:'')+`<span>${t}</span>`).join("");
+  }
+  function show(k){
+  curKey=k;setLegend(k);hideTip();
+    const s=SC[k],bad=!!s.bad;
+    $("gl").setAttribute("stroke",bad?"#d3262b":"#1fb80a");$("gf").setAttribute("fill",bad?"url(#r)":"url(#g)");$("gd").style.background=bad?"var(--red)":"var(--green)";
+    const to=shape(s),from=cur||to,t0=performance.now(),D=cur?650:0;
+    cancelAnimationFrame(raf);let swapped=!cur;
+    $("ann").classList.remove("on");
+    if(!cur)labels(s);
+    (function step(now){
+      const t=D?Math.min(1,(now-t0)/D):1,e=ease(t);
+      cur={g:to.g.map((v,i)=>lerp(from.g[i],v,e)),r:to.r.map((v,i)=>lerp(from.r[i],v,e)),base:lerp(from.base,to.base,e),ro:lerp(from.ro,to.ro,e)};
+      if(!swapped&&t>=.5){labels(s);swapped=true}
+      paint(cur);
+      if(t<1)raf=requestAnimationFrame(step);else{cur={g:to.g,r:to.r,base:to.base,ro:to.ro};drawAnn(k)}
+    })(t0);
+  }
+  const picks=card.querySelectorAll(".tile:not(.static),.iq,.mvr");
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches,EASE="cubic-bezier(.32,.72,0,1)";
+  function xf(dv,t){const v=dv.getBoundingClientRect(),r=t.getBoundingClientRect();return `translate(${r.left-v.left}px,${r.top-v.top}px) scale(${r.width/v.width},${r.height/v.height})`}
+  function bg(t){return getComputedStyle(t).backgroundColor}
+  function openDv(dv,t){
+    if(dv.classList.contains("open")&&!dv._closing)return;
+    dv._closing=null;dv.classList.remove("closing");
+    dv.getAnimations().forEach(a=>a.cancel());
+    const from=xf(dv,t),c=bg(t);
+    dv.classList.add("open");
+    if(reduced)return;
+    dv.animate([{transform:from,backgroundColor:c},{transform:"none",backgroundColor:"#eceae6"}],{duration:520,easing:EASE});
+  }
+  function closeDv(dv,instant){
+    if(!dv.classList.contains("open"))return;
+    const t=card.querySelector(`.tile[data-scn="${dv.id.slice(2)}"]`);
+    dv.getAnimations().forEach(a=>a.cancel());
+    if(instant||reduced||!t||!t.offsetParent){dv._closing=null;dv.classList.remove("open","closing");return}
+    dv.classList.add("closing");
+    const a=dv.animate([{transform:"none",backgroundColor:"#eceae6"},{transform:xf(dv,t),backgroundColor:bg(t)}],{duration:420,easing:EASE,fill:"forwards"});
+    dv._closing=a;
+    a.onfinish=()=>{if(dv._closing!==a)return;dv._closing=null;a.cancel();dv.classList.remove("open","closing")};
+  }
+  function pick(t,openIt){
+    picks.forEach(o=>{const on=o===t;o.classList.toggle("is-sel",on);o.setAttribute("aria-pressed",on)});
+    show(t.dataset.scn);
+    const want="v-"+t.dataset.scn;card.querySelectorAll(".dview.open").forEach(v=>{if(v.id!==want)closeDv(v)});
+    if(openIt)openSide(t.dataset.scn);
+  }
+  picks.forEach(t=>{t.addEventListener("click",()=>pick(t));t.addEventListener("keydown",e=>{if(e.target===t&&(e.key=="Enter"||e.key==" ")){e.preventDefault();pick(t)}})});
+  function setLegend(k){
+    const s=SC[k],items=s.pts?[[NAMES[k],s.bad?REDC:GREEN]]:[["If closed this week",GREEN],["If left as is",REDC]];
+    $("legend").innerHTML=items.map(([t,c])=>`<span class="lgp"><i style="background:${c}"></i>${t}</span>`).join("");
+  }
+  const plotEl=card.querySelector(".plot");
+  function hideTip(){$("tt").style.display="none";$("xh").style.display="none";card.querySelectorAll(".plot .hl").forEach(e=>e.remove())}
+  function showTip(e){const r=plotEl.getBoundingClientRect();renderTip(Math.min(1,Math.max(0,(e.clientX-r.left)/r.width)))}function renderTip(f){  if(!$("ann").classList.contains("on")||!cur)return;  const s=SC[curKey],r=plotEl.getBoundingClientRect();
+    let x,title,rows,dots=[];
+    if(s.pts){
+      const n=s.pts.length-1,i=Math.round(f*n),v=s.pts[i],c=s.bad?REDC:GREEN;
+      const X=s.xs||M;x=i/n*100;title=`${X[i]} 2026`;
+      rows=[[c,NAMES[curKey],s.signed&&v>0?"+"+v:String(v).replace("-","−")]];
+      if(i>0&&!s.signed){const d=v-s.pts[i-1];rows.push(["#9aa0ad","vs "+X[i-1],(d>0?"+":d<0?"−":"")+Math.abs(d)])}
+      dots=[[x,(s.max-v)/(s.max-s.min)*100,c]];
+    }else{
+      const i=Math.round(f*(N-1)),gy=cur.g[i],ry=cur.r[i];
+      x=i/(N-1)*100;const day=Math.round(f*30);title=day===0?"Today":`Day ${day}`;
+      const val=y=>Math.max(0,Math.round(s.top*(1-y/100)*(s.top===53?1:1)));
+      rows=[[GREEN,"If closed this week",`${val(gy)} ${s.unit}`],[REDC,"If left as is",`${val(ry)} ${s.unit}`]];
+      dots=[[x,gy,GREEN],[x,ry,REDC]];
+    }
+    const xh=$("xh");xh.style.display="block";xh.style.left=x+"%";
+    plotEl.querySelectorAll(".hl").forEach(e=>e.remove());
+    dots.forEach(([dx,dy,c])=>{const d=document.createElement("i");d.className="hl";d.style.cssText=`left:${dx}%;top:${dy}%;background:${c}`;plotEl.appendChild(d)});
+    const tt=$("tt");tt.innerHTML=`<div class="tt-h">${title}</div>`+rows.map(([c,n,v])=>`<div class="tt-r"><i style="background:${c}"></i>${n}<b>${v}</b></div>`).join("");
+    tt.style.display="block";
+    const w=tt.offsetWidth,px=x/100*r.width/S,left=px+16+w>r.width/S?px-16-w:px+16;
+    tt.style.left=Math.max(0,left)+"px";
+    const dy0=dots[0][1]/100*r.height/S,flip=left<px;
+    /* when the card sits to the left of the point it goes below the point, so it never covers the number above it */
+    tt.style.top=Math.max(0,Math.min(r.height/S-tt.offsetHeight,flip?dy0+14:dy0-tt.offsetHeight/2))+"px";
+  }
+  plotEl.addEventListener("pointermove",showTip);plotEl.addEventListener("pointerleave",()=>renderTip(1));
+  const rightEl=card.querySelector(".right"),navEl=card.querySelector(".pager"),axEl=$("xaxis");
+  function alignChart(){const lgEl=$("legend"),ft=card.querySelector(".foot");rightEl.style.paddingBottom="";lgEl.style.marginTop="";if(!wide.matches)return;const r=rightEl.getBoundingClientRect(),n0=navEl.getBoundingClientRect(),n={top:n0.bottom+8*S,height:28*S},lh=lgEl.getBoundingClientRect().height,nc=n.top+n.height/2,m=14;lgEl.style.marginTop=m+"px";rightEl.style.paddingBottom=(Math.max(0,r.bottom-(nc+lh/2))/S)+"px"}
+  /* The chart takes the same top and bottom as the stack of cards on the left. */
+  function alignRight(){
+    rightEl.style.marginTop="";rightEl.style.height="";
+    if(!wide.matches)return;
+    const pgEl=card.querySelector(".pg"),a=pgEl.firstElementChild.getBoundingClientRect(),b=[...pgEl.children].filter(e=>e.offsetHeight>0).pop().getBoundingClientRect(),r=rightEl.getBoundingClientRect();
+    const pl=rightEl.querySelector(".plot").getBoundingClientRect(),below=(r.bottom-pl.bottom)/S;
+    rightEl.style.marginTop=((a.top-r.top)/S)+"px";rightEl.style.height=((b.bottom-a.top)/S+below-28)+"px";
+  }
+  card.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>closeDv(b.closest(".dview"))));
+  card.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();pick(b.closest(".tile"),true)}));
+  const first=picks[0];pick(first);
+  let GAPV=0;
+  function fixMargin(){card.style.marginBottom=(card.getBoundingClientRect().height-card.offsetHeight+GAPV)+"px"} /* the card takes up only the room it shows */
+  if(window.ResizeObserver)new ResizeObserver(fixMargin).observe(card);
+  /* how big the card is shown: the whole card is scaled (never stretched) */
+  const api={
+    card,
+    natural(){card.style.width="";card.style.transform="";card.style.marginBottom="";S=1;return card.offsetHeight},
+    scale(s,gap){
+      S=s;GAPV=gap;card.style.transformOrigin="top left";
+      card.style.width=s===1?"":(100/s)+"%";card.style.transform=s===1?"":"scale("+s+")";
+      card.style.marginBottom="";
+      alignChart();alignRight();
+      fixMargin();
+    }
+  };
+  cards.push(api);return api;
 }
-plotEl.addEventListener("pointermove",showTip);plotEl.addEventListener("pointerleave",()=>renderTip(1));
-/* export drawer */
 (function(){
-  const dr=document.getElementById("drawer"),sc=document.getElementById("scrim"),btn=document.querySelector(".export");let last=null;
+  const dr=document.getElementById("drawer"),sc=document.getElementById("scrim"),btns=document.querySelectorAll(".export");let last=null;
   const FIND=[
     ["F-0001","Client-intake agent","Safe use","14 Sep 2026","n/a","Unassigned","Overdue"],
     ["F-0002","AI seats (people who have left)","Safe use","Sep 2026","Active (14 seats, 3 used)","IT admin team","Critical"]
   ];
   function open(){last=document.activeElement;sc.hidden=false;dr.setAttribute("aria-hidden","false");requestAnimationFrame(()=>{sc.classList.add("on");dr.classList.add("open")});setTimeout(()=>{const f=dr.querySelector("input:checked");if(f)f.focus()},60)}
   function close(){if(!dr.classList.contains("open"))return;sc.classList.remove("on");dr.classList.remove("open");dr.setAttribute("aria-hidden","true");setTimeout(()=>{sc.hidden=true},300);if(last&&last.focus)last.focus()}
-  btn.addEventListener("click",open);sc.addEventListener("click",close);
+  btns.forEach(b=>b.addEventListener("click",open));sc.addEventListener("click",close);
   document.getElementById("dwClose").addEventListener("click",close);document.getElementById("dwCancel").addEventListener("click",close);  addEventListener("keydown",e=>{if(e.key==="Escape"&&dr.classList.contains("open"))close()});
   dr.addEventListener("change",e=>{if(e.target.name==="range")document.getElementById("customRange").hidden=e.target.value!=="Custom"});
   document.getElementById("dwForm").addEventListener("submit",e=>{
@@ -767,114 +862,21 @@ plotEl.addEventListener("pointermove",showTip);plotEl.addEventListener("pointerl
     t.insertAdjacentHTML("beforeend",'<svg class="spk" viewBox="0 0 100 32" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c+'" stop-opacity=".22"/><stop offset="1" stop-color="'+c+'" stop-opacity="0"/></linearGradient></defs><path d="'+line+' L100 32 L0 32 Z" fill="url(#'+id+')"/><path d="'+line+'" fill="none" stroke="'+c+'" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>');
   });
 })();
-const rightEl=document.querySelector(".right"),navEl=document.querySelector(".pager"),axEl=document.getElementById("xaxis");function alignChart(){const lgEl=document.getElementById("legend"),ft=document.querySelector(".foot");rightEl.style.paddingBottom="";lgEl.style.marginTop="";if(!matchMedia("(min-width:821px)").matches)return;const r=rightEl.getBoundingClientRect(),n0=navEl.getBoundingClientRect(),n={top:n0.bottom+8*S,height:28*S},f=ft.getBoundingClientRect(),h=axEl.getBoundingClientRect().height,lh=lgEl.getBoundingClientRect().height,nc=n.top+n.height/2,m=14;lgEl.style.marginTop=m+"px";rightEl.style.paddingBottom=(Math.max(0,r.bottom-(nc+lh/2))/S)+"px"}
-addEventListener("resize",alignChart);addEventListener("load",alignChart);if(document.fonts)document.fonts.ready.then(alignChart);alignChart();
-document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>closeDv(b.closest(".dview"))));
-document.querySelectorAll("[data-open]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();pick(b.closest(".tile"),true)}));
-let pg=0;const track=document.querySelector(".track");
-const PAGES=track.querySelectorAll(".pg").length,dotEls=[...document.querySelectorAll(".pdot")],runway=document.getElementById("runway"),cardEl=document.querySelector(".card"),wide=matchMedia("(min-width:821px)");
-const HEADS=[
-  "This week: one critical finding due Fri 16 Oct, one overdue finding moved up to the executive team, 9 fixed.",
-  "What drives your score: gains in Spend Discipline and Value Delivered, a drop in Safe Use.",
-  "How the system is working: 34 of 41 findings fixed on time in September."
-];
-const h1El=document.querySelector(".left>h1");let headT=0;
-function setHead(i,init){
-  if(init){h1El.textContent=HEADS[i];return}
-  clearTimeout(headT);h1El.style.opacity="0";
-  headT=setTimeout(()=>{h1El.textContent=HEADS[i];h1El.style.opacity="1"},180);
+const stackEl=document.getElementById("runway");
+document.querySelectorAll("main.card").forEach((c,i)=>initCard(c,i));
+const GAP=24;
+function sizeAll(){
+  if(!wide.matches){cards.forEach(a=>a.scale(1,10));return}
+  const tallest=Math.max.apply(null,cards.map(a=>a.natural()));
+  /* big enough to read, small enough that the card fits the window with a strip of the next card showing under it */
+  const avail=innerHeight-Math.max(14,stackEl.offsetTop)-GAP-60;
+  const s=Math.min(1.15,Math.max(.4,avail/tallest));
+  cards.forEach((a,i)=>a.scale(s,i===cards.length-1?0:GAP));
 }
-function go(n,init,instant){
-  pg=n;if(instant)track.style.transition="none";track.style.transform="translateX("+(-100*pg)+"%)";if(instant){void track.offsetWidth;track.style.transition=""}
-  track.querySelectorAll(".pg").forEach((p,i)=>i===pg?p.removeAttribute("aria-hidden"):p.setAttribute("aria-hidden","true"));
-  dotEls.forEach((d,i)=>{d.classList.toggle("on",i===pg);d.setAttribute("aria-current",i===pg?"true":"false")});
-  setHead(pg,init||instant);alignRight();setTimeout(alignRight,220);
-  {const sh=document.getElementById("shint");if(sh){sh.querySelector(".stxt").textContent=["Scroll to explore","Keep scrolling","Scroll back up"][pg];sh.querySelector(".scnt").textContent=(pg+1)+" / "+PAGES;sh.classList.toggle("flip",pg===PAGES-1)}}
-  if(!init){const first=[document.querySelector(".duo .iq"),document.querySelector("[data-scn=vd]"),document.querySelector("[data-scn=dueN]")][pg];if(first)pick(first)}
-}
-const REST=.5;let R=0,L=0;
-function fit(){
-  S=1;cardEl.style.transform="";cardEl.style.width="";cardEl.style.transformOrigin="top left";
-  if(!wide.matches)return;
-  const avail=innerHeight-14-Math.max(14,runway.offsetTop);
-  for(let i=0;i<8;i++){
-    const h=cardEl.getBoundingClientRect().height;
-    if(h<=avail+1)break;
-    if(S<=.41)break;
-    S=Math.max(.4,S*avail/h);
-    cardEl.style.width=(100/S)+"%";cardEl.style.transform="scale("+S+")";
-  }
-}
-/* The chart takes the same top and bottom as the stack of cards on the left, on every page. */
-function alignRight(){
-  rightEl.style.marginTop="";rightEl.style.height="";
-  if(!wide.matches)return;
-  const pgEl=track.querySelectorAll(".pg")[pg],a=pgEl.firstElementChild.getBoundingClientRect(),b=[...pgEl.children].filter(e=>e.offsetHeight>0).pop().getBoundingClientRect(),r=rightEl.getBoundingClientRect();
-  /* the bottom line of the plot lines up with the bottom of the cards; the month labels and legend hang below it */
-  const pl=rightEl.querySelector(".plot").getBoundingClientRect(),below=(r.bottom-pl.bottom)/S;
-  rightEl.style.marginTop=((a.top-r.top)/S)+"px";rightEl.style.height=((b.bottom-a.top)/S+below-28)+"px";
-}
-function sizeRunway(){
-  clearGhost();
-  if(!wide.matches){runway.style.height="";cardEl.style.top="";S=1;cardEl.style.transform="";cardEl.style.width="";alignChart();return}
-  fit();
-  cardEl.style.top="14px";
-  R=REST*innerHeight;L=Math.round(cardEl.offsetHeight*S)+24;
-  runway.style.height=(cardEl.offsetHeight+14+PAGES*R+(PAGES-1)*L)+"px";
-  alignChart();alignRight();
-}
-/* the greeting above the card pushes the scroll range down by its own height */
-const OFF=()=>Math.max(0,runway.offsetTop-14);
-function pinDist(){return runway.offsetHeight-cardEl.offsetHeight-14}
-/* The cards sit one after another: the card on screen scrolls up and out while the next one follows it up from below, at the speed of the scroll.
-   The card that is leaving is a still copy of the page that was showing; the live card switches to the next page and rides in behind it. */
-let GH=null,ghPage=0;
-function clearGhost(){if(GH){GH.remove();GH=null}}
-function place(el,ty){el.style.transform=ty?"translateY("+ty+"px) scale("+S+")":(S===1?"":"scale("+S+")")}
-function makeGhost(){
-  const g=cardEl.cloneNode(true),r=cardEl.getBoundingClientRect();
-  g.removeAttribute("id");g.querySelectorAll("[id]").forEach(e=>e.removeAttribute("id"));
-  g.setAttribute("aria-hidden","true");g.inert=true;
-  g.style.cssText=cardEl.style.cssText;g.style.position="fixed";g.style.top="14px";g.style.left=r.left+"px";g.style.width=cardEl.offsetWidth+"px";g.style.pointerEvents="none";
-  document.body.appendChild(g); /* on the page itself, because the runway has an animation transform that would make fixed positions relative to it */
-  return g;
-}
-let PK=null;
-function clearPeek(){if(PK){PK.remove();PK=null}}
-function showPeek(k){
-  clearPeek();
-  if(k>=PAGES-1||!wide.matches)return;
-  const r=cardEl.getBoundingClientRect(),top=r.bottom+14,room=innerHeight-top;
-  if(room<40)return;
-  const w=document.createElement("div");w.className="peek";w.setAttribute("role","button");w.tabIndex=0;w.setAttribute("aria-label","Show the next page");
-  const g=cardEl.cloneNode(true);
-  g.removeAttribute("id");g.querySelectorAll("[id]").forEach(e=>e.removeAttribute("id"));g.setAttribute("aria-hidden","true");g.inert=true;
-  g.style.cssText=cardEl.style.cssText;g.style.position="absolute";g.style.top="0";g.style.left="0";g.style.width=cardEl.offsetWidth+"px";g.style.transform=S===1?"":"scale("+S+")";g.style.transformOrigin="top left";g.style.pointerEvents="none";
-  g.querySelector(".track").style.transform="translateX("+(-100*(k+1))+"%)";g.querySelector(".left>h1").textContent=HEADS[k+1];
-  w.appendChild(g);
-  w.style.cssText="left:"+r.left+"px;top:"+top+"px;width:"+r.width+"px;height:"+Math.min(80,room)+"px";
-  const next=()=>scrollTo({top:Math.round((k+1)*(R+L)+R/2)+OFF(),behavior:"smooth"});
-  w.addEventListener("click",next);w.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();next()}});
-  document.body.appendChild(w);PK=w;
-}
-function onScrollPage(){
-  if(!wide.matches){clearGhost();clearPeek();place(cardEl,0);return}
-  const total=pinDist(),y=Math.min(total,Math.max(0,scrollY-OFF())),P=R+L,k=Math.min(PAGES-1,Math.floor(y/P)),o=y-k*P;
-  if(k===PAGES-1||o<=R){clearGhost();if(pg!==k)go(k,false,true);place(cardEl,0);showPeek(k);return}
-  clearPeek();
-  const p=o-R;
-  if(!GH){
-    if(pg!==k&&pg!==k+1)go(k,false,true);
-    GH=makeGhost();ghPage=pg;go(pg===k?k+1:k,false,true);
-  }
-  place(GH,ghPage===k?-p:L-p);
-  place(cardEl,pg===k?-p:L-p);
-}
-dotEls.forEach((d,i)=>d.addEventListener("click",()=>{if(!wide.matches){go(i);return}scrollTo({top:Math.round(i*(R+L)+R/2)+OFF(),behavior:"smooth"})}));
-addEventListener("scroll",onScrollPage,{passive:true});
-addEventListener("resize",()=>{sizeRunway();onScrollPage()});
-sizeRunway();go(0,true);onScrollPage();
-if(document.fonts)document.fonts.ready.then(()=>{sizeRunway();onScrollPage();alignRight()});
+sizeAll();
+addEventListener("resize",sizeAll);
+if(document.fonts)document.fonts.ready.then(sizeAll);
+addEventListener("load",sizeAll);
 </script>
 <script>
 /* top row: the profile menu with Log out; the bell opens the notifications on the Overview page */
