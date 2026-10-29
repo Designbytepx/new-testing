@@ -107,6 +107,12 @@
   .conn{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:7px 12px;font:600 11.5px inherit;font-family:inherit;cursor:pointer}
   .conn.on{background:#dcf2dd;border-color:#bfe3c1;color:#2b7a30}
   .add select,.trow select{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:9px 8px;font:12.5px inherit;font-family:inherit;color:var(--ink);max-width:150px;min-width:0}
+  .tmc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:8px}
+  .tmc .h{display:flex;justify-content:space-between;font-weight:600;font-size:13px}
+  .tmc .h span:last-child{font-weight:500;color:var(--muted);font-size:12px}
+  .tmc .r{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px}
+  .tmc .r b{margin-left:auto;font-weight:600}
+  .tmc .logo,.tmc .avatar{width:16px;height:16px}
   .msb{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:11px 12px;font:13.3px inherit;font-family:inherit;color:var(--ink);cursor:pointer}
   .msb .msv{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .msb .msv.ph{color:var(--muted)}
@@ -517,14 +523,14 @@ function renderBody(){
         <div class="add"><input id="tnew" placeholder="Add another team, e.g. Legal"><button id="tgo">Add</button></div>
       </div>`:`<div class="empty">No tools yet. Go back to Evaluate and pick at least one.</div>`);  }else{
     const sel=selected(), um=state.userMap||[], total=sel.reduce((a,t)=>a+getSeats(t.id),0), byTeam={}; um.forEach(u=>{byTeam[u.team]=(byTeam[u.team]||0)+1;});
-    $body.innerHTML=`<h3>Seats and users</h3><p class="lead">Seats and user emails come from each tool's admin account and are view-only here. Change seats or billing inside the tool.</p>`+
+    $body.innerHTML=`<h3>Seats and users</h3><p class="lead">See how many people each team has and the seats they use in each tool.</p>`+
       (sel.length?`<div class="group"><div class="group-t">Map users to teams</div>
         <p class="muted" style="margin:0 0 10px">Upload a sheet of work emails and teams so we can match each person to their team.</p>
-        <div class="up"><label class="upbtn">Upload user sheet (.csv)<input type="file" class="usr" accept=".csv,text/csv" hidden></label></div>
-        ${um.length?`<div class="upinfo">${um.length} user${um.length===1?'':'s'} mapped to ${Object.keys(byTeam).length} team${Object.keys(byTeam).length===1?'':'s'} · <button class="lnk" data-uclr="1">Remove sheet</button></div><div class="chips" style="margin-top:8px">${Object.entries(byTeam).map(([k,v])=>`<span class="chip2">${esc(k)} · ${v}</span>`).join('')}</div>`:''}
+        <div class="up"><button type="button" class="upbtn" data-simup="1">Upload user sheet</button></div>
+        ${um.length?`<div class="upinfo">${um.length} user${um.length===1?'':'s'} mapped to ${Object.keys(byTeam).length} team${Object.keys(byTeam).length===1?'':'s'} · <button class="lnk" data-uclr="1">Remove sheet</button></div>${teamUsage().map(t=>`<div class="tmc"><div class="h"><span>${esc(t.name)}</span><span>${t.people} ${t.people===1?'person':'people'}</span></div>${t.tools.length?t.tools.map(x=>`<div class="r">${logo(x.tool)}<span>${esc(x.tool.name)}</span><b>${x.seats===null?'Not connected':x.seats+' seat'+(x.seats===1?'':'s')}</b></div>`).join(''):`<div class="r muted">No tool assigned on the Teams tab</div>`}</div>`).join('')}</div>`:''}
 
       </div>
-      <div class="group" style="margin-top:12px"><div class="group-t">Seats from your tools</div>${sel.map(t=>{const d=cfg(t.id).data;return `<div class="card" data-tool="${t.id}" style="cursor:default"><div class="row">${logo(t)}<span class="nm">${t.name}</span>${d?'<span class="tag ok">Connected</span>':''}</div>${d?`<div class="kv"><div><span>Seats</span><b>${d.seats}</b></div><div><span>Assigned</span><b>${d.used}</b></div><div><span>Vacant</span><b>${d.seats-d.used}</b></div></div>`:`<p class="muted" style="margin:8px 0 0">Not connected. Connect the admin account on the Evaluate tab to see seats and users.</p>`}</div>`}).join('')}<div class="total"><span>Total seats</span><span id="tot">${total}</span></div><div class="total" style="padding-top:0"><span>Est. monthly spend</span><span id="spend">${money(spend())}</span></div></div>`:`<div class="empty">No tools yet. Go back to Evaluate and pick at least one.</div>`);  }
+      `:`<div class="empty">No tools yet. Go back to Evaluate and pick at least one.</div>`);  }
 }
 function renderFooter(){
   if(done){$footer.innerHTML=`<button class="ghost" id="edit">Edit answers</button>`;return;}
@@ -629,18 +635,51 @@ $body.addEventListener('click',e=>{
   const l=teamList(), i=l.findIndex(n=>n.toLowerCase()===r.name.toLowerCase()); if(i>-1) l.splice(i,1);
   render();
 });
+function loadSheetJS(){
+  return window.XLSX?Promise.resolve():new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';sc.onload=ok;sc.onerror=no;document.head.appendChild(sc);});
+}
+function setUserSheet(text){
+  const rows=String(text).split(/\r?\n/).map(l=>l.split(',').map(x=>x.trim().replace(/^"|"$/g,''))).filter(c=>c[0]&&c[1]);
+  if(rows.length&&!rows[0][0].includes('@')) rows.shift();
+  state.userMap=rows.filter(c=>c[0].includes('@')).map(c=>({email:c[0],team:c[1]}));
+  render();
+}
 $body.addEventListener('change',e=>{
   const f=e.target; if(!f.classList.contains('usr')||!f.files[0]) return;
-  const r=new FileReader();
-  r.onload=()=>{
-    const rows=String(r.result).split(/\r?\n/).map(l=>l.split(',').map(x=>x.trim().replace(/^"|"$/g,''))).filter(c=>c[0]&&c[1]);
-    if(rows.length&&!rows[0][0].includes('@')) rows.shift();
-    state.userMap=rows.filter(c=>c[0].includes('@')).map(c=>({email:c[0],team:c[1]}));
-    render();
-  };
-  r.readAsText(f.files[0]);
+  const file=f.files[0];
+  if(/\.xlsx?$/i.test(file.name)){
+    const r=new FileReader();
+    r.onload=()=>loadSheetJS().then(()=>{const wb=XLSX.read(r.result,{type:'array'});setUserSheet(XLSX.utils.sheet_to_csv(wb.Sheets[wb.SheetNames[0]]));}).catch(()=>alert('Could not read the Excel file. Save it as .csv and try again.'));
+    r.readAsArrayBuffer(file);
+  }else{
+    const r=new FileReader(); r.onload=()=>setUserSheet(r.result); r.readAsText(file);
+  }
 });
-$body.addEventListener('click',e=>{if(e.target.closest('[data-uclr]')){state.userMap=[];render();}});
+$body.addEventListener('click',e=>{
+  const b=e.target.closest('[data-simup]'); if(!b) return;
+  b.textContent='Reading sheet...'; b.disabled=true;
+  setTimeout(()=>{
+    const sizes=[14,9,12,8,6,11,7,5,4,3], first=['amy','ben','chen','dina','eli','fay','gus','hana','ivan','jo','kai','lena','mo','nia','omar','pia','raj','sam','tia','uma'];
+    state.userMap=[];
+    teamRows().forEach((r,ti)=>{
+      const n=sizes[ti%sizes.length], slug=r.name.toLowerCase().replace(/[^a-z]+/g,'');
+      for(let i=0;i<n;i++) state.userMap.push({email:first[(i+ti*3)%first.length]+'.'+slug+(i>19?i:'')+'@company.com',team:r.name});
+    });
+    render();
+  },700);
+});function teamUsage(){
+  const um=state.userMap||[], order=[], map={};
+  um.forEach(u=>{const k=u.team.toLowerCase(); if(!map[k]){map[k]={name:u.team,users:[]};order.push(k);} map[k].users.push(u.email);});
+  const rows=teamRows();
+  const holds=(email,id,d)=>{let h=0;const k=email.toLowerCase()+'|'+id;for(let i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return (h%1000)<d.used/d.seats*1000;};
+  return order.map(k=>{
+    const t=map[k], r=rows.find(x=>x.name.toLowerCase()===k), tools=(r?r.tools:[]).map(id=>{
+      const tool=allTools().find(q=>q.id===id), d=cfg(id).data;
+      return {tool,seats:d?t.users.filter(e=>holds(e,id,d)).length:null};
+    });
+    return {name:t.name,people:t.users.length,tools};
+  });
+}$body.addEventListener('click',e=>{if(e.target.closest('[data-uclr]')){state.userMap=[];render();}});
 function addTeam(id){
   const i=$body.querySelector(`.tin[data-id="${id}"]`), v=i.value.trim(); if(!v) return;
   const list=state.names[id]??=[];
