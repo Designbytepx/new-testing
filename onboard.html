@@ -106,12 +106,24 @@
   .grid2 .field input,.grid2 .field select{min-width:0;width:100%}
   .conn{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:7px 12px;font:600 11.5px inherit;font-family:inherit;cursor:pointer}
   .conn.on{background:#dcf2dd;border-color:#bfe3c1;color:#2b7a30}
+  .add select,.trow select{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:9px 8px;font:12.5px inherit;font-family:inherit;color:var(--ink);max-width:150px;min-width:0}
+  .msb{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:11px 12px;font:13.3px inherit;font-family:inherit;color:var(--ink);cursor:pointer}
+  .msb .msv{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .msb .msv.ph{color:var(--muted)}
+  .msb svg{flex:none;color:var(--muted)}
+  .msl{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .msl label{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;font-size:13px}
+  .msl label+label{border-top:1px solid var(--line)}
+  .msl .logo,.msl .avatar{width:18px;height:18px}
+  .msl input{accent-color:var(--accent);margin:0}
+  .trow{display:flex;flex-direction:column;gap:10px}
+  .trow select{width:100%;max-width:none;padding:11px 40px 11px 12px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23687385' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
   .tb{margin-top:10px;display:flex;flex-direction:column;gap:8px}
   .chips{display:flex;flex-wrap:wrap;gap:6px}
   .chip2{display:inline-flex;align-items:center;gap:4px;background:var(--chip);border-radius:6px;padding:4px 6px 4px 9px;font-size:11.5px;font-weight:500}
   .chip2 button{border:0;background:none;cursor:pointer;font-size:14px;line-height:1;color:var(--muted);padding:0 2px}
   .chip2 button:hover{color:var(--ink)}
-  .up{display:flex;align-items:center;justify-content:space-between}
+  .up{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
   .upbtn{border:1px dashed #b5b5b1;border-radius:8px;padding:8px 12px;font-weight:600;font-size:11.5px;cursor:pointer}
   .upbtn:hover{background:var(--chip)}
   .tpl{color:var(--muted);font-size:11.5px}
@@ -149,6 +161,7 @@
   .loading h2{margin:6px 0 0;font:700 20px/1.3 var(--font);letter-spacing:-.005em}
   .loading p{margin:0;color:var(--muted);font-size:13px;min-height:18px}  .done{padding:30px 6px;text-align:center}
   .done h3{font-size:22px}
+  .addlbl{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--muted)}
   .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-top:12px}
   .kv span{display:block;font-size:11px;color:var(--muted);margin-bottom:2px}
   .kv b{font-size:13px;font-weight:600}
@@ -215,7 +228,7 @@ const TOOLS=[
   {id:'servicenow',name:'ServiceNow Now Assist',by:'ServiceNow',a:0,  rec:'',    icon:'servicenow.png',  desc:'AI for IT service management, requests and incident resolution.'},
   {id:'workday',  name:'Workday AI',           by:'Workday',   a:45,  rec:'',    icon:'workday.png',     desc:'AI for HR, payroll and workforce planning inside Workday.'}
 ];
-const TABS=['Evaluate','Configure','Teams','Seats'];
+const TABS=['Evaluate','Teams','Seats'];
 const state={
   company:{name:'',industry:'',size:''},
   sel:{chatgpt:true,claude:true},
@@ -446,7 +459,22 @@ function stepper(kind,id){
   return `<div class="step" data-kind="${kind}" data-id="${id}"><button data-d="-1" aria-label="Decrease">−</button><input type="number" min="0" value="${v}"><button data-d="1" aria-label="Increase">+</button></div>`;
 }
 function renderTabs(){
-  $tabs.innerHTML=TABS.map((t,i)=>`<button class="tab ${i===tab&&!detail&&!done?'active':''}" data-i="${i}">${t}${i===0&&selected().length?`<span class="n">${selected().length}</span>`:''}</button>`).join('');
+  $tabs.innerHTML=TABS.map((t,i)=>`<button class="tab ${i===tab&&!detail&&!done?'active':''}" data-i="${i}">${t}</button>`).join('');
+}
+function connCard(t){
+  const c=cfg(t.id), d=c.data;
+  return `<div class="card" data-tool="${t.id}" style="cursor:default">
+    <div class="row">${logo(t)}<span class="nm">${t.name}</span>${d?'<span class="tag ok">Connected</span>':''}<button class="lnk" data-untool="${t.id}" style="margin-left:auto">Remove</button></div>
+    ${d?`<div class="kv">
+      <div><span>Plan</span><b>${d.plan}</b></div>
+      <div><span>Billing</span><b>${d.cycle}</b></div>
+      <div><span>Monthly cost</span><b>${money(d.seats*d.price)}</b></div>
+      <div><span>Started</span><b>${d.started}</b></div>
+      <div><span>Seats</span><b>${d.seats}</b></div>
+      <div><span>Vacant seats</span><b>${d.seats-d.used}</b></div>
+    </div><div class="row" style="justify-content:flex-end;margin-top:8px"><button class="lnk" data-disc="${t.id}">Disconnect</button></div>`
+    :`<p class="muted" style="margin:8px 0 10px">${t.desc}</p><button class="conn" data-conn="${t.id}">Connect admin account</button>`}
+  </div>`;
 }
 function renderBody(){
   if(done){
@@ -463,54 +491,40 @@ function renderBody(){
       <div class="sw"><span>Use ${t.name.split(' ')[0]} at my company</span><button class="toggle ${on?'on':''}" id="tg" aria-label="Toggle"></button></div>
       <div class="${on?'':'dim'}">
         <div class="field"><label>Teams using it</label>${teamBlock(t)}</div>
-        <div class="field"><label>Seats purchased</label>${stepper('seats',t.id)}</div>
+        <div class="field"><label>Seats</label><p class="muted" style="margin:0">${cfg(t.id).data?`${cfg(t.id).data.seats} seats, ${cfg(t.id).data.seats-cfg(t.id).data.used} vacant (from admin account)`:'Connect the admin account to see seats.'}</p></div>
       </div>`;
     return;
   }
   if(tab===0){
-    $body.innerHTML=`<h3>Which AI tools do you use?</h3>
-      <p class="lead">Pick the tools your company already pays for, or add one that is missing. You can also select a tool on the map.</p>
-      <div class="group"><div class="group-t">Select your AI tools</div>
-        ${allTools().map(t=>`<div class="card ${state.sel[t.id]?'on':''}" data-id="${t.id}">
-          <div class="card-h"><span class="check">${CHECK}</span>${logo(t)}<span class="nm">${t.name}</span>${t.rec?`<span class="tag rec">Common</span><span class="tag ok">${t.rec}</span>`:''}</div>
-          <p class="desc">${t.desc}</p></div>`).join('')}
+    const chosen=allTools().filter(t=>state.sel[t.id]), avail=allTools().filter(t=>!state.sel[t.id]);
+    $body.innerHTML=`<h3>Your AI tools</h3>
+      <p class="lead">Connect each tool's admin account and Cygnos fetches plan, billing and seat details. You can also select a tool on the map.</p>
+      <div class="group"><div class="group-t">Selected tools</div>
+        ${chosen.length?chosen.map(connCard).join(''):`<div class="empty" style="padding:14px">No tools selected yet. Add one below.</div>`}
+      </div>
+      <div class="group" style="margin-top:12px"><div class="group-t">Add a tool</div>
+        ${avail.map(t=>`<div class="card" data-id="${t.id}"><div class="card-h">${logo(t)}<span class="nm">${t.name}</span><span class="addlbl">+ Add</span></div></div>`).join('')}
         <div class="add"><input id="addin" placeholder="Add another tool, e.g. Perplexity"><button id="addbtn">Add</button></div>
       </div>`;
   }else if(tab===1){
-    const s=state.company;
-    const sel=selected();
-    $body.innerHTML=`<h3>Configure your tools</h3><p class="lead">Tell Cygnos how each tool is bought and how to read its data.</p>
-      <div class="group" style="margin-bottom:12px"><div class="group-t">Your company</div>
-        <div class="grid2">
-          <div class="field"><label>Company name</label><input id="cn" value="${esc(s.name)}" placeholder="e.g. AS Mobbin"></div>
-          <div class="field"><label>Employees</label><input id="cs" type="number" min="1" value="${s.size}" placeholder="e.g. 250"></div>
-        </div>
-        <div class="field"><label>Industry</label><select id="ci">${['','Professional services','Software','Finance','Healthcare','Retail','Other'].map(o=>`<option ${o===s.industry?'selected':''}>${o}</option>`).join('')}</select></div>
-      </div>`+
-      (sel.length?`<div class="group"><div class="group-t">Connect each tool</div>${sel.map(t=>{const c=cfg(t.id),d=c.data;return `<div class="card" data-tool="${t.id}" style="cursor:default">
-        <div class="row">${logo(t)}<span class="nm">${t.name}</span>${d?'<span class="tag ok">Connected</span>':''}</div>
-        ${d?`<div class="kv">
-          <div><span>Plan</span><b>${d.plan}</b></div>
-          <div><span>Billing</span><b>${d.cycle}</b></div>
-          <div><span>Monthly cost</span><b>${money(d.seats*d.price)}</b></div>
-          <div><span>Started</span><b>${d.started}</b></div>
-          <div><span>Seats</span><b>${d.seats}</b></div>
-          <div><span>Vacant seats</span><b>${d.seats-d.used}</b></div>
-        </div><div class="row" style="justify-content:flex-end;margin-top:8px"><button class="lnk" data-disc="${t.id}">Disconnect</button></div>`
-        :`<p class="muted" style="margin:8px 0 10px">Connect the admin account and we'll fetch plan, billing and seat details for you.</p><button class="conn" data-conn="${t.id}">Connect admin account</button>`}
-      </div>`}).join('')}</div>`:`<div class="empty">No tools yet. Go back to Evaluate and pick at least one.</div>`);
-  }else if(tab===2){
-    const sel=selected();
-    $body.innerHTML=`<h3>Which teams use each tool?</h3><p class="lead">Add team names for every tool, or upload one CSV for all of them.</p>`+
-      (sel.length?`<div class="up"><label class="upbtn">Upload teams list (.csv)<input type="file" class="fup" accept=".csv,text/csv" hidden></label></div>
-      <p class="muted" style="margin:6px 0 12px">One team per row. Optional second column with the tool name; without it the team is added to every selected tool.</p>
-      ${(state.upl||[]).length?`<div class="upinfo" style="margin-bottom:12px">${state.upl.length} team${state.upl.length===1?'':'s'} uploaded · <button class="lnk" data-clr="1">Remove list</button></div>`:''}
-      <div class="group">${sel.map(t=>`<div class="card" data-tool="${t.id}" style="cursor:default"><div class="row">${logo(t)}<span class="nm">${t.name}</span><span class="tag ok">${getTeams(t.id)} team${getTeams(t.id)===1?'':'s'}</span></div>${teamBlock(t)}</div>`).join('')}</div>`:`<div class="empty">No tools yet. Go back to Evaluate and pick at least one.</div>`);
-  }else{
-    const sel=selected(), total=sel.reduce((a,t)=>a+getSeats(t.id),0);
-    $body.innerHTML=`<h3>How many seats for each tool?</h3><p class="lead">Enter the seats you pay for today.</p>`+
-      (sel.length?`<div class="group">${sel.map(t=>`<div class="card" data-tool="${t.id}" style="cursor:default"><div class="row">${logo(t)}<span class="nm">${t.name}</span>${stepper('seats',t.id)}</div></div>`).join('')}<div class="total"><span>Total seats</span><span id="tot">${total}</span></div><div class="total" style="padding-top:0"><span>Est. monthly spend</span><span id="spend">${money(spend())}</span></div></div>`:`<div class="empty">No tools yet. Go back to Evaluate and pick at least one.</div>`);
-  }
+    const sel=selected(), rows=teamRows();
+    const pool=['Leadership','IT Admin','Finance','Engineering','Operations','Sales','Marketing','HR','Customer support','Design'].filter(n=>!rows.some(r=>r.name.toLowerCase()===n.toLowerCase()));
+    const label=r=>{const n=r.tools.length; if(!n) return 'Select tools'; if(sel.length>1&&n===sel.length) return 'All tools'; return r.tools.map(id=>(allTools().find(t=>t.id===id)||{}).name).join(', ');};    $body.innerHTML=`<h3>Which teams use each tool?</h3><p class="lead">Choose which tools each team uses.</p>`+
+      (sel.length?`<div class="group"><div class="group-t">Your teams</div>        ${rows.length?rows.map((r,i)=>`<div class="card trow" ${r.tools.length?`data-tool="${r.tools[0]}"`:''} style="cursor:default"><div class="row"><span class="nm">${esc(r.name)}</span><button class="lnk" data-trm="${i}" style="margin-left:auto">Remove</button></div><button class="msb" data-ms="${i}" aria-expanded="${state.msOpen===i}"><span class="msv ${r.tools.length?'':'ph'}">${esc(label(r))}</span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>${state.msOpen===i?`<div class="msl">${sel.map(t=>`<label><input type="checkbox" data-tt="${i}|${t.id}" ${r.tools.includes(t.id)?'checked':''}>${logo(t)}<span>${esc(t.name)}</span></label>`).join('')}</div>`:''}</div>`).join(''):`<div class="empty" style="padding:14px">No teams selected yet. Add one below.</div>`}
+      </div>
+      <div class="group" style="margin-top:12px"><div class="group-t">Add a team</div>
+        ${pool.map(n=>`<div class="card" data-addteam="${esc(n)}"><div class="card-h"><span class="nm">${esc(n)}</span><span class="addlbl">+ Add</span></div></div>`).join('')}
+        <div class="add"><input id="tnew" placeholder="Add another team, e.g. Legal"><button id="tgo">Add</button></div>
+      </div>`:`<div class="empty">No tools yet. Go back to Evaluate and pick at least one.</div>`);  }else{
+    const sel=selected(), um=state.userMap||[], total=sel.reduce((a,t)=>a+getSeats(t.id),0), byTeam={}; um.forEach(u=>{byTeam[u.team]=(byTeam[u.team]||0)+1;});
+    $body.innerHTML=`<h3>Seats and users</h3><p class="lead">Seats and user emails come from each tool's admin account and are view-only here. Change seats or billing inside the tool.</p>`+
+      (sel.length?`<div class="group"><div class="group-t">Map users to teams</div>
+        <p class="muted" style="margin:0 0 10px">Upload a sheet of work emails and teams so we can match each person to their team.</p>
+        <div class="up"><label class="upbtn">Upload user sheet (.csv)<input type="file" class="usr" accept=".csv,text/csv" hidden></label></div>
+        ${um.length?`<div class="upinfo">${um.length} user${um.length===1?'':'s'} mapped to ${Object.keys(byTeam).length} team${Object.keys(byTeam).length===1?'':'s'} · <button class="lnk" data-uclr="1">Remove sheet</button></div><div class="chips" style="margin-top:8px">${Object.entries(byTeam).map(([k,v])=>`<span class="chip2">${esc(k)} · ${v}</span>`).join('')}</div>`:''}
+
+      </div>
+      <div class="group" style="margin-top:12px"><div class="group-t">Seats from your tools</div>${sel.map(t=>{const d=cfg(t.id).data;return `<div class="card" data-tool="${t.id}" style="cursor:default"><div class="row">${logo(t)}<span class="nm">${t.name}</span>${d?'<span class="tag ok">Connected</span>':''}</div>${d?`<div class="kv"><div><span>Seats</span><b>${d.seats}</b></div><div><span>Assigned</span><b>${d.used}</b></div><div><span>Vacant</span><b>${d.seats-d.used}</b></div></div>`:`<p class="muted" style="margin:8px 0 0">Not connected. Connect the admin account on the Evaluate tab to see seats and users.</p>`}</div>`}).join('')}<div class="total"><span>Total seats</span><span id="tot">${total}</span></div><div class="total" style="padding-top:0"><span>Est. monthly spend</span><span id="spend">${money(spend())}</span></div></div>`:`<div class="empty">No tools yet. Go back to Evaluate and pick at least one.</div>`);  }
 }
 function renderFooter(){
   if(done){$footer.innerHTML=`<button class="ghost" id="edit">Edit answers</button>`;return;}
@@ -541,8 +555,9 @@ $body.addEventListener('click',e=>{
     return afterStep(k);
   }
   if(e.target.closest('#addbtn')) return addCustom();
+  const ut=e.target.closest('[data-untool]'); if(ut){toggleTool(ut.dataset.untool);return render();}
   const cn=e.target.closest('[data-conn]'); if(cn){return openConn(cn.dataset.conn);}
-  const dc=e.target.closest('[data-disc]'); if(dc){const c=cfg(dc.dataset.disc);c.connected=false;c.data=null;return render();}
+  const dc=e.target.closest('[data-disc]'); if(dc){const c=cfg(dc.dataset.disc);c.connected=false;c.data=null;delete state.seats[dc.dataset.disc];return render();}
   const rm=e.target.closest('[data-rm]');
   if(rm){const [id,i]=rm.dataset.rm.split('|');state.names[id].splice(+i,1);return render();}
   const ta=e.target.closest('.tadd'); if(ta) return addTeam(ta.dataset.id);
@@ -568,6 +583,64 @@ $body.addEventListener('change',e=>{
   r.onload=()=>importTeams(String(r.result));
   r.readAsText(f.files[0]);
 });
+function teamList(){
+  if(!state.teamList){
+    let l=[];
+    try{const sv=JSON.parse(sessionStorage.getItem('cygnos-team')||'null'); if(sv&&sv.teams) l=sv.teams.filter(x=>x&&x!=='Other').map(x=>x==='IT'?'IT Admin':x);}catch(_){}
+    state.teamList=l.length?l:['Leadership','IT Admin','Finance','Engineering','Operations','Sales','Marketing','HR'];
+  }
+  return state.teamList;
+}
+function teamRows(){
+  const sel=selected(), map=new Map();
+  sel.forEach(t=>(state.names[t.id]||[]).forEach(n=>{
+    const k=n.toLowerCase(); if(!map.has(k)) map.set(k,[]); map.get(k).push(t.id);
+  }));
+  const all=[...teamList()];
+  map.forEach((_,k)=>{ if(!all.some(n=>n.toLowerCase()===k)){ const o=sel.flatMap(t=>(state.names[t.id]||[]).filter(n=>n.toLowerCase()===k))[0]; all.push(o); } });
+  return all.map(n=>({name:n,tools:map.get(n.toLowerCase())||[]}));
+}
+function setTeamTools(name,ids){
+  const sel=selected(), k=name.toLowerCase();
+  sel.forEach(t=>{const l=state.names[t.id]||[],i=l.findIndex(n=>n.toLowerCase()===k);if(i>-1)l.splice(i,1);});
+  ids.forEach(id=>(state.names[id]??=[]).push(name));
+}
+$body.addEventListener('change',e=>{
+  const c=e.target.closest('input[data-tt]'); if(!c) return;
+  const [i,id]=c.dataset.tt.split('|'), r=teamRows()[+i]; if(!r) return;
+  const ids=c.checked?[...r.tools,id]:r.tools.filter(x=>x!==id);
+  setTeamTools(r.name,ids); state.msOpen=+i; render();
+});
+$body.addEventListener('click',e=>{
+  const b=e.target.closest('[data-ms]'); if(!b) return;
+  const i=+b.dataset.ms; state.msOpen=state.msOpen===i?null:i; render();
+});function addTeamName(v){
+  v=(v||'').trim(); if(!v) return;
+  const l=teamList(); if(!l.some(n=>n.toLowerCase()===v.toLowerCase())&&!teamRows().some(r=>r.name.toLowerCase()===v.toLowerCase())) l.push(v);
+  render(); const n=document.getElementById('tnew'); if(n&&!n.value) n.blur();
+}
+$body.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='tnew'){e.preventDefault();addTeamName(e.target.value);}});
+$body.addEventListener('click',e=>{
+  if(e.target.closest('#tgo')) return addTeamName(document.getElementById('tnew').value);
+  const a=e.target.closest('[data-addteam]'); if(a) return addTeamName(a.dataset.addteam);
+  const x=e.target.closest('[data-trm]'); if(!x) return;
+  const r=teamRows()[+x.dataset.trm]; if(!r) return;
+  setTeamTools(r.name,[]);
+  const l=teamList(), i=l.findIndex(n=>n.toLowerCase()===r.name.toLowerCase()); if(i>-1) l.splice(i,1);
+  render();
+});
+$body.addEventListener('change',e=>{
+  const f=e.target; if(!f.classList.contains('usr')||!f.files[0]) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    const rows=String(r.result).split(/\r?\n/).map(l=>l.split(',').map(x=>x.trim().replace(/^"|"$/g,''))).filter(c=>c[0]&&c[1]);
+    if(rows.length&&!rows[0][0].includes('@')) rows.shift();
+    state.userMap=rows.filter(c=>c[0].includes('@')).map(c=>({email:c[0],team:c[1]}));
+    render();
+  };
+  r.readAsText(f.files[0]);
+});
+$body.addEventListener('click',e=>{if(e.target.closest('[data-uclr]')){state.userMap=[];render();}});
 function addTeam(id){
   const i=$body.querySelector(`.tin[data-id="${id}"]`), v=i.value.trim(); if(!v) return;
   const list=state.names[id]??=[];
