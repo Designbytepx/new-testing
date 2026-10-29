@@ -59,8 +59,6 @@
   }
   .go:hover{background:#404040}
   .go[disabled]{background:#404040;cursor:default}
-  .skip{display:block;margin:16px auto 0;font-size:12.5px;font-weight:500;color:var(--muted);text-decoration:none;text-align:center}
-  .skip:hover{color:var(--ink)}
   @media (max-width:480px){.card{padding:32px 22px 28px;border-radius:24px}}
 </style>
 </head>
@@ -80,12 +78,11 @@
     <div class="f">
       <span class="lbl" id="tl">Which teams will use Cygnos?</span>
       <p class="hint">Select all that apply.</p>
-      <div class="chips" role="group" aria-labelledby="tl" id="chips"><button type="button" class="chip" aria-pressed="false">Leadership</button><button type="button" class="chip" aria-pressed="false">IT</button><button type="button" class="chip" aria-pressed="false">Finance</button><button type="button" class="chip" aria-pressed="false">Engineering</button><button type="button" class="chip" aria-pressed="false">Operations</button><button type="button" class="chip" aria-pressed="false">Sales</button><button type="button" class="chip" aria-pressed="false">Marketing</button><button type="button" class="chip" aria-pressed="false">HR</button><button type="button" class="chip" aria-pressed="false">Customer support</button><button type="button" class="chip" aria-pressed="false">Design</button><button type="button" class="chip" aria-pressed="false">Other</button></div>
+      <div class="chips" role="group" aria-labelledby="tl" id="chips"><button type="button" class="chip" aria-pressed="false">Leadership</button><button type="button" class="chip" aria-pressed="false">IT Admin</button><button type="button" class="chip" aria-pressed="false">Finance</button><button type="button" class="chip" aria-pressed="false">Engineering</button><button type="button" class="chip" aria-pressed="false">Operations</button><button type="button" class="chip" aria-pressed="false">Sales</button><button type="button" class="chip" aria-pressed="false">Marketing</button><button type="button" class="chip" aria-pressed="false">HR</button><button type="button" class="chip" aria-pressed="false">Customer support</button><button type="button" class="chip" aria-pressed="false">Design</button><button type="button" class="chip" aria-pressed="false">Other</button></div>
       <p class="err" id="teams-e" aria-live="polite"></p>
     </div>
     <button type="submit" class="go" id="go">Continue</button>
   </form>
-  <a class="skip" href="tools.html" id="skip">Skip</a>
 </main>
 <script>
 /* Team step for the mock-up. Answers are kept only for this browser tab and carry into onboarding. */
