@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* soft page-to-page transition, same as the other pages */
+    @view-transition { navigation: auto; }
+    @keyframes pagein { from { opacity: 0; } to { opacity: 1; } }
+    :root {
+      --ink: #1a1f36;
+      --text: #353a44;
+      --muted: #687385;
+      --line: #e3e8ee;
+      --panel: #f6f8fa;
+      --accent: #262626;
+      --accent-btn: #262626;
+      --red: #c4352b;
+      --font: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; min-height: 100vh; background: #fff; color: var(--ink); font-family: var(--font); font-size: 14px; line-height: 1.4; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, p { margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+    svg { display: block; flex: none; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+    [hidden] { display: none !important; }
+    .ico { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ---------- Shell and sidebar (same as the other pages) ---------- */
+    .shell { display: grid; grid-template-columns: 272px minmax(0, 1fr); min-height: 100vh; background: #fff; overflow-x: clip; }
+    .side { position: sticky; top: 0; align-self: start; height: 100vh; display: flex; flex-direction: column; padding: 0 20px 20px; border-right: 1px solid var(--line); overflow-y: auto; }
+    .side__org { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; margin-top: 4px; padding: 8px 0 4px; font-size: 15px; font-weight: 600; color: var(--ink); }
+    .side__logo { flex: none; width: 22px; height: 22px; margin: 0 -1px; object-fit: contain; }
+    .side__brand { display: flex; align-items: center; gap: 8px; }
+    .side__co { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; font-weight: 600; color: #262626; }
+    .nav { margin-top: 34px; }
+    .nav__item { display: flex; align-items: center; gap: 13px; width: 100%; height: 29px; margin-bottom: 1px; padding-inline: 0 4px; font-size: 15px; color: var(--text); }
+    .nav__item .ico { color: #6b7385; }
+    .nav__item:hover { color: var(--ink); }
+    .nav__item.is-active { margin-inline: -8px; padding-inline: 8px; border-radius: 7px; background: #ececec; color: var(--ink); font-weight: 600; }
+    .nav__item.is-active .ico { color: var(--ink); }
+    .nav__chev { margin-left: auto; width: 16px; height: 16px; color: #6b7385; transition: transform .15s ease; }
+    .nav__item[aria-expanded="false"] .nav__chev { transform: rotate(180deg); }
+    .nav__item.is-section { color: var(--ink); font-weight: 600; }
+    .nav__item.is-section .ico { color: var(--ink); }
+    /* sub menu as a tree: a line runs down from the parent icon, each child hangs off it */
+    .nav__sub { margin: 2px 0 6px 10px; }
+    .nav__subitem { position: relative; display: block; width: calc(100% - 28px); height: 28px; margin: 0 0 2px 28px; padding: 0 8px; border-radius: 7px; font-size: 14.5px; line-height: 28px; color: var(--text); }
+    .nav__subitem::before { content: ""; position: absolute; left: -28px; top: 0; width: 20px; height: 14px; border-left: 1px solid #b9c1cd; border-bottom: 1px solid #b9c1cd; border-bottom-left-radius: 6px; }
+    .nav__subitem:first-child::before { top: -6px; height: 20px; }
+    .nav__subitem:not(:last-child)::after { content: ""; position: absolute; left: -28px; top: 14px; bottom: -2px; border-left: 1px solid #b9c1cd; }
+    .nav__subitem:hover { color: var(--ink); }
+    .nav__subitem.is-active { background: #ececec; color: var(--ink); font-weight: 600; }
+    .quick { margin-top: auto; padding-top: 24px; }
+    .quick .nav__item { height: auto; min-height: 29px; padding-block: 3px; font-size: 14px; white-space: nowrap; color: #7b8190; }
+    .quick .nav__item:hover { color: var(--ink); }
+    .side__label { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+
+    /* ---------- Main ---------- */
+    .main { min-width: 0; padding: 0 40px 80px; }
+    .top { display: flex; align-items: center; gap: 24px; height: 48px; margin-top: 18px; }
+    .top__right { display: flex; align-items: center; gap: 22px; margin-left: auto; color: #4f566b; }
+    .bell { position: relative; }
+    .bell::after { content: ""; position: absolute; top: -2px; right: -2px; width: 7px; height: 7px; border-radius: 50%; background: #1f7aff; border: 1.5px solid #fff; }
+    .avatar { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: #4f566b; }
+    .avatar .ico { width: 16px; height: 16px; }
+    .hero { margin-top: 4px; }
+    .hero__crumb { margin-bottom: 6px; font-size: 13px; font-weight: 500; color: var(--muted); }
+    .hero h1 { font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: -.01em; }
+    .hero p { margin-top: 8px; max-width: 760px; font-size: 16px; line-height: 1.5; color: var(--muted); }
+    .view[hidden] { display: none; }
+
+    /* ---------- Buttons, search, filters ---------- */
+    .tbtn { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding-inline: 11px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font-size: 13.5px; font-weight: 500; color: var(--ink); white-space: nowrap; box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
+    .tbtn .ico { width: 15px; height: 15px; color: #4f566b; }
+    .tbtn:hover { background: #f7f8fa; }
+    .tbtn--primary { border-color: var(--accent-btn); background: var(--accent-btn); color: #fff; box-shadow: none; }
+    .tbtn--primary .ico { color: #fff; }
+    .tbtn--primary:hover { border-color: #404040; background: #404040; }
+    .tbtn--bad { color: var(--red); }
+    .tbtn--danger { border-color: var(--red); background: var(--red); color: #fff; box-shadow: none; }
+    .tbtn--danger:hover { border-color: #a82c23; background: #a82c23; }
+    .tbtn[disabled] { opacity: .45; cursor: default; }
+    .dbtn { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 6px; color: #4f566b; }
+    .dbtn:hover, .dbtn[aria-expanded="true"] { background: #f1f3f7; color: var(--ink); }
+    .dbtn .ico { width: 17px; height: 17px; }
+    .ftools { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px solid #edf0f4; }
+    .pcards { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin: 32px 0 14px; padding-bottom: 14px; border-bottom: 1px solid #edf0f4; }
+    .pcards--6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .pcard { display: grid; gap: 0; padding: 7px 12px 8px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); transition: border-color .12s ease, background-color .12s ease; }
+    .pcard span { font-size: 12.5px; line-height: 1.35; color: var(--muted); }
+    .pcard b { font-size: 15px; line-height: 1.35; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); }
+    .pcard:hover { background: #fafbfc; }
+    .pcard.is-on { border-color: #262626; box-shadow: inset 0 0 0 1px #262626; }
+    .pcard.is-on span, .pcard.is-on b { color: var(--ink); }
+    .pcard.is-on span { font-weight: 500; }
+    @media (max-width: 760px) { .pcards--6 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .ftools__r { display: flex; align-items: center; gap: 8px; }
+    .ftools__l { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; min-width: 0; }
+    .fsearch { display: flex; align-items: center; gap: 8px; flex: 0 0 240px; min-width: 0; height: 30px; padding-inline: 10px; border: 1px solid #e3e8ee; border-radius: 6px; background: #fff; color: #6b7385; }
+    .fsearch .ico { width: 15px; height: 15px; }
+    .fsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; font-size: 13px; color: var(--ink); }
+    .fsearch input::placeholder { color: #8792a2; }
+    .fsearch:focus-within { border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
+    .seg { display: inline-flex; gap: 2px; padding: 3px; border-radius: 8px; background: #eceff3; }
+    .seg__btn { padding: 4px 11px; border-radius: 6px; font-size: 12.5px; font-weight: 500; color: #5b6477; transition: background-color .12s ease, color .12s ease; }
+    .seg__btn:hover { color: var(--ink); }
+    .seg__btn.is-on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(60, 66, 87, .14); }
+    .fchk { display: flex; align-items: flex-start; gap: 9px; padding: 6px 0; font-size: 13.5px; line-height: 1.3; color: var(--ink); cursor: pointer; }
+    .fchk input { appearance: none; -webkit-appearance: none; flex: none; width: 16px; height: 16px; margin: 1px 0 0; border: 1.5px solid #cfd4dc; border-radius: 4px; background: #fff; cursor: pointer; transition: background-color .12s ease, border-color .12s ease; }
+    .fchk input:checked { border-color: var(--accent-btn); background: var(--accent-btn) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 10.5 3.5 3.5 7.5-8'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .fchk input:indeterminate { border-color: var(--accent-btn); background: var(--accent-btn) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M5 10h10'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .fchk input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .fchk input:disabled { opacity: .4; cursor: not-allowed; }
+    .fchk input:disabled + span { color: var(--muted); }
+    .fchk small { display: block; margin-top: 1px; font-size: 12.5px; color: var(--muted); }
+
+    /* ---------- Table ---------- */
+    .tablewrap { overflow-x: auto; }
+    .ftable { width: 100%; min-width: 940px; table-layout: fixed; border-collapse: collapse; font-size: 14px; color: var(--ink); }
+    .ftable th { padding: 12px 12px 8px; font-size: 12.5px; font-weight: 600; text-align: left; color: var(--muted); white-space: nowrap; }
+    .ftable td { padding: 11px 12px; border-bottom: 1px solid #edf0f4; vertical-align: middle; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ftable tbody tr:not(.empty) { cursor: pointer; }
+    .ftable tbody tr:hover { background: #fafbfc; }
+    .ftable tbody tr.is-selected { background: #f3f3f3; }
+    .ftable .empty td { padding: 28px 12px; text-align: center; color: var(--muted); }
+    .utable { min-width: 980px; }
+    .utable th:nth-child(1) { width: 44px; }
+    .utable th:nth-child(2) { width: 92px; }
+    .utable th:nth-child(3) { width: 18%; }
+    .utable th:nth-child(4) { width: 26%; }
+    .utable th:nth-child(5) { width: 12%; }
+    .utable th:nth-child(6) { width: 15%; }
+    .utable th:nth-child(7) { width: 14%; }
+    .utable th:nth-child(8) { width: 56px; }
+    .utable th:first-child, .utable td:first-child { padding-right: 0; }
+    .utable td:nth-child(2) { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .utable td:nth-child(3) { font-weight: 500; }
+    .utable td:nth-child(7) { font-variant-numeric: tabular-nums; }
+    .ftable tbody tr.is-checked { background: #f6f6f6; }
+    .rowchk { appearance: none; -webkit-appearance: none; display: block; flex: none; width: 16px; height: 16px; margin: 0; border: 1.5px solid #cfd4dc; border-radius: 4px; background: #fff; cursor: pointer; transition: background-color .12s ease, border-color .12s ease; }
+    .rowchk:hover { border-color: #aab1bf; }
+    .rowchk:checked { border-color: #262626; background: #262626 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 10.5 3.5 3.5 7.5-8'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .rowchk:indeterminate { border-color: #262626; background: #262626 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M5 10h10'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .rowchk:focus-visible { outline: 2px solid #262626; outline-offset: 2px; }
+    .pillbtn { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding-inline: 10px 12px; border: 1px solid #d5dbe4; border-radius: 999px; background: #fff; font-size: 13px; color: var(--ink); }
+    .pillbtn .ico { width: 15px; height: 15px; color: #6b7385; }
+    .pillbtn:hover { background: #f7f8fa; }
+    .pillbtn.is-active { border-color: var(--accent-btn); background: #f3f3f3; color: #262626; font-weight: 500; }
+    .pillclear { height: 28px; padding-inline: 10px; border-radius: 999px; font-size: 13px; color: var(--muted); }
+    .pillclear:hover { background: #f1f3f7; color: var(--ink); }
+    .ovpw { position: relative; display: inline-flex; }
+    .fpop { position: absolute; z-index: 30; top: calc(100% + 6px); left: 0; width: 224px; padding: 12px; border: 1px solid #e3e8ee; border-radius: 10px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .12); font-size: 13px; }
+    .fpop h3 { margin: 0 0 8px; font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--ink); }
+    .fpop__list { display: grid; gap: 0; margin-bottom: 10px; }
+    .fpop__apply { width: 100%; height: 32px; border-radius: 6px; background: var(--accent-btn); color: #fff; font-size: 13px; font-weight: 500; text-align: center; transition: background-color .15s ease; }
+    .fpop__apply:hover { background: #404040; }
+    .utable td:last-child { padding-inline: 4px 12px; text-align: right; overflow: visible; }
+    .utable .dim { color: var(--muted); }
+    .stat { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+    .stat i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .stat--live { background: #cdf5b0; color: #2a6a14; }
+    .stat--active { background: #cfe0fb; color: #1d4ea3; }
+    .stat--dormant { background: #e6e8ec; color: #4d5362; }
+    .stat--invited { background: #f6efb5; color: #6b5d0a; }
+    .pager { display: flex; align-items: center; justify-content: flex-end; gap: 24px; flex-wrap: wrap; padding: 12px 4px 0; font-size: 13px; color: var(--muted); }
+    .pager__l, .pager__r { display: flex; align-items: center; gap: 10px; }
+    .pager__range { font-variant-numeric: tabular-nums; color: var(--text); }
+    .fd-dd { position: relative; }
+    .fd-rng { display: inline-flex; align-items: center; gap: 7px; height: 28px; padding-inline: 11px 8px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font-size: 13px; font-weight: 500; white-space: nowrap; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
+    .fd-rng:hover { background: #f7f8fa; }
+    .fd-rng[aria-expanded="true"] { border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
+    .fd-rng .ico { width: 14px; height: 14px; margin: 0; color: #4f566b; }
+    .fd-rngmenu { position: absolute; z-index: 5; bottom: 34px; left: 0; width: 128px; padding: 8px 12px; border: 1px solid #e3e8ee; border-radius: 10px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .12); }
+    .fd-opt { display: flex; align-items: center; gap: 9px; width: 100%; padding: 6px 0; font-size: 13.5px; line-height: 1.3; color: var(--ink); }
+    .fd-opt i { flex: none; width: 16px; height: 16px; border: 1.5px solid #cfd4dc; border-radius: 50%; background: #fff; transition: background-color .12s ease, border-color .12s ease; }
+    .fd-opt[aria-selected="true"] i { border-color: var(--accent-btn); background: var(--accent-btn) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 10.5 3.5 3.5 7.5-8'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .pg-btn { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
+    .pg-btn:hover:not(:disabled) { background: #f7f8fa; }
+    .pg-btn:disabled { opacity: .4; cursor: default; }
+    .pg-btn .ico { width: 15px; height: 15px; }
+
+    .stat--suspended { background: #fbd5d8; color: #a3202a; }
+    .stat--expired { background: #fbe3c4; color: #9a5a12; }
+    .you { margin-left: 4px; padding: 1px 6px; border-radius: 4px; background: #eceff3; font-size: 11px; font-weight: 500; color: #4f566b; vertical-align: 1px; }
+    .th-info { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: 4px; vertical-align: -4px; border-radius: 50%; color: #8792a2; }
+    .th-info .ico { width: 14px; height: 14px; }
+    .th-info:hover, .th-info[aria-expanded="true"] { color: var(--ink); }
+    .tip { position: fixed; z-index: 70; max-width: 280px; padding: 10px 12px; border-radius: 8px; background: #262626; color: #fff; font-size: 12.5px; line-height: 1.45; box-shadow: 0 8px 24px rgba(26, 31, 54, .25); pointer-events: none; }
+    .tip--list { max-width: 420px; padding: 14px 16px 16px; border: 1px solid var(--line); background: #fff; color: var(--text); font-size: 13px; box-shadow: 0 8px 24px rgba(26, 31, 54, .14); }
+    .tip--list b { margin-bottom: 12px; font-size: 13.5px; color: var(--ink); }
+    .tip--list .stat { justify-self: start; }
+    .tip__list { display: grid; grid-template-columns: max-content 1fr; gap: 10px 16px; align-items: center; }
+    .tip b { display: block; margin-bottom: 4px; font-weight: 600; }
+    .tip p { color: #e3e6ea; }
+    .tip p + p { margin-top: 4px; }
+    .bd-hint { margin: 6px 0 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+    .bd-in:disabled { background: #f6f8fa; color: var(--muted); cursor: not-allowed; }
+    .dp-status { margin-top: 24px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .dp-st__h { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .dp-st__h b { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .dp-status ul { display: grid; gap: 6px; margin-top: 10px; padding-left: 16px; list-style: disc; font-size: 13px; line-height: 1.5; color: var(--text); }
+    #ue-note { margin-top: 8px; }
+    #ue-props { margin-top: 18px; }
+    #print-area { display: none; }
+    #print-area h1 { font-size: 20px; }
+    #print-area p { margin: 4px 0 16px; color: #555; }
+    #print-area table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    #print-area th, #print-area td { padding: 6px 8px; border-bottom: 1px solid #ccc; text-align: left; }
+    @media print { body.is-printing > *:not(#print-area) { display: none !important; } body.is-printing #print-area { display: block; padding: 8px; } }
+    .menu__item--bad, .menu__item--bad .ico { color: var(--red); }    /* ---------- Overflow menu ---------- */
+    .menu { position: fixed; z-index: 60; width: 236px; padding: 4px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 8px 24px rgba(26, 31, 54, .12); }
+    .menu__item { display: flex; align-items: center; gap: 9px; width: 100%; padding: 7px 10px; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--ink); text-align: left; }
+    .menu__item .ico { width: 15px; height: 15px; color: #6b7385; }
+    .menu__item:hover, .menu__item:focus-visible { background: var(--panel); outline: none; }
+    .menu__item--bad, .menu__item--bad .ico { color: var(--red); }
+    .menu__sep { height: 1px; margin: 4px 0; background: #edf0f4; }
+
+    /* ---------- Side panel (same as finding panel) ---------- */
+    .dp { position: fixed; z-index: 40; top: 0; right: 0; bottom: 0; display: flex; flex-direction: column; width: min(440px, 100vw); background: #fff; border-left: 1px solid var(--line); box-shadow: -12px 0 32px rgba(26, 31, 54, .10); visibility: hidden; opacity: 0; transform: translateX(28px); transition: transform .22s ease, opacity .18s ease, visibility 0s linear .22s; }
+    .dp.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+    .dp__bar { display: flex; flex: none; align-items: center; justify-content: flex-end; gap: 2px; height: 52px; padding: 0 16px; }
+    .dp__scroll { flex: 1; overflow-y: auto; padding: 0 24px 36px; }
+    .dp__title { font-size: 17px; font-weight: 700; line-height: 1.35; letter-spacing: -.005em; color: var(--ink); }
+    .dp__sub { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+    .dp__foot { display: flex; flex: none; align-items: center; gap: 6px; padding: 12px 24px; border-top: 1px solid var(--line); background: #fff; }
+    .dp__foot .tbtn { height: 32px; padding-inline: 10px; font-size: 13px; }
+    .dp__foot .tbtn--primary { margin-left: auto; }
+    .dp-scrim { position: fixed; inset: 0; z-index: 39; background: rgba(26, 31, 54, .38); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+    .dp-scrim.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+    .bd-lbl { display: block; margin: 18px 0 6px; font-size: 13px; font-weight: 500; color: var(--ink); }
+    .bd-in { width: 100%; height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; font: inherit; font-size: 14px; color: var(--ink); }
+    .bd-in:focus { outline: 0; border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
+    .bd-in[aria-invalid="true"] { border-color: var(--red); }
+    select.bd-in { padding-right: 30px; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23687385' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center / 16px; appearance: none; -webkit-appearance: none; cursor: pointer; }
+    textarea.bd-in { height: 76px; padding: 8px 10px; resize: vertical; }
+    .bd-err { margin: 6px 0 0; font-size: 12.5px; color: var(--red); }
+    .dp-props { display: grid; gap: 2px; margin: 22px 0 0; }
+    .dp-prop { display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; min-height: 36px; }
+    .dp-prop dt { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: var(--muted); }
+    .dp-prop dt .ico { width: 16px; height: 16px; color: #6b7385; }
+    .dp-prop dd.dp-val { overflow-wrap: anywhere; }
+    .dp-prop dd { display: flex; align-items: center; gap: 8px; min-width: 0; margin: 0; font-size: 14px; color: var(--ink); }
+    .dp-note { margin-top: 20px; padding: 12px 14px; border-radius: 8px; background: #fbf7d8; font-size: 13px; line-height: 1.5; color: #5d520a; }
+    .dp-note .tbtn { margin-top: 10px; }
+
+    /* ---------- Confirm dialog (same as Create a Brief pop-up) ---------- */
+    .cm-scrim { position: fixed; inset: 0; z-index: 300; background: rgba(26, 31, 54, .45); }
+    .cm { position: fixed; inset: 0; z-index: 301; display: grid; place-items: center; padding: 24px; pointer-events: none; }
+    .cm__box { pointer-events: auto; width: min(440px, 100%); padding: 22px 24px 20px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 24px 60px rgba(26, 31, 54, .22); }
+    .cm__box:focus { outline: none; }
+    .cm__box h2 { font-size: 17px; font-weight: 700; color: var(--ink); }
+    .cm__sub { margin: 8px 0 0; font-size: 14px; line-height: 1.55; color: var(--muted); }
+    .cm__box--form { width: min(480px, 100%); }
+    .cm__opts { display: grid; gap: 10px; margin-top: 18px; }
+    .cm-opt { position: relative; display: block; cursor: pointer; }
+    .cm-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .cm-opt > span { display: block; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; transition: border-color .12s ease, background .12s ease; }
+    .cm-opt b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .cm-opt small { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+    .cm-opt:hover > span { background: #fafbfc; }
+    .cm-opt input:checked + span { border-color: #262626; box-shadow: inset 0 0 0 1px #262626; }
+    .cm-opt input:focus-visible + span { outline: 2px solid #262626; outline-offset: 2px; }
+    .cm__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .cm__foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 22px; }
+    .cm__foot .tbtn { height: 32px; }
+    .toast { position: fixed; z-index: 400; left: 50%; bottom: 28px; max-width: calc(100vw - 32px); padding: 10px 16px; border-radius: 8px; background: #262626; color: #fff; font-size: 13.5px; box-shadow: 0 8px 24px rgba(26, 31, 54, .25); transform: translateX(-50%); }
+
+    /* ---------- Permissions ---------- */
+    .pm { margin-top: 32px; }
+    .pm__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .pm .pcards { margin-top: 0; }
+    .pcards--roles { display: flex; flex-wrap: wrap; }
+    .pcards--roles .pcard { flex: 1 1 120px; }
+    .pcards--roles .pcard--add { flex: 0 0 56px; place-items: center; padding: 0; }
+    .pcard--add .ico { width: 18px; height: 18px; color: var(--muted); }
+    .pcard--add:hover .ico { color: var(--ink); }
+    .pcards--roles .pcard { padding-block: 12px; }
+    .pcard b small { font-size: 12.5px; font-weight: 400; color: var(--muted); }
+    .pm__head h2 { font-size: 16px; font-weight: 600; letter-spacing: -.005em; }
+    .ftable.rd__tbl { min-width: 720px; }
+    .ft__note { margin-top: 20px; max-width: 640px; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+    .ft__note b { font-weight: 600; color: var(--text); }
+    .ft { margin-top: 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .ft__row { display: grid; grid-template-columns: minmax(0, 1fr) 110px 110px; align-items: center; gap: 12px; padding: 14px 18px; }
+    .ft__row + .ft__row { border-top: 1px solid #edf0f4; }
+    .ft__row--h { padding-block: 10px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+    .ft__h { display: inline-flex; align-items: center; gap: 4px; cursor: default; }
+    .ft__h .ico { width: 14px; height: 14px; color: #8792a2; }
+    .ft__h:hover { color: var(--ink); }
+    .ft__h:hover .ico { color: var(--ink); }
+    .ft__name b { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .ft__name small { display: block; margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+    .ft__na { color: #b3b9c4; }
+    .tg { position: relative; display: block; width: 44px; height: 26px; border: 1px solid #d5dae1; border-radius: 13px; background: #eceae6; cursor: pointer; transition: background .15s ease, border-color .15s ease; }
+    .tg::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(26, 31, 54, .25); transition: transform .15s ease; }
+    .tg[aria-checked="true"] { border-color: var(--accent-btn); background: var(--accent-btn); }
+    .tg[aria-checked="true"]::after { transform: translateX(18px); }
+    .tg:disabled { opacity: .55; cursor: default; }
+    @media (max-width: 700px) { .ft__row { grid-template-columns: minmax(0, 1fr) 56px 56px; padding-inline: 12px; } }    .savebar { position: sticky; bottom: 16px; z-index: 20; display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 10px 12px 10px 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 8px 24px rgba(26, 31, 54, .14); font-size: 13.5px; }
+    .savebar span { margin-right: auto; font-weight: 500; }
+
+    @media (max-width: 980px) {
+      .shell { grid-template-columns: 1fr; }
+      .side { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      .main { padding-inline: 20px; }
+      .pm { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { .dp, .dp-scrim { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <div class="side__org">
+        <div class="side__brand"><img class="side__logo" src="data:image/png;base64,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" alt="" width="22" height="22"><b>Cygnos</b></div>
+        <span class="side__co">Kestrel Vane Consulting</span>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a class="nav__item" href="newv1.html">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Overview
+        </a>
+        <a class="nav__item" href="newv1.html?go=1">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8 21h8M12 16.5V21"/></svg>Findings
+        </a>
+        <a class="nav__item" href="newv1.html?go=2">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="m12 17.5 3.5-5"/><path d="M12 17.5h.01"/></svg>Score
+        </a>
+        <a class="nav__item" href="newv1.html?go=3">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></svg>AI landscape
+        </a>
+        <a class="nav__item" href="newv1.html?go=4">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01M2 14h2M20 14h2"/></svg>Sources
+        </a>
+        <a class="nav__item" href="newv1.html?go=5">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M9 13h6M9 16.5h4"/></svg>Briefs
+        </a>
+        <a class="nav__item is-section" href="settings.html" aria-current="page" aria-expanded="true">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings<svg class="ico nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></a>
+        <div class="nav__sub" role="group" aria-label="Settings"><button type="button" class="nav__subitem is-active" data-view="users">Users</button><button type="button" class="nav__subitem" data-view="permissions">Permissions</button></div>
+      </nav>
+
+      <nav class="quick" aria-label="Quick access">
+        <p class="side__label">Quick access</p>
+        <a class="nav__item" href="newv1.html?q=0">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M12 11.5v5M9.5 14h5"/></svg>Create brief
+        </a>
+        <a class="nav__item" href="newv1.html?q=1">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4.5 15v3.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>Upload AI budget
+        </a>
+        <a class="nav__item" href="newv1.html?q=2">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 2.8 7.4 7 9 4.2-1.6 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.2 10"/></svg>Connect data loss prevention
+        </a>
+        <a class="nav__item" href="newv1.html?q=3">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8.2 4.5 4.5 4.5v13c3.7 0 6 .5 7.5 2 1.5-1.5 3.8-2 7.5-2v-13c-3.7 0-6 .5-7.5 2zM12 6.5v13"/></svg>Resources
+        </a>
+        <a class="nav__item" href="newv1.html?q=4">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg>Help
+        </a>
+      </nav>
+    </aside>
+    <main class="main">
+      <div class="top">
+        <div class="top__right">
+          <span class="bell" aria-label="Notifications"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/></svg></span>
+          <span class="avatar" aria-label="Account"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></span>
+        </div>
+      </div>
+
+      <!-- ===== Users ===== -->
+      <div class="view" id="view-users">
+        <section class="hero">
+          <h1>Users</h1>
+          <p>Everyone who can sign in to Cygnos, the role each person has, and when they last visited.</p>
+        </section>
+        <div class="pcards pcards--6" id="u-seg" role="group" aria-label="Filter by status">
+          <button type="button" class="pcard is-on" data-st="all" aria-pressed="true"><span>All</span><b>0</b></button>
+          <button type="button" class="pcard" data-st="active" aria-pressed="false"><span>Active</span><b>0</b></button>
+          <button type="button" class="pcard" data-st="dormant" aria-pressed="false"><span>Dormant</span><b>0</b></button>
+          <button type="button" class="pcard" data-st="suspended" aria-pressed="false"><span>Suspended</span><b>0</b></button>
+          <button type="button" class="pcard" data-st="invited" aria-pressed="false"><span>Invitation sent</span><b>0</b></button>
+          <button type="button" class="pcard" data-st="expired" aria-pressed="false"><span>Invitation expired</span><b>0</b></button>
+        </div>
+        <div class="ftools">
+          <div class="ftools__l">
+            <label class="fsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg><input id="u-q" type="search" placeholder="Search by name, email or ID" aria-label="Search users"></label>
+            <span class="ovpw"><button type="button" class="pillbtn" id="u-role-btn" aria-haspopup="dialog" aria-expanded="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Role</span></button>
+              <div class="fpop" id="u-role-pop" role="dialog" aria-label="Role" hidden><h3>Role</h3><div class="fpop__list" id="u-role-list"></div><button type="button" class="fpop__apply" id="u-role-apply">Apply</button></div></span>
+            <button type="button" class="pillclear" id="u-clear" hidden>Clear filters</button>
+          </div>
+          <div class="ftools__r"><button type="button" class="tbtn" id="u-invite"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Invite user</button><button type="button" class="tbtn" id="u-export"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M8 7l4-4 4 4M5 13v6.5h14V13"/></svg><span id="u-export-l">Export</span></button></div>
+        </div>
+        <div class="tablewrap">
+          <table class="ftable utable">
+            <thead><tr><th><input type="checkbox" class="rowchk" id="u-all" aria-label="Select all users on this page"></th><th>User ID</th><th>User name</th><th>User email</th><th>User role</th><th>Status</th><th>Last visit</th><th><span class="sr" style="position:absolute;left:-9999px">Actions</span></th></tr></thead>
+            <tbody id="u-body"></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <div class="pager__l"><span>Rows per page</span><div class="fd-dd"><button type="button" class="fd-rng" id="pg-btn" aria-haspopup="listbox" aria-expanded="false"><span id="pg-size"></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="fd-rngmenu" id="pg-menu" role="listbox" hidden></div></div></div>
+          <div class="pager__r"><span class="pager__range" id="pg-range"></span><button type="button" class="pg-btn" id="pg-prev" aria-label="Previous page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button type="button" class="pg-btn" id="pg-next" aria-label="Next page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+        </div>
+      </div>
+
+      <!-- ===== Permissions ===== -->
+      <div class="view" id="view-permissions" hidden>
+        <section class="hero">
+          <h1>Permissions</h1>
+          <p>A role decides what a person can see and do. Pick a role, then choose its permissions.</p>
+        </section>
+        <div class="pm">
+          <div class="pcards pcards--roles" id="r-list" role="group" aria-label="Roles"></div>
+          <div id="r-detail"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Edit user -->
+  <aside class="dp" id="ue" role="dialog" aria-modal="true" aria-labelledby="ue-title" aria-hidden="true">
+    <div class="dp__bar"><button type="button" class="dbtn" data-close aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dp__scroll">
+      <h2 class="dp__title" id="ue-title">Edit user</h2>
+      <dl class="dp-props" id="ue-props"></dl>
+      <div id="ue-note"></div>
+      <label class="bd-lbl" for="ue-name">User name</label><input class="bd-in" id="ue-name" type="text" autocomplete="off">
+      <label class="bd-lbl" for="ue-role">User role</label><select class="bd-in" id="ue-role"></select>
+      <p class="bd-err" id="ue-err" hidden></p>
+    </div>
+    <div class="dp__foot"><button type="button" class="tbtn" data-close>Cancel</button><button type="button" class="tbtn tbtn--primary" id="ue-save">Save changes</button></div>
+  </aside>
+
+  <!-- Invite user -->
+  <div class="cm-scrim" id="ui-scrim" hidden></div>
+  <div class="cm" id="ui" role="dialog" aria-modal="true" aria-labelledby="ui-title" hidden>
+    <div class="cm__box cm__box--form" tabindex="-1">
+      <div class="cm__head"><h2 id="ui-title">Invite a user</h2><button type="button" class="dbtn" id="ui-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <p class="cm__sub">They get an email with a link to create an account. The link works for 7 days. Their status stays at Invitation sent until they create it.</p>
+      <label class="bd-lbl" for="ui-name">User name</label><input class="bd-in" id="ui-name" type="text" autocomplete="off">
+      <label class="bd-lbl" for="ui-email">User email</label><input class="bd-in" id="ui-email" type="email" autocomplete="off">
+      <p class="bd-err" id="ui-err" hidden></p>
+      <label class="bd-lbl" for="ui-role">User role</label><select class="bd-in" id="ui-role"></select>
+      <div class="cm__foot"><button type="button" class="tbtn" id="ui-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="ui-send">Send invitation</button></div>
+    </div>
+  </div>
+
+  <!-- Add role -->
+  <div class="cm-scrim" id="ur-scrim" hidden></div>
+  <div class="cm" id="ur" role="dialog" aria-modal="true" aria-labelledby="ur-title" hidden>
+    <div class="cm__box cm__box--form" tabindex="-1">
+      <div class="cm__head"><h2 id="ur-title">Add a role</h2><button type="button" class="dbtn" id="ur-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <p class="cm__sub">Name the role, then choose its permissions on the next screen.</p>
+      <label class="bd-lbl" for="ur-name">Role name</label><input class="bd-in" id="ur-name" type="text" autocomplete="off">
+      <p class="bd-err" id="ur-err" hidden></p>
+      <label class="bd-lbl" for="ur-desc">What is it for?</label><textarea class="bd-in" id="ur-desc" placeholder="For example: Reviews findings but cannot change them"></textarea>
+      <label class="bd-lbl" for="ur-from">Start from</label><select class="bd-in" id="ur-from"></select>
+      <div class="cm__foot"><button type="button" class="tbtn" id="ur-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="ur-save">Add role</button></div>
+    </div>
+  </div>
+  <div class="dp-scrim" id="scrim" aria-hidden="true"></div>
+
+  <div class="menu" id="menu" role="menu" hidden></div>
+  <div class="cm-scrim" id="cm-scrim" hidden></div>
+  <div class="cm" id="cm" role="alertdialog" aria-modal="true" aria-labelledby="cm-title" hidden>
+    <div class="cm__box" tabindex="-1">
+      <h2 id="cm-title"></h2>
+      <p class="cm__sub" id="cm-msg"></p>
+      <div class="cm__foot"><button type="button" class="tbtn" id="cm-no">Cancel</button><button type="button" class="tbtn tbtn--bad" id="cm-alt" hidden></button><button type="button" class="tbtn" id="cm-yes"></button></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <!-- Confirm password before removing a user -->
+  <div class="cm-scrim" id="pw-scrim" hidden></div>
+  <div class="cm" id="pw" role="alertdialog" aria-modal="true" aria-labelledby="pw-title" hidden>
+    <div class="cm__box cm__box--form" tabindex="-1">
+      <div class="cm__head"><h2 id="pw-title">Confirm your password</h2><button type="button" class="dbtn" id="pw-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <p class="cm__sub" id="pw-sub"></p>
+      <label class="bd-lbl" for="pw-in">Your password</label><input class="bd-in" id="pw-in" type="password" autocomplete="current-password">
+      <p class="bd-err" id="pw-err" hidden></p>
+      <div class="cm__foot"><button type="button" class="tbtn" id="pw-cancel">Cancel</button><button type="button" class="tbtn tbtn--danger" id="pw-go">Authenticate and remove user</button></div>
+    </div>
+  </div>
+
+  <!-- The only Admin must hand over the role first -->
+  <div class="cm-scrim" id="la-scrim" hidden></div>
+  <div class="cm" id="la" role="alertdialog" aria-modal="true" aria-labelledby="la-title" hidden>
+    <div class="cm__box cm__box--form" tabindex="-1">
+      <div class="cm__head"><h2 id="la-title">Assign another Admin first</h2><button type="button" class="dbtn" id="la-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <p class="cm__sub" id="la-sub"></p>
+      <label class="bd-lbl" for="la-pick">Make this person an Admin</label><select class="bd-in" id="la-pick"></select>
+      <p class="bd-hint" id="la-empty" hidden>Nobody else has an account yet. Invite someone first, then make them an Admin.</p>
+      <div class="cm__foot"><button type="button" class="tbtn" id="la-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="la-go">Make Admin</button></div>
+    </div>
+  </div>
+
+  <!-- Export users -->
+  <aside class="dp" id="ex" role="dialog" aria-modal="true" aria-labelledby="ex-title" aria-hidden="true">
+    <div class="dp__bar"><button type="button" class="dbtn" data-close aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dp__scroll">
+      <h2 class="dp__title" id="ex-title">Export users</h2>
+      <p class="dp__sub" id="ex-sub"></p>
+      <div class="cm__opts" role="radiogroup" aria-label="How to export">
+        <label class="cm-opt"><input type="radio" name="exmode" id="ex-pdf" value="pdf" checked><span><b>Download PDF</b><small>Save the list as a file on your computer.</small></span></label>
+        <label class="cm-opt"><input type="radio" name="exmode" value="print"><span><b>Print</b><small>Open the print window with the list.</small></span></label>
+        <label class="cm-opt"><input type="radio" name="exmode" value="email"><span><b>Email</b><small>Send the list as a PDF to someone.</small></span></label>
+      </div>
+      <div id="ex-mail" hidden>
+        <label class="bd-lbl" for="ex-to">To</label><input class="bd-in" id="ex-to" type="text" placeholder="name@company.com, another@company.com" autocomplete="off">
+        <p class="bd-err" id="ex-err" hidden></p>
+        <label class="bd-lbl" for="ex-subject">Subject</label><input class="bd-in" id="ex-subject" type="text" autocomplete="off">
+      </div>
+    </div>
+    <div class="dp__foot"><button type="button" class="tbtn" data-close>Cancel</button><button type="button" class="tbtn tbtn--primary" id="ex-go">Download PDF</button></div>
+  </aside>
+  <div class="tip" id="tip" role="tooltip" hidden></div>
+  <div id="print-area"></div>
+
+  <script>
+    /* ---------- Data ---------- */
+    /* Permissions are per feature, not per screen. Each feature has two switches: View (see it, and export it wherever it appears) and Manage (everything else: create, edit, delete and any action). Manage includes View. */
+    var FEATURES = [
+      { id: 'score', name: 'Score and dashboards', where: 'The Cygnos IQ score, what drives it and how it has moved', manage: false },
+      { id: 'findings', name: 'Findings', where: 'Issues Cygnos found in your AI use, and the work to fix them', manage: true },
+      { id: 'landscape', name: 'AI landscape', where: 'The AI tools, seats, services and agents your company uses', manage: true },
+      { id: 'sources', name: 'Sources', where: 'The systems Cygnos reads its information from', manage: true },
+      { id: 'briefs', name: 'Briefs', where: 'Monthly summaries for the executive team and the board', manage: true },
+      { id: 'users', name: 'Users', where: 'Who can sign in to Cygnos, their roles and invitations', manage: true },
+      { id: 'roles', name: 'Roles and permissions', where: 'Create roles and choose what each one can see and do', manage: true }
+    ];
+    function levels(o) { return o; }
+    var roles = [
+      { name: 'Admin', locked: true, perms: levels({ score: 'view', findings: 'manage', landscape: 'manage', sources: 'manage', briefs: 'manage', users: 'manage', roles: 'manage' }) },
+      { name: 'Executive', perms: levels({ score: 'view', findings: 'view', landscape: 'view', sources: 'view', briefs: 'manage' }) },
+      { name: 'AI owner', perms: levels({ score: 'view', findings: 'manage', landscape: 'manage', sources: 'manage', briefs: 'manage', users: 'view' }) },
+      { name: 'Fixer', perms: levels({ score: 'view', findings: 'manage' }) }
+    ];
+    var NOW = new Date('2026-10-14T11:00:00'), DAY = 864e5, DORMANT_DAYS = 180, INVITE_DAYS = 7, ME = 'U-1001';
+    var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var users = [
+      { id: 'U-1001', name: 'Mark Ellery', email: 'mark.ellery@kestrelvane.com', phone: '+1 415 555 0101', title: 'Head of AI', role: 'Admin', lastVisit: '2026-10-14T10:15:00' },
+      { id: 'U-1002', name: 'Priya Nair', email: 'priya.nair@kestrelvane.com', phone: '+1 415 555 0102', title: 'AI programme lead', role: 'AI owner', lastVisit: '2026-10-14T09:42:00' },
+      { id: 'U-1003', name: 'Daniel Okafor', email: 'daniel.okafor@kestrelvane.com', phone: '+1 415 555 0103', title: 'Chief Operating Officer', role: 'Executive', lastVisit: '2026-10-13T16:20:00' },
+      { id: 'U-1004', name: 'Sofia Marlow', email: 'sofia.marlow@kestrelvane.com', phone: '+1 415 555 0104', title: 'Security engineer', role: 'Fixer', lastVisit: '2026-10-14T08:05:00' },
+      { id: 'U-1005', name: 'Hannah Lindqvist', email: 'hannah.lindqvist@kestrelvane.com', phone: '+44 20 7946 0105', title: 'Platform engineer', role: 'Fixer', lastVisit: '2026-10-12T14:10:00' },
+      { id: 'U-1006', name: 'Chris Walker', email: 'chris.walker@kestrelvane.com', phone: '+1 415 555 0106', title: 'Delivery director', role: 'AI owner', lastVisit: '2026-10-14T07:30:00' },
+      { id: 'U-1007', name: 'Tomás Reyes', email: 'tomas.reyes@kestrelvane.com', phone: '+34 91 555 0107', title: 'Chief Financial Officer', role: 'Executive', lastVisit: '2026-03-12T09:00:00' },
+      { id: 'U-1008', name: 'Maya Chen', email: 'maya.chen@kestrelvane.com', phone: '+1 415 555 0112', title: 'Risk manager', role: 'Executive', lastVisit: '2026-09-20T13:00:00', suspendedOn: '2026-10-08T12:00:00' },
+      { id: 'U-1009', name: 'Rahul Menon', email: 'rahul.menon@kestrelvane.com', phone: '', title: '', role: 'Fixer', sent: '2026-10-11T09:00:00' },
+      { id: 'U-1010', name: 'Oliver Grant', email: 'oliver.grant@kestrelvane.com', phone: '', title: '', role: 'Fixer', sent: '2026-10-02T10:00:00' },
+      { id: 'U-1011', name: 'Aiko Tanaka', email: 'aiko.tanaka@kestrelvane.com', phone: '', title: 'Analyst', role: 'Fixer', lastVisit: '2026-04-02T11:30:00' },
+      { id: 'U-1012', name: 'Elena Petrova', email: 'elena.petrova@kestrelvane.com', phone: '', title: '', role: 'Executive', sent: '2026-10-13T15:00:00' }
+    ];
+    var ST = { active: 'Active', dormant: 'Dormant', suspended: 'Suspended', invited: 'Invitation sent', expired: 'Invitation expired' };
+    function dt(s) { return new Date(s); }
+    function daysBetween(a, b) { return Math.floor((b - a) / DAY); }
+    function addDays(d, n) { return new Date(d.getTime() + n * DAY); }
+    function fmt(d) { return d.getDate() + ' ' + MON[d.getMonth()] + ' ' + d.getFullYear(); }
+    function p2(n) { return (n < 10 ? '0' : '') + n; }
+    function lastLabel(u) { if (!u.lastVisit) return '—'; var t = dt(u.lastVisit); return t.toDateString() === NOW.toDateString() ? 'Today, ' + p2(t.getHours()) + ':' + p2(t.getMinutes()) : fmt(t); }
+    /* A status is worked out from dates, never typed in: an invitation expires after 7 days, an account goes Dormant after 180 days without a visit */
+    function stOf(u) {
+      if (u.sent) return daysBetween(dt(u.sent), NOW) >= INVITE_DAYS ? 'expired' : 'invited';
+      if (u.suspendedOn) return 'suspended';
+      return daysBetween(dt(u.lastVisit), NOW) >= DORMANT_DAYS ? 'dormant' : 'active';
+    }
+    function refresh() { users.forEach(function (u) { u.st = stOf(u); }); }
+    function tipOf(u) {
+      return { active: 'Visited in the last 180 days', dormant: 'No visit for 180 days or more. Clears when they log in.', suspended: 'Sign-in blocked by an admin', invited: 'Waiting for them to create an account. Expires ' + (u.sent ? fmt(addDays(dt(u.sent), INVITE_DAYS)) : ''), expired: 'Invitation expired ' + (u.sent ? fmt(addDays(dt(u.sent), INVITE_DAYS)) : '') }[u.st];
+    }
+    /* What starts a status, what ends it, and the dates that apply to this person */
+    function lifeOf(u) {
+      var last = u.lastVisit && dt(u.lastVisit), exp = u.sent && addDays(dt(u.sent), INVITE_DAYS);
+      if (u.st === 'active') return ['Last visit: ' + lastLabel(u) + '.', 'Becomes Dormant after ' + DORMANT_DAYS + ' days without a visit, on ' + fmt(addDays(last, DORMANT_DAYS)) + '.'];
+      if (u.st === 'dormant') return ['No visit since ' + fmt(last) + ' (' + daysBetween(last, NOW) + ' days).', 'Dormant since ' + fmt(addDays(last, DORMANT_DAYS)) + '. Range: ' + fmt(last) + ' to ' + fmt(NOW) + '.', 'Ends when the user logs in. They become Active again straight away.'];
+      if (u.st === 'suspended') return ['Suspended on ' + fmt(dt(u.suspendedOn)) + ' by an admin. They cannot sign in.', 'Their role, data and history are kept.', 'Ends when an admin reactivates them.'];
+      if (u.st === 'invited') return ['Invitation sent on ' + fmt(dt(u.sent)) + '.', 'Stays at Invitation sent until the person creates an account. Then they become Active.', 'Expires on ' + fmt(exp) + ' (after ' + INVITE_DAYS + ' days).'];
+      return ['Invitation expired on ' + fmt(exp) + '. The link no longer works.', 'Resend it for a new ' + INVITE_DAYS + '-day link, or delete it.'];
+    }
+    function adminCount() { refresh(); return users.filter(function (u) { return u.role === 'Admin' && (u.st === 'active' || u.st === 'dormant'); }).length; }
+    function isLastAdmin(u) { return u.role === 'Admin' && adminCount() <= 1; }
+
+    /* ---------- Helpers ---------- */
+    function $(id) { return document.getElementById(id); }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+    function ic(p) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + p + '</svg>'; }
+    var ICONS = {
+      edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+      trash: '<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"/>',
+      send: '<path d="M4 12 20 4l-4 16-4-6.5z"/><path d="m12 13.5 8-9.5"/>',
+      file: '<path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5"/>',
+      print: '<path d="M7 9V4h10v5M7 17H5a1 1 0 0 1-1-1v-5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5a1 1 0 0 1-1 1h-2"/><rect x="7" y="14" width="10" height="6" rx="1"/>',
+      mail: '<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/>',
+      pause: '<circle cx="12" cy="12" r="8.5"/><path d="M10 9v6M14 9v6"/>',
+      play: '<circle cx="12" cy="12" r="8.5"/><path d="m10.5 9 4.5 3-4.5 3z"/>',
+      person: '<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
+      idcard: '<rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="M8 10v4M11.5 10h2a1.5 1.5 0 0 1 0 4h-2z"/>',
+      more: '<circle cx="5.5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18.5" cy="12" r="1.2"/>'
+    };
+    var toastT; function toast(m) { var t = $('toast'); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(function () { t.hidden = true; }, 2600); }
+    function validEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+    function roleUsers(n) { return users.filter(function (u) { return u.role === n; }).length; }
+
+    /* ---------- Panels, menu and dialog ---------- */
+    var openPanel = null, lastFocus = null;
+    function showPanel(id, focusId) { closeMenu(); var p = $(id); lastFocus = document.activeElement; openPanel = p; p.classList.add('is-open'); p.setAttribute('aria-hidden', 'false'); $('scrim').classList.add('is-open'); setTimeout(function () { $(focusId).focus(); }, 60); }
+    function hidePanel() { if (!openPanel) return; openPanel.classList.remove('is-open'); openPanel.setAttribute('aria-hidden', 'true'); $('scrim').classList.remove('is-open'); document.querySelectorAll('.utable tr.is-selected').forEach(function (r) { r.classList.remove('is-selected'); }); openPanel = null; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
+    document.querySelectorAll('.dp [data-close]').forEach(function (b) { b.addEventListener('click', hidePanel); });
+    $('scrim').addEventListener('click', hidePanel);
+    var menu = $('menu'), menuFor = null;
+    function closeMenu() { menu.hidden = true; if (menuFor) menuFor.setAttribute('aria-expanded', 'false'); menuFor = null; }
+    function openMenu(btn, items) {
+      closeMenu(); menuFor = btn; btn.setAttribute('aria-expanded', 'true');
+      menu.innerHTML = items.map(function (it, i) { return it === '-' ? '<div class="menu__sep"></div>' : '<button type="button" class="menu__item' + (it.bad ? ' menu__item--bad' : '') + '" role="menuitem" data-i="' + i + '">' + (it.icon ? ic(ICONS[it.icon]) : '') + it.label + '</button>'; }).join('');
+      menu.hidden = false;
+      var r = btn.getBoundingClientRect(), h = menu.offsetHeight, top = r.bottom + 4; if (top + h > innerHeight - 8) top = r.top - h - 4;
+      menu.style.top = Math.max(8, top) + 'px'; menu.style.left = Math.max(8, r.right - menu.offsetWidth) + 'px';
+      menu.onclick = function (e) { var b = e.target.closest('.menu__item'); if (!b) return; var it = items[+b.getAttribute('data-i')]; closeMenu(); it.run(); };
+      var f = menu.querySelector('.menu__item'); if (f) f.focus();
+    }
+    document.addEventListener('click', function (e) { if (!menu.hidden && !e.target.closest('#menu') && !e.target.closest('.u-more')) closeMenu(); });
+    window.addEventListener('scroll', closeMenu, true);
+    var cmCb = null, cmAlt = null;
+    function ask(o, cb) { closeMenu(); $('cm-title').textContent = o.title; $('cm-msg').textContent = o.msg; var y = $('cm-yes'); y.textContent = o.ok; y.className = 'tbtn ' + (o.danger ? 'tbtn--danger' : 'tbtn--primary'); cmCb = cb; $('cm-no').hidden = !!o.noCancel; cmAlt = o.alt ? o.alt.cb : null; $('cm-alt').hidden = !o.alt; if (o.alt) $('cm-alt').textContent = o.alt.label; $('cm-scrim').hidden = false; $('cm').hidden = false; $('cm').querySelector('.cm__box').focus(); }
+    function cmClose() { $('cm-scrim').hidden = true; $('cm').hidden = true; cmCb = null; cmAlt = null; }
+    $('cm-no').addEventListener('click', cmClose); $('cm-scrim').addEventListener('click', cmClose);
+    $('cm-yes').addEventListener('click', function () { var f = cmCb; cmClose(); if (f) f(); });
+    $('cm-alt').addEventListener('click', function () { var f = cmAlt; cmClose(); if (f) f(); });
+    document.addEventListener('keydown', function (e) { if (e.key !== 'Escape') return; if (!$('cm').hidden) cmClose(); else if (!$('pw').hidden) closePw(); else if (!$('la').hidden) closeLa(); else if (!$('ui').hidden) closeInvite(); else if (!$('ur').hidden) closeAddRole(); else if (!menu.hidden) closeMenu(); else hidePanel(); });
+
+    /* ---------- Users ---------- */
+    var filt = 'all', q = '', editing = null, page = 1, size = 10, SIZES = [5, 10, 25, 50], roleSel = [], sel = {};
+    function pill(u) { return '<span class="stat stat--' + u.st + '" data-tipfor="' + u.id + '">' + ST[u.st] + '</span>'; }
+    function filteredUsers() { refresh(); return users.filter(function (u) { var s = (u.id + ' ' + u.name + ' ' + u.email).toLowerCase(); return (filt === 'all' || u.st === filt) && (!roleSel.length || roleSel.indexOf(u.role) > -1) && s.indexOf(q) > -1; }); }
+    function renderUsers() {
+      refresh();
+      Object.keys(sel).forEach(function (id) { if (!userById(id)) delete sel[id]; });
+      var all = filteredUsers();
+      $('u-clear').hidden = !(q || roleSel.length || filt !== 'all');
+      document.querySelectorAll('#u-seg .pcard').forEach(function (c) { var s = c.getAttribute('data-st'); c.querySelector('b').textContent = s === 'all' ? users.length : users.filter(function (u) { return u.st === s; }).length; });
+      var pages = Math.max(1, Math.ceil(all.length / size)); page = Math.min(Math.max(page, 1), pages);
+      var from = (page - 1) * size, rows = all.slice(from, from + size);
+      $('pg-range').textContent = all.length ? (from + 1) + '–' + (from + rows.length) + ' of ' + all.length : '0 of 0';
+      $('pg-size').textContent = size; $('pg-prev').disabled = page <= 1; $('pg-next').disabled = page >= pages;
+      $('pg-menu').innerHTML = SIZES.map(function (n) { return '<button type="button" class="fd-opt" role="option" data-n="' + n + '" aria-selected="' + (n === size) + '"><i></i><span>' + n + ' rows</span></button>'; }).join('');
+      $('u-body').innerHTML = rows.length ? rows.map(function (u) {
+        return '<tr data-id="' + u.id + '" tabindex="0"' + (sel[u.id] ? ' class="is-checked"' : '') + '><td><input type="checkbox" class="rowchk" aria-label="Select ' + esc(u.name) + '"' + (sel[u.id] ? ' checked' : '') + '></td><td>' + u.id + '</td><td>' + esc(u.name) + '</td><td>' + esc(u.email) + '</td><td>' + esc(u.role) + '</td><td>' + pill(u) + '</td><td' + (u.sent ? ' class="dim"' : '') + '>' + lastLabel(u) + '</td><td><button type="button" class="dbtn u-more" aria-haspopup="menu" aria-expanded="false" aria-label="More actions for ' + esc(u.name) + '">' + ic(ICONS.more) + '</button></td></tr>';
+      }).join('') : '<tr class="empty"><td colspan="8">No users match your filters.</td></tr>';
+      syncSel(rows);
+    }
+    function syncSel(rows) {
+      rows = rows || [];
+      var n = rows.filter(function (u) { return sel[u.id]; }).length, total = Object.keys(sel).length, a = $('u-all');
+      a.checked = rows.length > 0 && n === rows.length; a.indeterminate = n > 0 && n < rows.length; a.disabled = !rows.length;
+      $('u-export-l').textContent = total ? 'Export (' + total + ')' : 'Export';
+    }
+    function pageRows() { return Array.prototype.map.call(document.querySelectorAll('#u-body tr[data-id]'), function (tr) { return userById(tr.getAttribute('data-id')); }); }
+    $('u-all').addEventListener('change', function (e) { pageRows().forEach(function (u) { if (e.target.checked) sel[u.id] = true; else delete sel[u.id]; }); renderUsers(); });
+    $('u-body').addEventListener('change', function (e) {
+      var c = e.target.closest('.rowchk'); if (!c) return; var tr = c.closest('tr'), id = tr.getAttribute('data-id');
+      if (c.checked) sel[id] = true; else delete sel[id]; tr.classList.toggle('is-checked', c.checked); syncSel(pageRows());
+    });
+
+    /* Export the ticked users: PDF, print, or email */
+    function chosen() { refresh(); var s = users.filter(function (u) { return sel[u.id]; }); return s.length ? s : filteredUsers(); }
+    function exportRows() { return chosen().map(function (u) { return [u.id, u.name, u.email, u.role, ST[u.st], lastLabel(u)]; }); }
+    function ascii(s) { return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^\x20-\x7e]/g, '?').replace(/([\\()])/g, '\\$1'); }
+    function makePdf(rows) {
+      var COLS = [['User ID', 40], ['User name', 105], ['User email', 235], ['User role', 470], ['Status', 560], ['Last visit', 690]], PER = 24, pgs = [];
+      for (var i = 0; i < Math.max(rows.length, 1); i += PER) pgs.push(rows.slice(i, i + PER));
+      var objs = [null, '<< /Type /Catalog /Pages 2 0 R >>', '', '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>', '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>'];
+      objs[2] = '<< /Type /Pages /Kids [' + pgs.map(function (_, i) { return (5 + 2 * i) + ' 0 R'; }).join(' ') + '] /Count ' + pgs.length + ' >>';
+      pgs.forEach(function (pr, i) {
+        var s = 'BT /F2 16 Tf 0.1 g 40 555 Td (Cygnos users) Tj ET\nBT /F1 9 Tf 0.4 g 40 538 Td (' + ascii('Kestrel Vane Consulting - exported ' + fmt(NOW) + ' - ' + rows.length + ' user' + (rows.length === 1 ? '' : 's')) + ') Tj ET\n';
+        COLS.forEach(function (c) { s += 'BT /F2 9 Tf 0.35 g ' + c[1] + ' 506 Td (' + ascii(c[0]) + ') Tj ET\n'; });
+        s += '0.85 g 40 498 762 0.8 re f\n';
+        pr.forEach(function (r, j) { r.forEach(function (v, k) { s += 'BT /F1 9 Tf 0.1 g ' + COLS[k][1] + ' ' + (482 - j * 18) + ' Td (' + ascii(v) + ') Tj ET\n'; }); });
+        s += 'BT /F1 8 Tf 0.5 g 40 24 Td (Page ' + (i + 1) + ' of ' + pgs.length + ') Tj ET\n';
+        objs[5 + 2 * i] = '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ' + (6 + 2 * i) + ' 0 R >>';
+        objs[6 + 2 * i] = '<< /Length ' + s.length + ' >>\nstream\n' + s + 'endstream';
+      });
+      var out = '%PDF-1.4\n', off = [];
+      for (var n = 1; n < objs.length; n++) { off[n] = out.length; out += n + ' 0 obj\n' + objs[n] + '\nendobj\n'; }
+      var xr = out.length; out += 'xref\n0 ' + objs.length + '\n0000000000 65535 f \n';
+      for (n = 1; n < objs.length; n++) out += ('0000000000' + off[n]).slice(-10) + ' 00000 n \n';
+      return out + 'trailer\n<< /Size ' + objs.length + ' /Root 1 0 R >>\nstartxref\n' + xr + '\n%%EOF';
+    }
+    function exportPdf() {
+      var rows = exportRows(), a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([makePdf(rows)], { type: 'application/pdf' })); a.download = 'cygnos-users.pdf';
+      document.body.appendChild(a); a.click(); a.remove(); toast('PDF with ' + rows.length + (rows.length === 1 ? ' user' : ' users') + ' saved');
+    }
+    function exportPrint() {
+      var rows = exportRows();
+      $('print-area').innerHTML = '<h1>Cygnos users</h1><p>Kestrel Vane Consulting &middot; ' + fmt(NOW) + ' &middot; ' + rows.length + (rows.length === 1 ? ' user' : ' users') + '</p><table><thead><tr><th>User ID</th><th>User name</th><th>User email</th><th>User role</th><th>Status</th><th>Last visit</th></tr></thead><tbody>' + rows.map(function (r) { return '<tr>' + r.map(function (v) { return '<td>' + esc(v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+      document.body.classList.add('is-printing');
+      var done = function () { document.body.classList.remove('is-printing'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done); window.print(); setTimeout(done, 1500);
+    }
+    /* Export opens a pop-up with the ways to export the ticked users */
+    function exMode() { return document.querySelector('input[name="exmode"]:checked').value; }
+    function syncEx() { var m = exMode(); $('ex-mail').hidden = m !== 'email'; $('ex-go').textContent = { pdf: 'Download PDF', print: 'Print', email: 'Send email' }[m]; }
+    function openExport() {
+      var n = chosen().length, picked = Object.keys(sel).length; closeMenu();
+      $('ex-sub').textContent = (picked ? n + (n === 1 ? ' user' : ' users') + ' selected.' : 'All ' + n + (n === 1 ? ' user' : ' users') + ' in this list.') + ' The export has ID, name, email, role, status and last visit.';
+      document.querySelector('input[name="exmode"][value="pdf"]').checked = true; $('ex-to').value = ''; $('ex-err').hidden = true; $('ex-subject').value = 'Cygnos users (' + n + ')'; syncEx();
+      showPanel('ex', 'ex-pdf');
+    }
+    document.querySelectorAll('input[name="exmode"]').forEach(function (r) { r.addEventListener('change', syncEx); });
+    $('ex-go').addEventListener('click', function () {
+      var m = exMode();
+      if (m === 'email') {
+        var to = $('ex-to').value.split(/[,;\s]+/).filter(Boolean), bad = !to.length ? 'Enter at least one email address.' : to.filter(function (x) { return !validEmail(x); }).length ? 'One of the email addresses is not valid.' : '';
+        if (bad) { $('ex-err').textContent = bad; $('ex-err').hidden = false; return; }
+        hidePanel(); toast('Sent to ' + to.join(', ')); return;
+      }
+      hidePanel(); if (m === 'pdf') exportPdf(); else exportPrint();
+    });
+    $('u-export').addEventListener('click', openExport);
+    /* Role filter: a checklist with Apply, like the Findings filters; Clear filters resets it, the search and the status cards */
+    var rolePop = $('u-role-pop'), roleBtn = $('u-role-btn');
+    function roleLabel() { roleBtn.querySelector('.pl').textContent = !roleSel.length ? 'Role' : roleSel.length === 1 ? 'Role: ' + roleSel[0] : 'Role: ' + roleSel.length; roleBtn.classList.toggle('is-active', roleSel.length > 0); }
+    function closeRolePop() { rolePop.hidden = true; roleBtn.setAttribute('aria-expanded', 'false'); }
+    roleBtn.addEventListener('click', function (e) {
+      e.stopPropagation(); var open = rolePop.hidden; closeMenu();
+      if (open) $('u-role-list').innerHTML = roles.map(function (r) { return '<label class="fchk"><input type="checkbox" value="' + esc(r.name) + '"' + (roleSel.indexOf(r.name) > -1 ? ' checked' : '') + '><span>' + esc(r.name) + '</span></label>'; }).join('');
+      rolePop.hidden = !open; roleBtn.setAttribute('aria-expanded', String(open));
+    });
+    rolePop.addEventListener('click', function (e) { e.stopPropagation(); });
+    $('u-role-apply').addEventListener('click', function () { roleSel = Array.prototype.filter.call(rolePop.querySelectorAll('input'), function (i) { return i.checked; }).map(function (i) { return i.value; }); closeRolePop(); roleLabel(); sel = {}; page = 1; renderUsers(); });
+    document.addEventListener('click', closeRolePop);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeRolePop(); });
+    $('u-clear').addEventListener('click', function () {
+      roleSel = []; q = ''; filt = 'all'; sel = {}; page = 1; $('u-q').value = ''; roleLabel();
+      document.querySelectorAll('#u-seg .pcard').forEach(function (x) { var on = x.getAttribute('data-st') === 'all'; x.classList.toggle('is-on', on); x.setAttribute('aria-pressed', String(on)); });
+      renderUsers();
+    });
+    function pgMenu(open) { $('pg-menu').hidden = !open; $('pg-btn').setAttribute('aria-expanded', String(open)); }
+    $('pg-btn').addEventListener('click', function (e) { e.stopPropagation(); pgMenu($('pg-menu').hidden); });
+    $('pg-menu').addEventListener('click', function (e) { var o = e.target.closest('[data-n]'); if (!o) return; size = +o.getAttribute('data-n'); page = 1; pgMenu(false); renderUsers(); });
+    $('pg-prev').addEventListener('click', function () { closeMenu(); page--; renderUsers(); });
+    $('pg-next').addEventListener('click', function () { closeMenu(); page++; renderUsers(); });
+    document.addEventListener('click', function (e) { if (!e.target.closest('.fd-dd')) pgMenu(false); });
+
+    /* Hover tooltip on a status: one short line */
+    var tipEl = $('tip');
+    function showTip(el) {
+      var html;
+      tipEl.classList.toggle('tip--list', el.classList.contains('th-info'));
+      if (el.hasAttribute('data-tip')) html = '<p>' + esc(el.getAttribute('data-tip')) + '</p>';
+      else if (el.classList.contains('th-info')) html = '<b>What the statuses mean</b><div class="tip__list">' + [['active', 'Visited in the last 180 days'], ['dormant', 'No visit for 180 days. Clears on login'], ['suspended', 'Blocked by an admin until reactivated'], ['invited', 'Waiting for sign-up. Expires after 7 days'], ['expired', 'No sign-up in 7 days. Resend or delete']].map(function (g) { return '<span class="stat stat--' + g[0] + '">' + ST[g[0]] + '</span><span>' + g[1] + '</span>'; }).join('') + '</div>';
+      else { var u = userById(el.getAttribute('data-tipfor')); if (!u) return; refresh(); html = '<p>' + esc(tipOf(u)) + '</p>'; }
+      tipEl.innerHTML = html; tipEl.hidden = false;
+      var r = el.getBoundingClientRect(), w = tipEl.offsetWidth, h = tipEl.offsetHeight, top = r.top - h - 8;
+      if (top < 8) top = r.bottom + 8;
+      tipEl.style.top = top + 'px'; tipEl.style.left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, innerWidth - w - 8)) + 'px';
+    }
+    function hideTip() { tipEl.hidden = true; }
+    document.addEventListener('mouseover', function (e) { var el = e.target.closest && e.target.closest('[data-tipfor], [data-tip], .th-info'); if (el) showTip(el); else hideTip(); });
+    document.addEventListener('mouseleave', hideTip); document.addEventListener('focusin', function (e) { var el = e.target.closest && e.target.closest('.th-info'); if (el) showTip(el); }); document.addEventListener('focusout', hideTip); window.addEventListener('scroll', hideTip, true); document.addEventListener('click', hideTip);
+    function userById(id) { return users.filter(function (u) { return u.id === id; })[0]; }
+
+    /* Suspend, remove and delete are three different things:
+       Suspend  blocks sign-in and keeps everything; an admin can reactivate.
+       Remove   ends access and takes the person off this list; needs the admin's password; the audit history stays.
+       Delete   is only for invitations that were never accepted. */
+    function menuFor_(u) {
+      if (u.st === 'invited' || u.st === 'expired') {
+        var del = { icon: 'trash', label: 'Delete invitation', bad: true, run: function () { ask({ title: 'Delete this invitation?', msg: 'The invitation to ' + u.email + ' stops working. Nobody has an account yet, so nothing else is deleted. You can invite them again later.', ok: 'Delete invitation', danger: true }, function () { users.splice(users.indexOf(u), 1); renderUsers(); renderRoles(); toast('Invitation to ' + u.email + ' deleted'); }); } };
+        /* an invitation that is still valid can only be deleted; an expired one can also be resent */
+        return u.st === 'expired' ? [{ icon: 'send', label: 'Resend invitation', run: function () { resend(u); } }, '-', del] : [del];
+      }
+      var items = [{ icon: 'edit', label: 'Edit user', run: function () { editUser(u); } }];
+      items.push(u.st === 'suspended' ? { icon: 'play', label: 'Reactivate user', run: function () { reactivate(u); } } : { icon: 'pause', label: 'Suspend user', run: function () { suspend(u); } });
+      items.push('-', { icon: 'person', label: 'Copy user name and email', run: function () { copyText(u.name + ' <' + u.email + '>', 'Name and email'); } }, { icon: 'mail', label: 'Copy user email', run: function () { copyText(u.email, 'Email'); } }, { icon: 'idcard', label: 'Copy user ID', run: function () { copyText(u.id, 'User ID'); } }, '-', { icon: 'trash', label: 'Remove user', bad: true, run: function () { removeUser(u); } });
+      return items;
+    }
+    /* copy to the clipboard, with a fallback for browsers that refuse it */
+    function copyText(text, what) {
+      function done() { toast(what + ' copied'); }
+      function fallback() { var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) { toast('Could not copy'); } ta.remove(); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+    }
+    function resend(u) { u.sent = NOW.toISOString(); renderUsers(); toast('Invitation sent again to ' + u.email + '. It expires on ' + fmt(addDays(NOW, INVITE_DAYS)) + '.'); }
+    function suspend(u) {
+      if (isLastAdmin(u)) { lastAdmin(u, 'suspend'); return; }
+      ask({ title: 'Suspend ' + u.name + '?', msg: (u.id === ME ? 'You will not be able to sign in. ' : u.name.split(' ')[0] + ' cannot sign in until you reactivate them. ') + 'Their role, data and history are kept.', ok: 'Suspend user', danger: false }, function () { u.suspendedOn = NOW.toISOString(); renderUsers(); renderRoles(); toast(u.name + ' suspended'); });
+    }
+    function reactivate(u) { delete u.suspendedOn; renderUsers(); renderRoles(); toast(u.name + ' reactivated'); }
+    function removeUser(u) {
+      if (isLastAdmin(u)) { lastAdmin(u, 'remove'); return; }
+      pwTarget = u; $('pw-sub').textContent = (u.id === ME ? 'You will lose access to Cygnos right away. ' : 'Removing ' + u.name + ' ends their access to Cygnos right away. ') + (u.id === ME ? 'Your' : 'Their') + ' history stays in the audit log, and ' + (u.id === ME ? 'you' : 'they') + ' can be invited again later. Please re-enter your password to continue.';
+      $('pw-in').value = ''; $('pw-err').hidden = true; $('pw-go').textContent = 'Authenticate and remove user'; $('pw-scrim').hidden = false; $('pw').hidden = false; $('pw-in').focus();
+    }
+    var pwTarget = null;
+    function closePw() { $('pw-scrim').hidden = true; $('pw').hidden = true; $('pw-in').value = ''; pwTarget = null; }
+    $('pw-cancel').addEventListener('click', closePw); $('pw-close').addEventListener('click', closePw); $('pw-scrim').addEventListener('click', closePw);
+    $('pw-go').addEventListener('click', function () {
+      /* mock-up: this stands in for the real password check */
+      if (!$('pw-in').value) { $('pw-err').textContent = 'Enter your password.'; $('pw-err').hidden = false; return; }
+      var u = pwTarget; closePw(); users.splice(users.indexOf(u), 1); renderUsers(); renderRoles(); toast(u.id === ME ? 'You were removed from Cygnos' : u.name + ' removed');
+    });
+    $('pw-in').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('pw-go').click(); });
+
+    /* At least one Admin must always exist: the only Admin has to hand the role to someone else first */
+    var laTarget = null, laAction = '';
+    function lastAdmin(u, action) {
+      laTarget = u; laAction = action; var self = u.id === ME, cands = users.filter(function (x) { return x.role !== 'Admin' && (x.st === 'active' || x.st === 'dormant'); }).sort(function (a, b) { return (a.st === 'active' ? 0 : 1) - (b.st === 'active' ? 0 : 1); });
+      $('la-sub').textContent = (self ? 'You are' : u.name + ' is') + ' the only Admin, and at least one Admin must always exist. Choose someone to take over as Admin, then ' + (self ? 'you can ' : 'you can ') + action + ' ' + (self ? 'yourself' : u.name) + '.';
+      $('la-pick').innerHTML = cands.map(function (x) { return '<option value="' + x.id + '">' + esc(x.name) + ' (' + esc(x.role) + ')</option>'; }).join('');
+      $('la-pick').disabled = !cands.length; $('la-go').disabled = !cands.length; $('la-empty').hidden = !!cands.length; $('la-scrim').hidden = false; $('la').hidden = false; (cands.length ? $('la-pick') : $('la-cancel')).focus();
+    }
+    function closeLa() { $('la-scrim').hidden = true; $('la').hidden = true; laTarget = null; }
+    $('la-cancel').addEventListener('click', closeLa); $('la-close').addEventListener('click', closeLa); $('la-scrim').addEventListener('click', closeLa);
+    $('la-go').addEventListener('click', function () {
+      var n = userById($('la-pick').value), act = laAction, who = laTarget && laTarget.id === ME ? 'yourself' : laTarget.name; n.role = 'Admin'; closeLa(); renderUsers(); renderRoles();
+      toast(n.name + ' is now an Admin. You can now ' + act + ' ' + who + '.');
+    });
+
+    function roleOptions(sel) { return roles.map(function (r) { return '<option' + (r.name === sel ? ' selected' : '') + '>' + esc(r.name) + '</option>'; }).join(''); }
+    function editUser(u) {
+      refresh(); editing = u; $('ue-name').value = u.name; $('ue-role').innerHTML = roleOptions(u.role); $('ue-err').hidden = true;
+      $('ue-note').innerHTML = u.st === 'expired' ? '<button type="button" class="tbtn" id="ue-resend">' + ic(ICONS.send) + 'Resend invitation</button>' : (u.st === 'suspended' ? '<button type="button" class="tbtn" id="ue-react">' + ic(ICONS.play) + 'Reactivate user</button>' : '');
+      var rs = $('ue-resend'); if (rs) rs.addEventListener('click', function () { resend(u); hidePanel(); });
+      var ra = $('ue-react'); if (ra) ra.addEventListener('click', function () { reactivate(u); hidePanel(); });
+      /* the ID and the email are fixed: the email is the unique ID, so they are shown, not edited */
+      $('ue-props').innerHTML = '<div class="dp-prop"><dt>' + ic('<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>') + 'Status</dt><dd>' + pill(u) + '</dd></div>' +
+        '<div class="dp-prop"><dt>' + ic('<path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16"/>') + 'User ID</dt><dd>' + u.id + '</dd></div>' +
+        '<div class="dp-prop"><dt>' + ic(ICONS.mail) + 'User email</dt><dd class="dp-val">' + esc(u.email) + '</dd></div>';
+      var tr = document.querySelector('.utable tr[data-id="' + u.id + '"]'); if (tr) tr.classList.add('is-selected');
+      showPanel('ue', 'ue-name');
+    }
+    $('ue-save').addEventListener('click', function () {
+      var n = $('ue-name').value.trim(), role = $('ue-role').value, err = $('ue-err');
+      var bad = !n ? 'Enter a name.' : (editing.role === 'Admin' && role !== 'Admin' && isLastAdmin(editing)) ? 'At least one Admin is required. Make someone else an Admin first.' : '';
+      if (bad) { err.textContent = bad; err.hidden = false; return; }
+      /* the email is the unique ID and is never changed here */
+      editing.name = n; editing.role = role; hidePanel(); renderUsers(); renderRoles(); toast('Changes saved');
+    });
+    $('u-body').addEventListener('click', function (e) {
+      var tr = e.target.closest('tr[data-id]'); if (!tr || e.target.closest('.rowchk')) return; var u = userById(tr.getAttribute('data-id'));
+      if (e.target.closest('.u-more')) { e.stopPropagation(); var b = e.target.closest('.u-more'); if (menuFor === b) closeMenu(); else { openMenu(b, menuFor_(u)); } return; }
+      editUser(u);
+    });
+    $('u-body').addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.matches('tr[data-id]')) editUser(userById(e.target.getAttribute('data-id'))); });
+    $('u-q').addEventListener('input', function (e) { q = e.target.value.trim().toLowerCase(); sel = {}; page = 1; renderUsers(); });
+    $('u-seg').addEventListener('click', function (e) { var b = e.target.closest('.pcard'); if (!b) return; filt = b.getAttribute('data-st'); document.querySelectorAll('#u-seg .pcard').forEach(function (x) { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', String(x === b)); }); sel = {}; page = 1; renderUsers(); });
+    function closeInvite() { $('ui-scrim').hidden = true; $('ui').hidden = true; $('u-invite').focus({ preventScroll: true }); }
+    $('u-invite').addEventListener('click', function () { closeMenu(); $('ui-name').value = ''; $('ui-email').value = ''; $('ui-role').innerHTML = roleOptions('Fixer'); $('ui-err').hidden = true; $('ui-email').removeAttribute('aria-invalid'); $('ui-scrim').hidden = false; $('ui').hidden = false; $('ui-name').focus(); });
+    $('ui-close').addEventListener('click', closeInvite); $('ui-cancel').addEventListener('click', closeInvite); $('ui-scrim').addEventListener('click', closeInvite);
+    $('ui-send').addEventListener('click', function () {
+      var n = $('ui-name').value.trim(), m = $('ui-email').value.trim(), err = $('ui-err');
+      var bad = !validEmail(m) ? 'Enter a valid email address.' : users.some(function (u) { return u.email.toLowerCase() === m.toLowerCase(); }) ? 'That email already has an account or an invitation. An email can only be used once.' : '';
+      if (bad) { err.textContent = bad; err.hidden = false; $('ui-email').setAttribute('aria-invalid', 'true'); return; }
+      var next = 1000 + users.reduce(function (a, u) { return Math.max(a, +u.id.slice(2) - 1000); }, 0) + 1;
+      users.push({ id: 'U-' + next, name: n || m.split('@')[0], email: m, phone: '', title: '', role: $('ui-role').value, sent: NOW.toISOString() });
+      closeInvite(); renderUsers(); renderRoles(); toast('Invitation sent to ' + m + '. It expires on ' + fmt(addDays(NOW, INVITE_DAYS)) + '.');
+    });
+
+    /* ---------- Permissions ---------- */
+    var cur = 0, draft = null, dirty = false;
+    function renderRoles() {
+      $('r-list').innerHTML = roles.map(function (r, i) { return '<button type="button" class="pcard' + (i === cur ? ' is-on' : '') + '" data-i="' + i + '" aria-pressed="' + (i === cur) + '"><b>' + esc(r.name) + '</b></button>'; }).join('') + '<button type="button" class="pcard pcard--add" id="r-add" aria-label="Add role" title="Add role"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>';
+      renderDetail();
+    }
+    var INFO = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>';
+    function tgHtml(f, kind, locked) {
+      return '<button type="button" class="tg" role="switch" data-f="' + f.id + '" data-k="' + kind + '" aria-checked="false" aria-label="' + (kind === 'view' ? 'View' : 'Manage') + ' ' + f.name + '"' + (locked ? ' disabled' : '') + '></button>';
+    }
+    function renderDetail() {
+      var r = roles[cur], locked = !!r.locked;
+      if (!draft) draft = Object.assign({}, r.perms);
+      $('r-detail').innerHTML = '<div class="ft"><div class="ft__row ft__row--h"><span>Feature</span><span class="ft__h" data-tip="See the feature and export from it, on any screen where it appears.">View' + INFO + '</span><span class="ft__h" data-tip="Everything else: create, edit, delete and any action. Includes View.">Manage' + INFO + '</span></div>' + FEATURES.map(function (f) {
+          return '<div class="ft__row" data-f="' + f.id + '"><div class="ft__name"><b>' + f.name + '</b><small>' + f.where + '</small></div><div>' + tgHtml(f, 'view', locked) + '</div><div>' + (f.manage ? tgHtml(f, 'manage', locked) : '<span class="ft__na" title="Nothing to manage here">—</span>') + '</div></div>';
+        }).join('') + '</div>' +
+        '<div class="savebar" id="savebar" hidden><span>You have unsaved changes</span><button type="button" class="tbtn" id="r-discard">Discard</button><button type="button" class="tbtn tbtn--primary" id="r-save">Save changes</button></div>';
+      sync();
+    }
+    function same(a, b) { var ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return ka.length === kb.length && ka.every(function (k, i) { return k === kb[i] && a[k] === b[k]; }); }
+    function sync() {
+      document.querySelectorAll('#r-detail .tg').forEach(function (b) { var l = draft[b.getAttribute('data-f')] || 'none'; b.setAttribute('aria-checked', String(b.getAttribute('data-k') === 'view' ? l !== 'none' : l === 'manage')); });
+      dirty = !roles[cur].locked && !same(draft, roles[cur].perms);
+      $('savebar').hidden = !dirty;
+    }
+    $('r-detail').addEventListener('click', function (e) {
+      var tg = e.target.closest('.tg');
+      if (tg) {
+        if (roles[cur].locked) return;
+        var id = tg.getAttribute('data-f'), now = draft[id] || 'none', on = tg.getAttribute('aria-checked') === 'true';
+        if (tg.getAttribute('data-k') === 'view') { if (on) delete draft[id]; else if (now === 'none') draft[id] = 'view'; } /* turning View off also turns Manage off */
+        else draft[id] = on ? 'view' : 'manage'; /* turning Manage on turns View on */
+        sync(); return;
+      }
+      if (e.target.closest('#r-discard')) { draft = Object.assign({}, roles[cur].perms); sync(); }
+      if (e.target.closest('#r-save')) { roles[cur].perms = Object.assign({}, draft); sync(); renderRoles(); toast(roles[cur].name + ' permissions saved'); }
+    });
+    $('r-list').addEventListener('click', function (e) {
+      if (e.target.closest('#r-add')) { openAddRole(); return; } var b = e.target.closest('.pcard'); if (!b) return; var i = +b.getAttribute('data-i'); if (i === cur) return;
+      function go() { cur = i; draft = null; renderRoles(); }
+      if (dirty) askUnsaved(go); else go();
+    });
+    function openAddRole() { $('ur-name').value = ''; $('ur-desc').value = ''; $('ur-err').hidden = true; $('ur-from').innerHTML = '<option value="">No permissions</option>' + roles.map(function (r) { return '<option>' + esc(r.name) + '</option>'; }).join(''); $('ur-scrim').hidden = false; $('ur').hidden = false; $('ur-name').focus(); }
+    function closeAddRole() { $('ur-scrim').hidden = true; $('ur').hidden = true; $('r-add') && $('r-add').focus({ preventScroll: true }); }
+    $('ur-close').addEventListener('click', closeAddRole); $('ur-cancel').addEventListener('click', closeAddRole); $('ur-scrim').addEventListener('click', closeAddRole);
+    $('ur-save').addEventListener('click', function () {
+      var n = $('ur-name').value.trim(), err = $('ur-err');
+      var bad = !n ? 'Enter a role name.' : roles.some(function (r) { return r.name.toLowerCase() === n.toLowerCase(); }) ? 'A role with that name already exists.' : '';
+      if (bad) { err.textContent = bad; err.hidden = false; return; }
+      var src = roles.filter(function (r) { return r.name === $('ur-from').value; })[0];
+      roles.push({ name: n, desc: $('ur-desc').value.trim(), perms: src ? Object.assign({}, src.perms) : {} });
+      var go = function () { closeAddRole(); cur = roles.length - 1; draft = null; renderRoles(); toast('Role ' + n + ' added. Choose its permissions.'); };
+      go();
+    });
+
+    /* ---------- Settings side menu ---------- */
+    function show(v) {
+      closeMenu(); $('view-users').hidden = v !== 'users'; $('view-permissions').hidden = v !== 'permissions';
+      document.querySelectorAll('.nav__subitem').forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-view') === v); });
+      document.title = 'Settings · ' + (v === 'users' ? 'Users' : 'Permissions');
+      try { history.replaceState(null, '', '#' + v); } catch (x) {}
+    }
+    /* Unsaved permission changes: asking before leaving the page, whether through the sub menu, the sidebar or closing the tab */
+    function askUnsaved(proceed) {
+      var r = roles[cur];
+      ask({ title: 'Unsaved changes', msg: 'You made changes to ' + r.name + '. Save them first?', ok: 'Save changes', danger: false, noCancel: true, alt: { label: 'Discard changes', cb: function () { draft = null; renderRoles(); proceed(); } } }, function () { r.perms = Object.assign({}, draft); toast(r.name + ' permissions saved'); draft = null; renderRoles(); proceed(); });
+    }
+    function leaveGuard(proceed) { if (!dirty) { proceed(); return; } askUnsaved(proceed); }
+    document.querySelectorAll('.nav__subitem').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var v = b.getAttribute('data-view');
+        if (v === 'permissions' || $('view-permissions').hidden) { show(v); return; }
+        leaveGuard(function () { show(v); });
+      });
+    });
+    document.querySelector('.side').addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a.nav__item'); if (!a || a.classList.contains('is-section') || !dirty) return;
+      var href = a.getAttribute('href'); e.preventDefault(); e.stopPropagation();
+      leaveGuard(function () {
+        if (window.parent !== window && /[?&]frame\b/.test(location.search) && /^newv1\.html/.test(href)) parent.postMessage({ cygFrameNav: href }, '*'); else location.href = href;
+      });
+    }, true);
+    window.addEventListener('beforeunload', function (e) { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+    /* opened inside the app's frame: menu links ask the app to switch, so nothing reloads */
+    if (/[?&]frame\b/.test(location.search) && window.parent !== window) document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="newv1.html"]'); if (!a) return;
+      e.preventDefault(); parent.postMessage({ cygFrameNav: a.getAttribute('href') }, '*');
+    });
+    /* Settings opens and closes its sub menu */
+    (function () {
+      var head = document.querySelector('.nav__item.is-section'), sub = document.querySelector('.nav__sub'); if (!head || !sub) return;
+      head.addEventListener('click', function (e) { e.preventDefault(); var open = sub.hidden; sub.hidden = !open; head.setAttribute('aria-expanded', String(open)); });
+    })();
+    renderUsers(); renderRoles(); show(location.hash === '#permissions' ? 'permissions' : 'users');
+  </script>
+</body>
+</html>

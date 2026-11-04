@@ -3,33 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Create your account</title>
+<title>Sign up</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#1a1f36; --text:#353a44; --muted:#687385; --line:#e3e8ee; --cream:#f6f8fa;
-    --accent:#262626; --red:#c4352b; --ok:#2b7a30;
+    --accent:#262626; --red:#c4352b; --green:#2b7a30;
     --font:"Figtree",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   }
   *,*::before,*::after{box-sizing:border-box}
   body{
-    margin:0;min-height:100vh;display:grid;place-items:center;padding:72px 24px 24px;background:#fff;color:var(--ink);
+    margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:#fff;color:var(--ink);
     font-family:var(--font);font-size:14px;line-height:1.4;-webkit-font-smoothing:antialiased;
   }
   h1,p{margin:0}
   button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 
+  header.top{position:fixed;left:28px;top:20px}
+  .brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600}
+  .brand img{width:30px;height:30px;display:block}
   .card{
     width:100%;max-width:440px;padding:44px 40px 36px;background:var(--cream);border-radius:32px;
     box-shadow:0 12px 32px rgba(26,31,54,.10),0 2px 6px rgba(26,31,54,.06);
   }
-  .brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600}
-  .brand img{width:30px;height:30px;display:block}
-  .top{position:fixed;left:0;top:0;padding:20px 28px}
-  h1{margin-top:0;font-size:26px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
+  h1{font-size:26px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
   .lead{margin-top:6px;color:var(--muted)}
 
   form{margin-top:26px;display:grid;gap:16px}
@@ -50,11 +50,11 @@
   .show .i-on,.show.is-on .i-off{display:none}
   .show.is-on .i-on{display:block}
   .show:hover{background:#f3f3f3;color:var(--ink)}
-  .err:empty{display:none}
-  .err{min-height:0;font-size:12.5px;color:var(--red)}
   .rule{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
-  .rule svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-  .rule.ok{color:var(--ok)}
+  .rule svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .rule.ok{color:var(--green)}
+  .err:empty{display:none}
+  .err{font-size:12.5px;color:var(--red)}
 
   .go{
     display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:46px;margin-top:14px;
@@ -63,8 +63,8 @@
   .go:hover{background:#404040}
   .go[disabled]{background:#404040;cursor:default}
   .note{margin-top:22px;text-align:center;font-size:12.5px;color:var(--muted)}
-  .note a{color:var(--ink);font-weight:500;text-decoration:none}
-  .note a:hover{text-decoration:underline}
+  .note .alt{font-weight:600;color:var(--ink);text-decoration:none}
+  .note .alt:hover{text-decoration:underline}
   @media (max-width:480px){.card{padding:32px 22px 28px;border-radius:24px}}
 </style>
 </head>
@@ -83,43 +83,40 @@
     <div class="f">
       <label for="pw">Create password</label>
       <div class="in"><input id="pw" class="pw" type="password" autocomplete="new-password" placeholder="Enter a password" aria-describedby="pw-e"><button type="button" class="show" id="show" aria-label="Show password" aria-pressed="false"><svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="M2 2l20 20"/></svg><svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      <div class="rule" id="rule"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Minimum 10 characters</div>
       <p class="err" id="pw-e" aria-live="polite"></p>
-      <div class="rule" id="rule"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg>Minimum 10 characters</div>
     </div>
     <div class="f">
       <label for="pw2">Confirm password</label>
       <div class="in"><input id="pw2" type="password" autocomplete="new-password" placeholder="Re-enter your password" aria-describedby="pw2-e"></div>
       <p class="err" id="pw2-e" aria-live="polite"></p>
     </div>
-    <button type="submit" class="go" id="go">Next</button>
+    <button type="submit" class="go" id="go">Sign up</button>
   </form>
-  <p class="note">Already have an account? <a href="login.html">Sign in</a></p>
+  <p class="note">Already have an account? <a href="login.html" class="alt">Sign in</a></p>
 </main>
 <script>
-/* Sign-up screen for the mock-up. Nothing is stored: a valid-looking email and a password of 10+ characters continue to email verification. */
 (function(){
-  const f=document.getElementById("f"),em=document.getElementById("em"),pw=document.getElementById("pw"),
-        emE=document.getElementById("em-e"),pwE=document.getElementById("pw-e"),go=document.getElementById("go"),
-        show=document.getElementById("show"),rule=document.getElementById("rule");
+  const f=document.getElementById("f"),em=document.getElementById("em"),pw=document.getElementById("pw"),pw2=document.getElementById("pw2"),
+        emE=document.getElementById("em-e"),pwE=document.getElementById("pw-e"),pw2E=document.getElementById("pw2-e"),
+        go=document.getElementById("go"),show=document.getElementById("show"),rule=document.getElementById("rule");
   function flag(inp,out,msg){out.textContent=msg;if(msg)inp.setAttribute("aria-invalid","true");else inp.removeAttribute("aria-invalid")}
   em.addEventListener("input",()=>flag(em,emE,""));
-  const pw2=document.getElementById("pw2"),pw2E=document.getElementById("pw2-e");
-  pw.addEventListener("input",()=>{flag(pw,pwE,"");flag(pw2,pw2E,"");rule.classList.toggle("ok",pw.value.length>=10)});
+  pw.addEventListener("input",()=>{flag(pw,pwE,"");rule.classList.toggle("ok",pw.value.length>=10)});
   pw2.addEventListener("input",()=>flag(pw2,pw2E,""));
   show.addEventListener("click",()=>{const on=pw.type==="password";pw.type=on?"text":"password";show.classList.toggle("is-on",on);show.setAttribute("aria-pressed",String(on));show.setAttribute("aria-label",on?"Hide password":"Show password")});
   f.addEventListener("submit",e=>{
     e.preventDefault();
-    const okE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim()),okP=pw.value.length>=10;
+    const okE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim()),okP=pw.value.length>=10,okC=pw2.value.length>0&&pw2.value===pw.value;
     flag(em,emE,okE?"":(em.value.trim()?"Enter a valid work email.":"Enter your work email."));
     flag(pw,pwE,okP?"":"Use at least 10 characters.");
-    const okM=pw2.value===pw.value&&pw2.value.length>0;
-    flag(pw2,pw2E,okM?"":(pw2.value?"Passwords don't match.":"Confirm your password."));
+    flag(pw2,pw2E,okC?"":(pw2.value?"Passwords don't match.":"Confirm your password."));
     if(!okE){em.focus();return}
     if(!okP){pw.focus();return}
-    if(!okM){pw2.focus();return}
-    go.disabled=true;go.textContent="Creating account…";
+    if(!okC){pw2.focus();return}
     try{sessionStorage.setItem("cygnos-email",em.value.trim())}catch(_){}
-    setTimeout(()=>{location.href="verify.html"},500);
+    go.disabled=true;
+    location.href="verify.html";
   });
 })();
 </script>

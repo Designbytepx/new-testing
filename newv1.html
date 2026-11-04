@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <script>if (/[?&](go|q)=[0-9]/.test(location.search)) document.documentElement.classList.add('go-pending'); setTimeout(function () { document.documentElement.classList.remove('go-pending'); }, 2000);</script>
-<style>html.go-pending .shell { visibility: hidden; }</style>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>newv1</title>
+  <link rel="expect" href="#go-ready" blocking="render">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1227,6 +1228,9 @@
     #score-frame[hidden] { display: none; }
     #ff-frame { position: fixed; inset: 0; z-index: 200; width: 100%; height: 100%; border: 0; background: #fff; }
     #ff-frame[hidden] { display: none; }
+    #ss-frame { position: fixed; inset: 0; z-index: 200; width: 100%; height: 100%; border: 0; background: #fff; }
+    #ss-frame[hidden] { display: none; }
+    html:has(#ss-frame:not([hidden])) { overflow: hidden; }
     html:has(#ff-frame:not([hidden])) { overflow: hidden; }
     .ov-needs { display: flex; flex-direction: column; min-width: 0; }
     .ov-needs__bar { justify-content: space-between; padding: 10px 20px; }
@@ -1234,7 +1238,7 @@
     .ov-needs__bar .findings__head { margin: 0; font-size: 14px; font-weight: 500; }
     .ov-needs__bar .findings__head span { padding: 0; background: none; font-size: 16px; font-weight: 600; }
     .ov-needs .tablewrap { flex: 1; overflow-x: hidden; padding: 0 8px 8px; }
-    .ov-chard__h { margin: 0 0 12px; font-size: 14px; font-weight: 600; line-height: 1.35; color: var(--ink); }
+    .ov-chard__h { margin: 0 0 12px; font-size: 16px; font-weight: 700; line-height: 1.35; letter-spacing: -.005em; color: var(--ink); }
     .ov-dial__note--dn { background: #fdecea; color: #a8232f; }
     .ov-dial__note b { font-weight: 600; letter-spacing: .04em; }
     .ov-dial__lnk { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
@@ -1727,8 +1731,52 @@
     .ov-g4 .g4__item:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
     .ov-g4 .g4 .g4__exp { margin-top: 10px; }
     .ov-g4 .g4 .g4__cell > h3 { margin: 0 0 8px; }
-  </style>
-</head>
+    .bd-err { margin: 6px 0 0; font-size: 12.5px; color: #c4352b; }
+    .as-adm { margin-top: 26px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .as-adm b { font-size: 14px; font-weight: 600; color: var(--ink); }
+    .as-adm p { margin: 4px 0 14px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+    .as-ok { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; background: #e3f5ea; font-size: 13.5px; font-weight: 500; color: #1f5f3a; }
+    .as-ok[hidden], #as-conn[hidden] { display: none; }
+    .as-ok .ico { width: 16px; height: 16px; color: #2a8a52; }
+    .as-x { margin-left: auto; font-size: 12.5px; font-weight: 500; color: #1f5f3a; text-decoration: underline; text-underline-offset: 3px; }
+    .oc-back { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 16px; background: rgba(26, 31, 54, .35); }
+    .oc { display: flex; width: min(760px, 100%); height: min(520px, 100%); overflow: hidden; border-radius: 20px; background: #fff; box-shadow: 0 20px 60px rgba(0, 0, 0, .25); color: var(--ink); }
+    .oc-rail { display: flex; flex: none; flex-direction: column; gap: 6px; width: 230px; padding: 20px 14px; background: var(--panel); }
+    .oc-tool { display: flex; align-items: center; gap: 10px; padding: 0 6px 14px; font-size: 14px; font-weight: 600; }
+    .oc-tool > span { display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 8px; background: #fff; box-shadow: inset 0 0 0 1px var(--line); color: #4f566b; }
+    .oc-tool .ico { width: 17px; height: 17px; }
+    .oc-tool small { display: block; font-weight: 400; font-size: 11.5px; color: var(--muted); }
+    .oc-step { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; font-size: 13px; color: var(--muted); }
+    .oc-step i { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border: 1px solid var(--line); border-radius: 50%; font-size: 11px; font-style: normal; }
+    .oc-step small { display: block; font-size: 11px; font-weight: 400; color: var(--muted); }
+    .oc-step.on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px rgba(0, 0, 0, .08); }
+    .oc-step.on i { border-color: var(--accent); background: var(--accent); color: #fff; }
+    .oc-step.ok i { border-color: #bfe3c1; background: #dcf2dd; color: #2b7a30; }
+    .oc-main { display: flex; flex: 1; flex-direction: column; min-width: 0; }
+    .oc-body { flex: 1; padding: 24px 28px; overflow: auto; }
+    .oc-body h4 { margin: 0 0 4px; font-size: 19px; letter-spacing: -.01em; }
+    .oc-body p.s { margin: 0 0 16px; font-size: 13px; color: var(--muted); }
+    .oc-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .oc-field label { font-size: 11.5px; font-weight: 600; }
+    .oc-field input { border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 9px 10px; font: inherit; font-size: 12.5px; color: var(--ink); outline: 0; }
+    .oc-field input:focus { border-color: #9a9a96; }
+    .oc-seg { display: flex; margin-bottom: 14px; padding: 3px; border-radius: 10px; background: #eceff3; }
+    .oc-seg button { flex: 1; padding: 8px; border-radius: 8px; font-size: 12.5px; font-weight: 500; text-align: center; color: var(--muted); }
+    .oc-seg button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .1); }
+    .oc-foot { display: flex; justify-content: space-between; padding: 14px 28px; border-top: 1px solid var(--line); }
+    .oc-foot button { padding: 10px 18px; border: 1px solid var(--line); border-radius: 10px; background: #fff; font-size: 13px; font-weight: 600; color: var(--ink); }
+    .oc-foot button.pri { border-color: var(--accent); background: var(--accent); color: #fff; }
+    .oc-foot button[disabled] { opacity: .4; cursor: default; }
+    .oc-wait { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; height: 100%; font-size: 13px; text-align: center; color: var(--muted); }
+    .oc-wait .sp { width: 30px; height: 30px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: oc-spin .8s linear infinite; }
+    .oc-wait .ck { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #dcf2dd; font-size: 18px; color: #2b7a30; }
+    .oc-opt { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 12px; font-size: 13px; }
+    .oc-opt small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--muted); }
+    .oc-bar { width: 240px; height: 6px; overflow: hidden; border-radius: 3px; background: #eceff3; }
+    .oc-bar div { width: 0; height: 100%; background: var(--accent); transition: width 1.6s ease; }
+    @keyframes oc-spin { to { transform: rotate(360deg); } }
+    @media (max-width: 620px) { .oc-rail { display: none; } }
+  </style></head>
 
 <body>
   <div class="shell">
@@ -1757,8 +1805,8 @@
         <a class="nav__item" href="#">
           <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M9 13h6M9 16.5h4"/></svg>Briefs
         </a>
-        <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings
+        <a class="nav__item" href="settings.html">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings<svg class="ico nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
         </a>
       </nav>
 
@@ -1936,6 +1984,7 @@
               <button type="button" class="pillclear" id="sp-src-clear" hidden>Clear filters</button>
             </div>
           </div>
+          <button type="button" class="tbtn" id="sp-add"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add source</button>
         </div>
 
         <h2 class="findings__head ovsrc__h" id="sp-cn-head"><button type="button" class="fold" id="sp-cn-fold" aria-expanded="true" aria-controls="sp-cn-card" data-name="connected sources" aria-label="Collapse connected sources"><svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><span>Connected <b>12</b></span></h2>
@@ -2220,6 +2269,10 @@
             </tbody>
           </table></div></div>
         </article>
+        <article class="al-sec" id="ut-sec">
+          <header class="al-sec__h"><span class="al-sec__t">Usage we can&rsquo;t tie to a team yet</span></header>
+          <div class="al-sec__row"><p class="al-sec__p" id="ut-msg">6% of API calls in September came through 2 keys that carry no team. Their cost is in the totals above, but in no team&rsquo;s figures. One choice each fixes it.</p><button type="button" class="tbtn" id="ut-open">Choose teams<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+        </article>
       </section>
       </div>
       <div id="fdata" hidden>
@@ -2259,6 +2312,63 @@
     <div class="dp__foot"><button type="button" class="tbtn" id="bd-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="bd-go" style="margin-left:auto">Prepare this Brief</button></div>
   </aside>
   <div class="dp-scrim" id="bd-scrim" aria-hidden="true"></div>
+  <aside class="dp" id="as" role="dialog" aria-modal="true" aria-labelledby="as-title" aria-hidden="true">
+    <div class="dp__bar"><button type="button" class="dbtn" id="as-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dp__scroll">
+      <h2 class="dp__title" id="as-title">Add a source</h2>
+      <p class="sd-sub">Give the source a name, then connect an admin account so Cygnos can read from it.</p>
+      <label class="bd-lbl" for="as-name">Source name</label>
+      <input class="bd-in" id="as-name" type="text" placeholder="For example: Staff directory" autocomplete="off">
+      <p class="bd-err" id="as-err" hidden></p>
+      <div class="as-adm">
+        <b>Admin account</b>
+        <p>Cygnos reads through an admin account on that system. It only reads and never changes anything.</p>
+        <button type="button" class="tbtn" id="as-conn">Connect admin account</button>
+        <div class="as-ok" id="as-ok" hidden><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg><span>Admin account connected</span><button type="button" class="as-x" id="as-disc">Disconnect</button></div>
+      </div>
+    </div>
+    <div class="dp__foot"><button type="button" class="tbtn" id="as-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="as-go" style="margin-left:auto" disabled>Add source</button></div>
+  </aside>
+  <div class="dp-scrim" id="as-scrim" aria-hidden="true"></div>
+  <aside class="dp" id="ut" role="dialog" aria-modal="true" aria-labelledby="ut-title" aria-hidden="true">
+    <div class="dp__bar"><button type="button" class="dbtn" id="ut-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dp__scroll">
+      <h2 class="dp__title" id="ut-title">Usage we can&rsquo;t tie to a team yet</h2>
+      <p class="sd-sub">6% of API calls in September came through 2 keys that carry no team. Their cost is in the totals above, but in no team&rsquo;s figures. One choice each fixes it.</p>
+      <div class="sd-card" id="ut-card">
+        <div class="sd-row" data-pct="4"><b>Key K-2207</b><select class="sd-sel ut-sel" aria-label="Team for Key K-2207"><option value="">Choose a team</option></select><small>OpenAI API &middot; 4% of API calls in September</small></div>
+        <div class="sd-row" data-pct="2"><b>Key K-3184</b><select class="sd-sel ut-sel" aria-label="Team for Key K-3184"><option value="">Choose a team</option></select><small>Vertex AI &middot; 2% of API calls in September</small></div>
+      </div>
+    </div>
+    <div class="dp__foot"><button type="button" class="tbtn" id="ut-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="ut-save" style="margin-left:auto">Save</button></div>
+  </aside>
+  <div class="dp-scrim" id="ut-scrim" aria-hidden="true"></div>
+  <script>
+    /* AI landscape: the "Usage we can't tie to a team yet" section opens a side panel where each key with no team gets one. Saving tells the section how much is still untied. */
+    (function () {
+      var ut = document.getElementById('ut'), sc = document.getElementById('ut-scrim'), openBtn = document.getElementById('ut-open'); if (!ut || !openBtn) return;
+      var TEAMS = ['Advisory', 'Customer Support', 'Data', 'Delivery', 'Engineering', 'Sales operations'];
+      var sels = ut.querySelectorAll('.ut-sel'), done = {};
+      Array.prototype.forEach.call(sels, function (s) { TEAMS.forEach(function (t) { var o = document.createElement('option'); o.value = t; o.textContent = t; s.appendChild(o); }); });
+      function open() { ut.classList.add('is-open'); ut.setAttribute('aria-hidden', 'false'); sc.classList.add('is-open'); sels[0].focus({ preventScroll: true }); }
+      function close() { ut.classList.remove('is-open'); ut.setAttribute('aria-hidden', 'true'); sc.classList.remove('is-open'); }
+      function keyName(row) { return row.querySelector('b').textContent; }
+      function save() {
+        var left = 0, nLeft = 0;
+        Array.prototype.forEach.call(sels, function (s) { var row = s.closest('.sd-row'); if (s.value) done[keyName(row)] = s.value; if (!done[keyName(row)]) { left += +row.getAttribute('data-pct'); nLeft++; } });
+        var msg = document.getElementById('ut-msg');
+        if (!nLeft) { msg.innerHTML = 'Every API call in September is now tied to a team.'; openBtn.hidden = true; }
+        else { msg.innerHTML = left + '% of API calls in September came through ' + nLeft + (nLeft === 1 ? ' key that carries' : ' keys that carry') + ' no team. ' + (nLeft === 1 ? 'Its' : 'Their') + ' cost is in the totals above, but in no team&rsquo;s figures. ' + (nLeft === 1 ? 'One choice fixes it.' : 'One choice each fixes it.'); }
+        close();
+      }
+      openBtn.addEventListener('click', open);
+      document.getElementById('ut-close').addEventListener('click', close);
+      document.getElementById('ut-cancel').addEventListener('click', close);
+      document.getElementById('ut-save').addEventListener('click', save);
+      sc.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && ut.classList.contains('is-open')) close(); });
+    })();
+  </script>
   <aside class="dp" id="ex" role="dialog" aria-modal="true" aria-labelledby="ex-title" aria-hidden="true">
     <div class="dp__bar"><button type="button" class="dbtn" id="ex-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
     <div class="dp__scroll">
@@ -2620,7 +2730,7 @@
     (function () {
       var main = document.querySelector('.main'), links = document.querySelectorAll('.side .nav .nav__item'), ovLink = links[0], fLink = links[1];
       var srcLink = links[4], brLink = links[5];
-      var alLink = links[3];
+      var alLink = links[3], setLink = links[6];
       /* Findings is kept ready in a framed copy of findings.html, so opening it from the menu is instant like Score. */
       var ff = null;
       function makeFF() {
@@ -2628,13 +2738,24 @@
         ff = document.createElement('iframe'); ff.id = 'ff-frame'; ff.title = 'Findings'; ff.hidden = true; ff.style.display = 'none';
         ff.src = 'findings.html?frame'; document.body.appendChild(ff); return ff;
       }
-      function hideFF() { if (ff) { ff.hidden = true; ff.style.display = 'none'; } }
+      /* Settings is kept ready in a framed copy of settings.html too, so it opens as instantly as Findings and Score. */
+      var ss = null;
+      function makeSS() {
+        if (ss) return ss;
+        ss = document.createElement('iframe'); ss.id = 'ss-frame'; ss.title = 'Settings'; ss.hidden = true; ss.style.display = 'none';
+        ss.src = 'settings.html?frame'; document.body.appendChild(ss); return ss;
+      }
+      function hideFF() { if (ff) { ff.hidden = true; ff.style.display = 'none'; } if (ss) { ss.hidden = true; ss.style.display = 'none'; } }
+      function openSS() { var sf = document.getElementById('score-frame'); sf.hidden = true; sf.style.display = 'none'; hideFF(); makeSS(); ss.hidden = false; ss.style.display = 'block'; }
       function openFF() { var sf = document.getElementById('score-frame'); sf.hidden = true; sf.style.display = 'none'; makeFF(); ff.hidden = false; ff.style.display = 'block'; }
-      window.addEventListener('load', function () { setTimeout(makeFF, 200); });
+      window.addEventListener('load', function () { setTimeout(makeFF, 200); setTimeout(makeSS, 600); });
       window.addEventListener('message', function (e) {
         if (!e.data || !e.data.cygFrameNav) return;
         var h = String(e.data.cygFrameNav), m = /[?&]go=(\d)/.exec(h);
         if (!m && /^newv1\.html\/?$/.test(h)) { hideFF(); show(true); return; }
+        if (/^settings\.html/.test(h)) { openSS(); return; }
+        if (m && m[1] === '1') { hideFF(); openFF(); return; }
+        var qm = /[?&]q=(\d)/.exec(h); if (qm) { hideFF(); show(true); var qe = document.querySelectorAll('.side .quick .nav__item')[+qm[1]]; if (qe) qe.click(); return; }
         if (m && m[1] === '2') { hideFF(); document.getElementById('score-frame').hidden = false; document.getElementById('score-frame').style.display = 'block'; return; }
         if (m && m[1] === '3') { hideFF(); show(false, false, false, false, true); return; }
         if (m && m[1] === '4') { hideFF(); show(false, true); return; }
@@ -2651,6 +2772,7 @@
         window.scrollTo(0, 0);
       }
       window.cygShow = show;
+      setLink.addEventListener('click', function (e) { e.preventDefault(); openSS(); });
       alLink.addEventListener('click', function (e) { e.preventDefault(); var sf = document.getElementById('score-frame'); sf.hidden = true; sf.style.display = 'none'; show(false, false, false, false, true); });
       brLink.addEventListener('click',
  function (e) { e.preventDefault(); var sf = document.getElementById('score-frame'); sf.hidden = true; sf.style.display = 'none'; show(false, false, true); });
@@ -2663,6 +2785,7 @@
       var scoreLink = links[2];
       scoreLink.addEventListener('click', function (e) { e.preventDefault(); var sf = document.getElementById('score-frame'); sf.hidden = false; sf.style.display = 'block'; });
       window.addEventListener('message', function (e) {
+        if (e.data && e.data.cygGo === 'settings') { openSS(); return; }
         if (!e.data || !e.data.cygGo || e.data.cygGo === 'briefs' || e.data.cygGo === 'landscape') return;
         var sf2 = document.getElementById('score-frame'); sf2.hidden = true; sf2.style.display = 'none'; show(e.data.cygGo === 'overview', e.data.cygGo === 'sources', false, e.data.cygGo === 'drivers');
       });
@@ -4514,8 +4637,8 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
         <a class=&quot;nav__item&quot; href=&quot;#&quot;>
           <svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z&quot;/><path d=&quot;M14 3v5h5M9 13h6M9 16.5h4&quot;/></svg>Briefs
         </a>
-        <a class=&quot;nav__item&quot; href=&quot;#&quot;>
-          <svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/><path d=&quot;M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z&quot;/></svg>Settings
+        <a class=&quot;nav__item&quot; href=&quot;settings.html&quot; target=&quot;_top&quot;>
+          <svg class=&quot;ico&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/><path d=&quot;M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z&quot;/></svg>Settings<svg class=&quot;ico nav__chev&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;><path d=&quot;m6 9 6 6 6-6&quot;/></svg>
         </a>
       </nav>
 
@@ -4954,7 +5077,7 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
         if (tx === 'Create brief') a.addEventListener('click', function (e) { e.preventDefault(); parent.postMessage({ cygCreate: 1 }, '*'); });
         if (tx === 'Upload AI budget') a.addEventListener('click', function (e) { e.preventDefault(); parent.postMessage({ cygUpload: 1 }, '*'); });
       });
-      var GO = { 'AI landscape': 'landscape', 'Briefs': 'briefs' };
+      var GO = { 'AI landscape': 'landscape', 'Briefs': 'briefs', 'Settings': 'settings' };
       Array.prototype.forEach.call(document.querySelectorAll('.nav__item'), function (a) {
         var k = GO[a.textContent.trim()]; if (!k) return;
         a.addEventListener('click', function (e) { e.preventDefault(); parent.postMessage({ cygGo: k }, '*'); });
@@ -5392,5 +5515,83 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       document.documentElement.classList.remove('go-pending'); /* the page is shown only once it is on the page that was asked for */
     })();
   </script>
-  </body>
+  <span id="go-ready" hidden></span>
+    <script>
+    /* Sources: "Add source" opens a side panel to name the source and connect an admin account */
+    (function () {
+      var btn = document.getElementById('sp-add'), as = document.getElementById('as'), sc = document.getElementById('as-scrim'), nm = document.getElementById('as-name'), err = document.getElementById('as-err'), conn = document.getElementById('as-conn'), ok = document.getElementById('as-ok'), go = document.getElementById('as-go'); if (!btn || !as) return;
+      var connected = false, t = null;
+      function sync() { go.disabled = !(nm.value.trim() && connected); }
+      function reset() { clearTimeout(t); connected = false; nm.value = ''; err.hidden = true; conn.hidden = false; conn.disabled = false; conn.textContent = 'Connect admin account'; ok.hidden = true; sync(); }
+      function open() { reset(); as.classList.add('is-open'); as.setAttribute('aria-hidden', 'false'); sc.classList.add('is-open'); setTimeout(function () { nm.focus({ preventScroll: true }); }, 60); }
+      function close() { clearTimeout(t); as.classList.remove('is-open'); as.setAttribute('aria-hidden', 'true'); sc.classList.remove('is-open'); }
+      btn.addEventListener('click', open);
+      nm.addEventListener('input', function () { err.hidden = true; sync(); });
+      /* The same pop-up as in onboarding: sign in with an admin account, test it, choose the data, import it. Prototype: nothing is sent anywhere. */
+      function connectModal(name) {
+        var S = [['Credentials', 'Admin sign-in'], ['Test connection', 'Check access'], ['Choose data', 'What to import'], ['Import', 'Fetch details']], step = 0, auth = 'Admin login', timer = null;
+        var back = document.createElement('div'); back.className = 'oc-back'; document.body.appendChild(back); window.__ocOpen = true;
+        function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+        function shut() { clearTimeout(timer); back.remove(); window.__ocOpen = false; document.removeEventListener('keydown', onKey, true); }
+        function onKey(e) { if (e.key === 'Escape') { e.stopPropagation(); shut(); } }
+        document.addEventListener('keydown', onKey, true);
+        back.addEventListener('mousedown', function (e) { if (e.target === back) shut(); });
+        function draw() {
+          clearTimeout(timer);
+          var rail = S.map(function (s, i) { return '<div class="oc-step ' + (i === step ? 'on' : '') + ' ' + (i < step ? 'ok' : '') + '"><i>' + (i < step ? '\u2713' : i + 1) + '</i><div>' + s[0] + '<small>' + s[1] + '</small></div></div>'; }).join('');
+          var body = '', foot = '';
+          if (step === 0) {
+            body = '<div class="oc-body"><h4>Connect to ' + esc(name) + '</h4><p class="s">Sign in with an admin account. We fetch plan, billing and seat details for you.</p>' +
+              '<div class="oc-field"><label>Workspace or account ID</label><input placeholder="e.g. acme-corp"></div>' +
+              '<div class="oc-seg">' + ['Admin login', 'API key', 'SSO'].map(function (a) { return '<button type="button" data-au="' + a + '" class="' + (a === auth ? 'on' : '') + '">' + a + '</button>'; }).join('') + '</div>' +
+              (auth === 'SSO' ? '' : '<div class="oc-field"><label>' + (auth === 'API key' ? 'Admin API key' : 'Admin email') + '</label><input placeholder="' + (auth === 'API key' ? 'Paste key' : 'admin@company.com') + '"></div>') +
+              (auth === 'Admin login' ? '<div class="oc-field"><label>Password</label><input type="password" placeholder="Any value works"></div>' : '') +
+              '<p class="s" style="font-size:12px">Read-only access. Prototype: credentials stay in this page and are never sent anywhere.</p></div>';
+            foot = '<div class="oc-foot"><button type="button" data-x="close">Cancel</button><button type="button" class="pri" data-x="next">Test connection</button></div>';
+          } else if (step === 1) {
+            body = '<div class="oc-body"><div class="oc-wait"><div class="sp"></div>Testing connection to ' + esc(name) + '\u2026</div></div>';
+            foot = '<div class="oc-foot"><button type="button" data-x="close">Cancel</button><button type="button" class="pri" disabled>Next</button></div>';
+            timer = setTimeout(function () {
+              back.querySelector('.oc-body').innerHTML = '<div class="oc-wait"><div class="ck">\u2713</div><b style="color:var(--ink)">Connected as admin</b>Access to billing and seats confirmed.</div>';
+              timer = setTimeout(function () { step = 2; draw(); }, 900);
+            }, 1400);
+          } else if (step === 2) {
+            body = '<div class="oc-body"><h4>Choose data</h4><p class="s">Everything below is fetched from the admin account.</p>' + [['Plan and billing', 'Plan, billing cycle, price and monthly cost'], ['Seats and usage', 'Total seats, assigned and vacant seats'], ['Start and renewal dates', 'When the subscription started and renews']].map(function (o) { return '<label class="oc-opt"><input type="checkbox" checked disabled><div>' + o[0] + '<small>' + o[1] + '</small></div></label>'; }).join('') + '</div>';
+            foot = '<div class="oc-foot"><button type="button" data-x="close">Cancel</button><button type="button" class="pri" data-x="next">Import</button></div>';
+          } else {
+            body = '<div class="oc-body"><div class="oc-wait"><div class="oc-bar"><div id="ocBar"></div></div><span id="ocT">Importing from ' + esc(name) + '\u2026</span></div></div>';
+            foot = '<div class="oc-foot"><span></span><button type="button" class="pri" id="ocDone" disabled>Done</button></div>';
+            requestAnimationFrame(function () { requestAnimationFrame(function () { var b = back.querySelector('#ocBar'); if (b) b.style.width = '100%'; }); });
+            timer = setTimeout(function () { back.querySelector('#ocT').textContent = 'Imported the plan, seats and renewal dates.'; back.querySelector('#ocDone').disabled = false; }, 1700);
+          }
+          back.innerHTML = '<div class="oc" role="dialog" aria-modal="true" aria-label="Connect admin account"><div class="oc-rail"><div class="oc-tool"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v5M15 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v3"/></svg></span><div>' + esc(name) + '<small>New connection</small></div></div>' + rail + '</div><div class="oc-main">' + body + foot + '</div></div>';
+        }
+        back.addEventListener('click', function (e) {
+          var a = e.target.closest('[data-au]'); if (a) { auth = a.getAttribute('data-au'); draw(); return; }
+          var x = e.target.closest('[data-x]'); if (x) { if (x.getAttribute('data-x') === 'close') shut(); else { step++; draw(); } return; }
+          if (e.target.id === 'ocDone' && !e.target.disabled) { shut(); connected = true; conn.hidden = true; ok.hidden = false; sync(); }
+        });
+        draw();
+      }
+      conn.addEventListener('click', function () {
+        var name = nm.value.trim();
+        if (!name) { err.textContent = 'Enter a source name first.'; err.hidden = false; nm.focus(); return; }
+        connectModal(name);
+      });
+      document.getElementById('as-disc').addEventListener('click', function () { connected = false; ok.hidden = true; conn.hidden = false; conn.disabled = false; conn.textContent = 'Connect admin account'; sync(); });
+      go.addEventListener('click', function () {
+        var name = nm.value.trim(), tb = document.querySelector('#sp-cn-card tbody');
+        var dup = Array.prototype.some.call(tb.rows, function (r) { return r.cells[0].textContent.trim().toLowerCase() === name.toLowerCase(); });
+        if (dup) { err.textContent = 'A source with that name already exists.'; err.hidden = false; return; }
+        var tr = document.createElement('tr'); tr.setAttribute('data-type', 'other'); tr.setAttribute('data-freq', 'daily');
+        tr.innerHTML = '<td><b class="ovsrc__nm"></b></td><td>Admin account</td><td>Just now</td><td>Daily</td>'; tr.cells[0].firstChild.textContent = name;
+        tb.appendChild(tr);
+        var c = document.querySelector('#sp-cn-head b'); if (c) c.textContent = (+c.textContent || 0) + 1;
+        close();
+      });
+      ['as-close', 'as-cancel'].forEach(function (id) { document.getElementById(id).addEventListener('click', close); });
+      sc.addEventListener('click', close);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && as.classList.contains('is-open') && !window.__ocOpen) close(); });
+    })();
+  </script></body>
 </html>
