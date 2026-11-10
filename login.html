@@ -26,10 +26,11 @@
     width:100%;max-width:440px;padding:44px 40px 36px;background:var(--cream);border-radius:32px;
     box-shadow:0 12px 32px rgba(26,31,54,.10),0 2px 6px rgba(26,31,54,.06);
   }
+  header.top{position:fixed;left:28px;top:20px}
   .brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600}
   .brand img{width:30px;height:30px;display:block}
   .co{margin-top:28px;font-size:13px;color:var(--muted)}
-  h1{margin-top:28px;font-size:26px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
+  h1{margin-top:0;font-size:26px;line-height:1.2;font-weight:700;letter-spacing:-.01em}
   .lead{margin-top:6px;color:var(--muted)}
 
   form{margin-top:26px;display:grid;gap:16px}
@@ -70,8 +71,8 @@
 </style>
 </head>
 <body>
+<header class="top"><div class="brand"><img src="icons/logo.png" alt="">Cygnos</div></header>
 <main class="card">
-  <div class="brand"><img src="icons/logo.png" alt="">Cygnos</div>
   <h1>Welcome back</h1>
   <p class="lead">Sign in to see where your company's AI stands.</p>
 
@@ -91,7 +92,7 @@
   <p class="note" id="note">New to Cygnos? <a href="signup.html" class="alt">Sign up</a></p>
 </main>
 <script>
-/* Sign-in screen for the mock-up. Nothing is checked against a real account and nothing is stored: any valid work email, with the one shared password, opens the executive view. */
+/* Sign-in screen for the mock-up. Nothing is checked against a real account and nothing is stored: only the demo email and its password open the executive view. */
 (function(){
   const f=document.getElementById("f"),em=document.getElementById("em"),pw=document.getElementById("pw"),
         emE=document.getElementById("em-e"),pwE=document.getElementById("pw-e"),go=document.getElementById("go"),
@@ -102,8 +103,8 @@
   document.getElementById("forgot").addEventListener("click",e=>{e.preventDefault();flag(pw,pwE,"Password reset is not part of this mock-up.")});
   f.addEventListener("submit",e=>{
     e.preventDefault();
-    const okE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim()),hasP=pw.value.length>0,okP=pw.value==="#Cygnos2026";
-    flag(em,emE,okE?"":(em.value.trim()?"Enter a valid work email.":"Enter your work email."));
+    const okE=em.value.trim().toLowerCase()==="cygnos@demo.com",hasP=pw.value.length>0,okP=pw.value==="#Cygnos2026";
+    flag(em,emE,okE?"":(em.value.trim()?"That email is not recognised.":"Enter your work email."));
     flag(pw,pwE,okP?"":(hasP?"That password is not right.":"Enter your password."));
     if(!okE){em.focus();return}
     if(!okP){pw.focus();return}
