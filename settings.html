@@ -479,7 +479,6 @@
       <label class="bd-lbl" for="ur-name">Role name</label><input class="bd-in" id="ur-name" type="text" autocomplete="off">
       <p class="bd-err" id="ur-err" hidden></p>
       <label class="bd-lbl" for="ur-desc">What is it for?</label><textarea class="bd-in" id="ur-desc" placeholder="For example: Reviews findings but cannot change them"></textarea>
-      <label class="bd-lbl" for="ur-from">Start from</label><select class="bd-in" id="ur-from"></select>
       <div class="cm__foot"><button type="button" class="tbtn" id="ur-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="ur-save">Add role</button></div>
     </div>
   </div>
@@ -956,15 +955,14 @@
       function go() { cur = i; draft = null; renderRoles(); }
       if (dirty) askUnsaved(go); else go();
     });
-    function openAddRole() { $('ur-name').value = ''; $('ur-desc').value = ''; $('ur-err').hidden = true; $('ur-from').innerHTML = '<option value="">No permissions</option>' + roles.map(function (r) { return '<option>' + esc(r.name) + '</option>'; }).join(''); $('ur-scrim').hidden = false; $('ur').hidden = false; $('ur-name').focus(); }
+    function openAddRole() { $('ur-name').value = ''; $('ur-desc').value = ''; $('ur-err').hidden = true; $('ur-scrim').hidden = false; $('ur').hidden = false; $('ur-name').focus(); }
     function closeAddRole() { $('ur-scrim').hidden = true; $('ur').hidden = true; $('r-add') && $('r-add').focus({ preventScroll: true }); }
     $('ur-close').addEventListener('click', closeAddRole); $('ur-cancel').addEventListener('click', closeAddRole); $('ur-scrim').addEventListener('click', closeAddRole);
     $('ur-save').addEventListener('click', function () {
       var n = $('ur-name').value.trim(), err = $('ur-err');
       var bad = !n ? 'Enter a role name.' : roles.some(function (r) { return r.name.toLowerCase() === n.toLowerCase(); }) ? 'A role with that name already exists.' : '';
       if (bad) { err.textContent = bad; err.hidden = false; return; }
-      var src = roles.filter(function (r) { return r.name === $('ur-from').value; })[0];
-      roles.push({ name: n, desc: $('ur-desc').value.trim(), perms: src ? Object.assign({}, src.perms) : {} });
+      roles.push({ name: n, desc: $('ur-desc').value.trim(), perms: {} });
       var go = function () { closeAddRole(); cur = roles.length - 1; draft = null; renderRoles(); toast('Role ' + n + ' added. Choose its permissions.'); };
       go();
     });
