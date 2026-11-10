@@ -95,7 +95,7 @@
       font-size: 15px;
       color: var(--text);
     }
-    .nav__item .ico { color: #6b7385; }
+    .nav__item .ico { color: #6b7385; } .nav__item > svg.ico:first-child { width: 18px; height: 18px; flex: none; } .nav__item { gap: 15px; height: 32px; } .quick .nav__item { min-height: 31px; }
     .nav__item:hover { color: var(--ink); }
     .nav__item.is-active { margin-inline: -8px; padding-inline: 8px; border-radius: 7px; background: #ececec; color: var(--ink); font-weight: 600; }
     .nav__item.is-active .ico { color: var(--ink); }
@@ -323,7 +323,7 @@
     .fd-el { display: flex; flex-direction: column; gap: 14px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
     .fd-el__k { font-size: 15px; font-weight: 600; color: var(--ink); }
     .fd-el__s { margin-top: 2px; font-size: 12.5px; color: var(--muted); }
-    .fd-el__box { flex: 1; display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid #edf0f4; }
+    .fd-el__box { flex: 1; display: flex; flex-direction: column; gap: 8px; padding-top: 13px; border-top: 1px solid #edf0f4; }
     .fd-el__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
     .fd-el__h { font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--ink); }
     .fd-el__p { font-size: 13px; line-height: 1.55; color: var(--muted); }
@@ -438,7 +438,7 @@
     .ov-item__tags { grid-column: 2; grid-row: 1 / span 2; display: flex; align-items: center; gap: 10px; }
     .ov-item__tags .prio { font-size: 13px; }
     .ov-item__late { color: #b7692a; }
-    .ov-donut { display: flex; align-items: center; gap: 20px; margin: 18px 0 16px; padding-top: 14px; border-top: 1px solid #edf0f4; }
+    .ov-donut { display: flex; align-items: center; gap: 20px; margin: 18px 0 16px; padding-top: 13px; border-top: 1px solid #edf0f4; }
     .ov-donut svg { flex: none; width: 96px; height: 96px; }
     .ov-donut circle { stroke: var(--c); }
     .ov-key { display: grid; gap: 4px; flex: 1; }
@@ -584,7 +584,9 @@
     .ov-dial__n span { font-size: 14px; color: var(--muted); }
     .ov-dial__l { margin-top: 2px; font-size: 28px; font-weight: 700; letter-spacing: -.01em; line-height: 1.15; color: var(--ink); }
     .ov-dial__note { position: relative; margin: 4px 8px 0; padding: 9px 14px; border-radius: 8px; background: #dff4e7; font-size: 13px; line-height: 1.4; text-align: center; color: #1f5f3a; }
-    .ov-ins { margin: 32px 0; }
+    .ov-dial__note[role=button] { cursor: pointer; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+    .ov-dial__note[role=button]:hover { text-decoration-thickness: 2px; }
+    .ov-ins { margin: 14px 0 32px; padding-top: 13px; border-top: 1px solid #edf0f4; }
     .ov-ins__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
     .ov-ins__head h2 { font-size: 20px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
     .ov-ins__head a { font-size: 14px; font-weight: 500; color: var(--ink); text-decoration: none; }
@@ -682,6 +684,7 @@
     .ov-ins { display: grid; grid-template-columns: minmax(0, 1fr) 400px; column-gap: 24px; grid-template-rows: auto auto 1fr; align-items: start; }
     .ov-ins__row { display: contents; }
     .ov-ins__head, .g4 { grid-column: 1; }
+    .g4__all { align-self: stretch; justify-content: center; height: 38px; }
     .g4 { display: flex; flex-direction: column; align-items: stretch; gap: 16px; overflow: visible; border: 0; border-radius: 0; background: none; }
     .g4 .g4__cell, .g4 .g4__cell:nth-child(2n), .g4 .g4__cell:nth-last-child(-n+2) { flex: 0 0 auto; min-width: 0; padding: 20px 22px 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
     .g4 .g4__cell.is-open { flex: 1 1 auto; }
@@ -772,44 +775,44 @@
 
       <nav class="nav" aria-label="Primary">
         <a class="nav__item" href="overview.html">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Overview
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Overview
         </a>
         <a class="nav__item" href="newv1.html">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8 21h8M12 16.5V21"/></svg>Findings
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Findings
         </a>
         <a class="nav__item is-active" href="score.html" aria-current="page">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="m12 17.5 3.5-5"/><path d="M12 17.5h.01"/></svg>Score
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>Score
         </a>
         <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></svg>AI landscape
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>AI landscape
         </a>
         <a class="nav__item" href="sources.html">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01M2 14h2M20 14h2"/></svg>Sources
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg>Sources
         </a>
         <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M9 13h6M9 16.5h4"/></svg>Briefs
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></svg>Briefs
         </a>
         <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings
         </a>
       </nav>
 
       <nav class="quick" aria-label="Quick access">
         <p class="side__label">Quick access</p>
         <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M12 11.5v5M9.5 14h5"/></svg>Create brief
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 15h6M12 18v-6"/></svg>Create brief
         </a>
         <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4.5 15v3.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>Upload AI budget
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>Upload AI budget
         </a>
         <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 2.8 7.4 7 9 4.2-1.6 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.2 10"/></svg>Connect data loss prevention
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Connect data loss prevention
         </a>
         <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8.2 4.5 4.5 4.5v13c3.7 0 6 .5 7.5 2 1.5-1.5 3.8-2 7.5-2v-13c-3.7 0-6 .5-7.5 2zM12 6.5v13"/></svg>Resources
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>Resources
         </a>
         <a class="nav__item" href="#">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg>Help
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>Help
         </a>
       </nav>
     </aside>
@@ -930,13 +933,14 @@
 
       <section class="ov-ins" aria-label="What drives your score">
         <div class="ov-ins__head">
-          <h2>What drives your score</h2><a class="tbtn" href="newv1.html#drivers">View all parts<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div>
+          <h2>What drives your score</h2></div>
         <button type="button" class="tbtn ov-ins__flow" id="flow-open">View<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
         <div class="g4">
           <div class="g4__cell is-open"><span class="ov-ins__st ov-ins__st--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 20h18.4L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>Needs attention</span><h3>Value Delivered</h3><b class="pts up">+3<small> PTS</small></b><p>Delivery closes work items <b>12%</b> faster (AI&rsquo;s part: strong signs). Managed Services&rsquo; cost per ticket is <b>9%</b> above normal (no signs yet). Advisory can&rsquo;t be read yet.</p><div class="g4__more"><div class="g4__item"><div class="g4__ih"><h4>Delivery</h4><b class="pts up">+4</b></div><p>Delivery closes work items <b>12%</b> faster than its normal range. AI&rsquo;s part in the gain: strong signs.</p></div><div class="g4__item"><div class="g4__ih"><h4>Managed Services</h4><b class="pts dn">&minus;1</b></div><p>Managed Services&rsquo; cost per ticket is <b>9%</b> above its normal range. AI&rsquo;s part in the rise: no signs yet.</p></div></div><button type="button" class="g4__exp" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path class="v" d="M12 5v14"/></svg><span>Expand</span></button></div>
           <div class="g4__cell"><span class="ov-ins__st ov-ins__st--bad"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></svg>Act now</span><h3>Safe Use</h3><b class="pts dn">&minus;4<small> PTS</small></b><p><b>14</b> AI seats are still active for people who have left. Sensitive-data protection is not measured yet.</p><div class="g4__more"><div class="g4__item"><div class="g4__ih"><h4>Access after people leave</h4><b class="pts dn">&minus;3</b></div><p><b>14</b> AI seats are still active for people who have left; <b>3</b> were used in September.</p></div><div class="g4__item"><div class="g4__ih"><h4>Agents with a named owner</h4><b class="pts dn">&minus;1</b></div><p>The client-intake agent has had no named owner since <b>14 September</b>. Moved up on <b>22 Sep</b>.</p></div></div><button type="button" class="g4__exp" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path class="v" d="M12 5v14"/></svg><span>Expand</span></button></div>
           <div class="g4__cell"><span class="ov-ins__st ov-ins__st--warn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 20h18.4L12 4z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>Needs attention</span><h3>Reliability</h3><b class="pts dn">&minus;1<small> PTS</small></b><p>Two vendor outages in September stopped the support agent for <b>47 minutes</b> in total.</p><div class="g4__more"><div class="g4__item"><div class="g4__ih"><h4>Dependence on one vendor</h4><b class="pts dn">&minus;1</b></div><p>Two vendor outages in September stopped the support agent for <b>47 minutes</b> in total.</p></div></div><button type="button" class="g4__exp" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path class="v" d="M12 5v14"/></svg><span>Expand</span></button></div>
           <div class="g4__cell"><span class="ov-ins__st ov-ins__st--ok"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>On track</span><h3>Spend Discipline</h3><b class="pts up">+5<small> PTS</small></b><p><b>212</b> unused Microsoft Copilot seats removed; the September invoice fell <b>$6,360</b>. Verified.</p><div class="g4__more"><div class="g4__item"><div class="g4__ih"><h4>Unused seats</h4><b class="pts up">+3</b></div><p><b>212</b> Copilot seats unused for <b>60 days</b> were removed; the September invoice fell <b>$6,360</b>.</p></div><div class="g4__item"><div class="g4__ih"><h4>Repeated requests</h4><b class="pts up">+2</b></div><p>Repeated identical requests in proposal drafting fell <b>90%</b> after caching.</p></div></div><button type="button" class="g4__exp" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path class="v" d="M12 5v14"/></svg><span>Expand</span></button></div>
+          <a class="tbtn g4__all" href="newv1.html#drivers">View all parts<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
         </div>
         <div class="ov-ins__row">
 
@@ -1245,6 +1249,6 @@ var pa = s.val(idx[n - 2]), pb = s.val(idx[n - 1]), dl = pb - pa; tip.innerHTML 
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus({ preventScroll: true }); } });
       document.getElementById('prof-out').addEventListener('click', function () { if (window.parent !== window) parent.postMessage({ cygLogout: 1 }, '*'); else location.href = 'login.html'; });
     })();
-  </script><script>(function(){var b=document.getElementById('flow-open');if(!b)return;var fr=null;function shut(){if(fr)fr.style.display='none';}b.addEventListener('click',function(){if(!fr){fr=document.createElement('iframe');fr.title='How a finding moves the score';fr.setAttribute('allowtransparency','true');fr.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;background:transparent;z-index:400';fr.src='flow-diagram.html';document.body.appendChild(fr);}fr.style.display='block';});window.addEventListener('message',function(e){if(e.data&&e.data.cygFlowClose)shut();});document.addEventListener('keydown',function(e){if(e.key==='Escape')shut();});})();</script>
+  </script><script>(function(){var b=document.getElementById('flow-open');if(!b)return;var nt=document.querySelector('.ov-dial__note');if(nt){nt.setAttribute('role','button');nt.tabIndex=0;nt.style.cursor='pointer';nt.addEventListener('click',function(){b.click();});nt.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();b.click();}});}var fr=null;function shut(){if(fr)fr.style.display='none';}b.addEventListener('click',function(){if(!fr){fr=document.createElement('iframe');fr.title='How a finding moves the score';fr.setAttribute('allowtransparency','true');fr.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;background:transparent;z-index:400';fr.src='flow-diagram.html';document.body.appendChild(fr);}fr.style.display='block';});window.addEventListener('message',function(e){if(e.data&&e.data.cygFlowClose)shut();});document.addEventListener('keydown',function(e){if(e.key==='Escape')shut();});})();</script>
 </body>
 </html>

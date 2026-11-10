@@ -75,7 +75,7 @@
   .pts b{font-size:28px;line-height:1;font-weight:600;letter-spacing:-.02em}
   .pts small{font-size:11px;color:var(--muted);letter-spacing:.04em}
   .tile.is-sel .pts,.tile.is-sel .pts small{color:#fff}
-  .more{position:absolute;top:12px;right:12px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(26,31,54,.07);color:var(--ink);transition:background .2s}
+  .more{position:absolute;top:12px;right:12px;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(26,31,54,.07);color:var(--ink);transition:background .2s}
   .more:hover{background:rgba(26,31,54,.14)}
   .tile.is-sel .more{background:rgba(255,255,255,.22);color:#fff}
   .dview{position:absolute;inset:28px 0 0 0;z-index:2;padding:14px;border-radius:12px;background:var(--panel);overflow:auto;visibility:hidden;transform-origin:0 0;will-change:transform;box-shadow:0 0 0 1px var(--panel)}
@@ -173,7 +173,7 @@
     .tiles{grid-template-columns:1fr}
   }
   /* selected = black outline, not a green fill */
-  .tile.is-sel,.iq.is-sel{background:#fff;color:var(--text);box-shadow:inset 0 0 0 1.5px rgba(26,31,54,.28)}
+  .tile.is-sel,.iq.is-sel{background:#fff;color:var(--text);box-shadow:inset 0 0 0 1px rgba(26,31,54,.26)}
   .tile.is-sel .s{opacity:1}
   .tile.is-sel .big,.tile.is-sel .fname,.tile.is-sel .subhead{color:var(--ink)}
   .tile.is-sel .fsub,.tile.is-sel .meta,.tile.is-sel .prio{color:var(--muted);opacity:1}
@@ -195,7 +195,7 @@
   .mvr .mvl{grid-column:1/-1;font-size:11px;color:var(--muted)}
   .mvr .mvn{font-size:13px;font-weight:600;color:var(--ink);align-self:end}
   .mvr .pts b{font-size:22px}
-  .mvr.is-sel{box-shadow:inset 0 0 0 1.5px rgba(26,31,54,.55)}
+  .mvr.is-sel{box-shadow:inset 0 0 0 1px rgba(26,31,54,.26)}
   .iq .n.up{color:#1f9d4c;display:flex;align-items:baseline;gap:6px}
   .iq .n small{font-size:12px;font-weight:400;letter-spacing:.04em;color:var(--muted)}
   .tile .pts.neu b{font-size:36px;line-height:1;font-weight:600;letter-spacing:-.02em}
@@ -252,8 +252,8 @@
   .tooverview:hover svg{transform:translateX(2px)}
 .dview .more{top:12px}
   /* keep the status tag clear of the arrow in the top-right corner */
-  .pg2 .tile .more{width:20px;height:20px}
-  .pg2 .tile .more svg{width:10px;height:10px}
+  .more svg{width:14px;height:14px}
+  .more,.tile.is-sel .more{color:#6b7385}
   .pg2 .tile .tags{max-width:calc(100% - 32px)}
   .pg2 .tile .stat{max-width:100%;font-size:11.5px;padding-inline:6px;white-space:nowrap;overflow:hidden}
   .pg2 .tile .stat svg{width:11px;height:11px;margin-right:4px}
@@ -335,15 +335,15 @@
   .side__logo{flex:none;width:22px;height:22px;margin:0 -1px;object-fit:contain}
   .side__co{max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:600;color:#262626}
   .nav{margin-top:34px}
-  .nav__item{display:flex;align-items:center;gap:13px;width:100%;height:29px;margin-bottom:1px;padding-inline:0 4px;font-size:15px;color:var(--text);text-decoration:none}
-  .nav__item .ico{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;color:#6b7385}
+  .nav__item{display:flex;align-items:center;gap:15px;width:100%;height:32px;margin-bottom:1px;padding-inline:0 4px;font-size:15px;color:var(--text);text-decoration:none}
+  .nav__item .ico{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;color:#6b7385}
   .nav__item:hover{color:var(--ink)}
   .vseg{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:4px 0 8px;padding:2px;border-radius:7px;background:var(--panel)}
   .vseg a{padding:3px 0;border-radius:5px;font-size:12px;text-align:center;color:var(--muted);text-decoration:none}
   .vseg a:hover{color:var(--ink)}
   .vseg a.is-on{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(60,66,87,.12)}
   .quick{margin-top:auto}
-  .quick .nav__item{height:auto;min-height:29px;padding-block:3px;font-size:14px;white-space:nowrap;color:#7b8190}
+  .quick .nav__item{height:auto;min-height:31px;padding-block:3px;font-size:14px;white-space:nowrap;color:#7b8190}
   .quick .nav__item:hover{color:var(--ink)}
   .side__label{margin:0 0 8px;font-size:13px;color:var(--muted)}
   @media (min-width:821px){body{padding:14px 40px 14px 312px}}
@@ -444,22 +444,22 @@
 <aside class="side">
   <div class="side__org"><div class="side__brand"><img class="side__logo" src="icons/logo.png" alt=""><span>Cygnos</span></div><span class="side__co">Kestrel Vane Consulting</span></div>
   <nav class="nav" aria-label="Primary">
-    <a class="nav__item" href="newv1.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Overview</a>
+    <a class="nav__item" href="newv1.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Overview</a>
     <div class="vseg" role="group" aria-label="View"><a class="is-on" href="exeview.html" aria-current="page">Executive</a><a href="newv1.html">Detailed</a></div>
-    <a class="nav__item" href="findings.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8 21h8M12 16.5V21"/></svg>Findings</a>
-    <a class="nav__item" href="newv1.html?go=2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="m12 17.5 3.5-5"/><path d="M12 17.5h.01"/></svg>Score</a>
-    <a class="nav__item" href="newv1.html?go=3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></svg>AI landscape</a>
-    <a class="nav__item" href="newv1.html?go=4"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01M2 14h2M20 14h2"/></svg>Sources</a>
-    <a class="nav__item" href="newv1.html?go=5"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M9 13h6M9 16.5h4"/></svg>Briefs</a>
-    <a class="nav__item" href="newv1.html?go=6"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
+    <a class="nav__item" href="findings.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Findings</a>
+    <a class="nav__item" href="newv1.html?go=2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>Score</a>
+    <a class="nav__item" href="newv1.html?go=3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>AI landscape</a>
+    <a class="nav__item" href="newv1.html?go=4"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg>Sources</a>
+    <a class="nav__item" href="newv1.html?go=5"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></svg>Briefs</a>
+    <a class="nav__item" href="newv1.html?go=6"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings</a>
   </nav>
   <nav class="quick" aria-label="Quick access">
     <p class="side__label">Quick access</p>
-    <a class="nav__item" href="newv1.html?q=0"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M12 11.5v5M9.5 14h5"/></svg>Create brief</a>
-    <a class="nav__item" href="newv1.html?q=1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4.5 15v3.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>Upload AI budget</a>
-    <a class="nav__item" href="newv1.html?q=2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 2.8 7.4 7 9 4.2-1.6 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.2 10"/></svg>Connect data loss prevention</a>
-    <a class="nav__item" href="newv1.html?q=3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8.2 4.5 4.5 4.5v13c3.7 0 6 .5 7.5 2 1.5-1.5 3.8-2 7.5-2v-13c-3.7 0-6 .5-7.5 2zM12 6.5v13"/></svg>Resources</a>
-    <a class="nav__item" href="newv1.html?q=4"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg>Help</a>
+    <a class="nav__item" href="newv1.html?q=0"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 15h6M12 18v-6"/></svg>Create brief</a>
+    <a class="nav__item" href="newv1.html?q=1"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>Upload AI budget</a>
+    <a class="nav__item" href="newv1.html?q=2"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Connect data loss prevention</a>
+    <a class="nav__item" href="newv1.html?q=3"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>Resources</a>
+    <a class="nav__item" href="newv1.html?q=4"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>Help</a>
   </nav>
 </aside>
 <div class="hbar">

@@ -43,7 +43,7 @@
     .side__co { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; font-weight: 600; color: #262626; }
     .nav { margin-top: 34px; }
     .nav__item { display: flex; align-items: center; gap: 13px; width: 100%; height: 29px; margin-bottom: 1px; padding-inline: 0 4px; font-size: 15px; color: var(--text); }
-    .nav__item .ico { color: #6b7385; }
+    .nav__item .ico { color: #6b7385; } .nav__item > svg.ico:first-child { width: 18px; height: 18px; flex: none; } .nav__item { gap: 15px; height: 32px; } .quick .nav__item { min-height: 31px; }
     .nav__item:hover { color: var(--ink); }
     .nav__item.is-active { margin-inline: -8px; padding-inline: 8px; border-radius: 7px; background: #ececec; color: var(--ink); font-weight: 600; }
     .nav__item.is-active .ico { color: var(--ink); }
@@ -287,7 +287,7 @@
     .pcard b small { font-size: 12.5px; font-weight: 400; color: var(--muted); }
     .pm__head h2 { font-size: 16px; font-weight: 600; letter-spacing: -.005em; }
     .ftable.rd__tbl { min-width: 720px; }
-    .rp { position: relative; display: inline-block; margin-bottom: 4px; }
+    .rp { display: block; margin-bottom: 14px; }
     .rp__btn { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-width: 200px; height: 38px; padding: 0 12px; border: 1px solid #d5dbe4; border-radius: 8px; background: #fff; font-size: 14px; font-weight: 500; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
     .rp__btn:hover { background: #f7f8fa; }
     .rp__btn[aria-expanded="true"] { border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
@@ -343,44 +343,44 @@
 
       <nav class="nav" aria-label="Primary">
         <a class="nav__item" href="newv1.html">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Overview
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Overview
         </a>
         <a class="nav__item" href="newv1.html?go=1">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8 21h8M12 16.5V21"/></svg>Findings
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Findings
         </a>
         <a class="nav__item" href="newv1.html?go=2">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="m12 17.5 3.5-5"/><path d="M12 17.5h.01"/></svg>Score
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>Score
         </a>
         <a class="nav__item" href="newv1.html?go=3">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 4 5.6 4 9s-1.4 6.4-4 9c-2.6-2.6-4-5.6-4-9s1.4-6.4 4-9z"/></svg>AI landscape
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>AI landscape
         </a>
         <a class="nav__item" href="newv1.html?go=4">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01M2 14h2M20 14h2"/></svg>Sources
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></svg>Sources
         </a>
         <a class="nav__item" href="newv1.html?go=5">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M9 13h6M9 16.5h4"/></svg>Briefs
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></svg>Briefs
         </a>
         <a class="nav__item is-section" href="settings.html" aria-current="page" aria-expanded="true">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings<svg class="ico nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></a>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings<svg class="ico nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></a>
         <div class="nav__sub" role="group" aria-label="Settings"><button type="button" class="nav__subitem is-active" data-view="users">Users</button><button type="button" class="nav__subitem" data-view="permissions">Permissions</button></div>
       </nav>
 
       <nav class="quick" aria-label="Quick access">
         <p class="side__label">Quick access</p>
         <a class="nav__item" href="newv1.html?q=0">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M12 11.5v5M9.5 14h5"/></svg>Create brief
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M9 15h6M12 18v-6"/></svg>Create brief
         </a>
         <a class="nav__item" href="newv1.html?q=1">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4.5 15v3.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>Upload AI budget
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>Upload AI budget
         </a>
         <a class="nav__item" href="newv1.html?q=2">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 2.8 7.4 7 9 4.2-1.6 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.2 10"/></svg>Connect data loss prevention
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Connect data loss prevention
         </a>
         <a class="nav__item" href="newv1.html?q=3">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8.2 4.5 4.5 4.5v13c3.7 0 6 .5 7.5 2 1.5-1.5 3.8-2 7.5-2v-13c-3.7 0-6 .5-7.5 2zM12 6.5v13"/></svg>Resources
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>Resources
         </a>
         <a class="nav__item" href="newv1.html?q=4">
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg>Help
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>Help
         </a>
       </nav>
     </aside>
@@ -434,8 +434,7 @@
           <p>A role decides what a person can see and do. Pick a role, then choose its permissions.</p>
         </section>
         <div class="pm">
-          <p class="pm__lbl">Choose a role</p>
-          <div class="rp"><button type="button" class="rp__btn" id="rp-btn" aria-haspopup="listbox" aria-expanded="false"><span id="rp-cur"></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rp__menu" id="r-list" role="listbox" aria-label="Presets" hidden></div></div>
+          <div class="rp" id="rp"><span id="rp-cur" hidden></span><div class="pcards pcards--roles" id="r-list" role="tablist" aria-label="Roles"></div></div>
           <div id="r-detail"></div>
         </div>
       </div>
@@ -563,17 +562,17 @@
     var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var users = [
       { id: 'U-1001', name: 'Mark Ellery', email: 'mark.ellery@kestrelvane.com', phone: '+1 415 555 0101', title: 'Head of AI', role: 'Admin', lastVisit: '2026-10-14T10:15:00' },
-      { id: 'U-1002', name: 'Priya Nair', email: 'priya.nair@kestrelvane.com', phone: '+1 415 555 0102', title: 'AI programme lead', role: 'AI owner', lastVisit: '2026-10-14T09:42:00' },
-      { id: 'U-1003', name: 'Daniel Okafor', email: 'daniel.okafor@kestrelvane.com', phone: '+1 415 555 0103', title: 'Chief Operating Officer', role: 'Executive', lastVisit: '2026-10-13T16:20:00' },
+      { id: 'U-1002', name: 'Jordan Hayes', email: 'jordan.hayes@kestrelvane.com', phone: '+1 415 555 0102', title: 'AI programme lead', role: 'AI owner', lastVisit: '2026-10-14T09:42:00' },
+      { id: 'U-1003', name: 'Taylor Brooks', email: 'taylor.brooks@kestrelvane.com', phone: '+1 415 555 0103', title: 'Chief Operating Officer', role: 'Executive', lastVisit: '2026-10-13T16:20:00' },
       { id: 'U-1004', name: 'Sofia Marlow', email: 'sofia.marlow@kestrelvane.com', phone: '+1 415 555 0104', title: 'Security engineer', role: 'Fixer', lastVisit: '2026-10-14T08:05:00' },
-      { id: 'U-1005', name: 'Hannah Lindqvist', email: 'hannah.lindqvist@kestrelvane.com', phone: '+44 20 7946 0105', title: 'Platform engineer', role: 'Fixer', lastVisit: '2026-10-12T14:10:00' },
+      { id: 'U-1005', name: 'Morgan Ellis', email: 'morgan.ellis@kestrelvane.com', phone: '+44 20 7946 0105', title: 'Platform engineer', role: 'Fixer', lastVisit: '2026-10-12T14:10:00' },
       { id: 'U-1006', name: 'Chris Walker', email: 'chris.walker@kestrelvane.com', phone: '+1 415 555 0106', title: 'Delivery director', role: 'AI owner', lastVisit: '2026-10-14T07:30:00' },
-      { id: 'U-1007', name: 'Tomás Reyes', email: 'tomas.reyes@kestrelvane.com', phone: '+34 91 555 0107', title: 'Chief Financial Officer', role: 'Executive', lastVisit: '2026-03-12T09:00:00' },
-      { id: 'U-1008', name: 'Maya Chen', email: 'maya.chen@kestrelvane.com', phone: '+1 415 555 0112', title: 'Risk manager', role: 'Executive', lastVisit: '2026-09-20T13:00:00', suspendedOn: '2026-10-08T12:00:00' },
-      { id: 'U-1009', name: 'Rahul Menon', email: 'rahul.menon@kestrelvane.com', phone: '', title: '', role: 'Fixer', sent: '2026-10-11T09:00:00' },
+      { id: 'U-1007', name: 'Casey Reed', email: 'casey.reed@kestrelvane.com', phone: '+34 91 555 0107', title: 'Chief Financial Officer', role: 'Executive', lastVisit: '2026-03-12T09:00:00' },
+      { id: 'U-1008', name: 'Riley Stone', email: 'riley.stone@kestrelvane.com', phone: '+1 415 555 0112', title: 'Risk manager', role: 'Executive', lastVisit: '2026-09-20T13:00:00', suspendedOn: '2026-10-08T12:00:00' },
+      { id: 'U-1009', name: 'Avery Cole', email: 'avery.cole@kestrelvane.com', phone: '', title: '', role: 'Fixer', sent: '2026-10-11T09:00:00' },
       { id: 'U-1010', name: 'Oliver Grant', email: 'oliver.grant@kestrelvane.com', phone: '', title: '', role: 'Fixer', sent: '2026-10-02T10:00:00' },
-      { id: 'U-1011', name: 'Aiko Tanaka', email: 'aiko.tanaka@kestrelvane.com', phone: '', title: 'Analyst', role: 'Fixer', lastVisit: '2026-04-02T11:30:00' },
-      { id: 'U-1012', name: 'Elena Petrova', email: 'elena.petrova@kestrelvane.com', phone: '', title: '', role: 'Executive', sent: '2026-10-13T15:00:00' }
+      { id: 'U-1011', name: 'Jamie Finch', email: 'jamie.finch@kestrelvane.com', phone: '', title: 'Analyst', role: 'Fixer', lastVisit: '2026-04-02T11:30:00' },
+      { id: 'U-1012', name: 'Quinn Harper', email: 'quinn.harper@kestrelvane.com', phone: '', title: '', role: 'Executive', sent: '2026-10-13T15:00:00' }
     ];
     var ST = { active: 'Active', dormant: 'Dormant', suspended: 'Suspended', invited: 'Invitation sent', expired: 'Invitation expired' };
     function dt(s) { return new Date(s); }
@@ -886,7 +885,7 @@
     function renderRoles() {
       var CK = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
       $('rp-cur').textContent = roles[cur].name;
-      $('r-list').innerHTML = roles.map(function (r, i) { return '<button type="button" class="rp__opt' + (i === cur ? ' is-on' : '') + '" role="option" aria-selected="' + (i === cur) + '" data-i="' + i + '"><span>' + esc(r.name) + '</span>' + (i === cur ? CK : '') + '</button>'; }).join('') + '<div class="rp__sep"></div><button type="button" class="rp__opt rp__opt--add" id="r-add" role="option"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Custom</span></button>';
+      $('r-list').innerHTML = roles.map(function (r, i) { return '<button type="button" class="pcard' + (i === cur ? ' is-on' : '') + '" role="tab" aria-selected="' + (i === cur) + '" data-i="' + i + '"><b>' + esc(r.name) + '</b></button>'; }).join('') + '<button type="button" class="pcard pcard--add" id="r-add"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><b>Add new role</b></button>';
       renderDetail();
     }
     /* Each feature is a card: a switch for the whole feature, and below it the two levels as checkboxes (View, and Manage which includes View). */
@@ -946,12 +945,11 @@
       if (e.target.closest('#r-save')) { roles[cur].perms = Object.assign({}, draft); sync(); renderRoles(); toast(roles[cur].name + ' permissions saved'); }
     });
     /* the preset dropdown: a button showing the chosen role, a list of roles, and Custom to add one */
-    function closeRp() { $('r-list').hidden = true; $('rp-btn').setAttribute('aria-expanded', 'false'); }
-    $('rp-btn').addEventListener('click', function (e) { e.stopPropagation(); var open = $('r-list').hidden; $('r-list').hidden = !open; $('rp-btn').setAttribute('aria-expanded', String(open)); });
+    function closeRp() {}
     document.addEventListener('click', function (e) { if (!e.target.closest || !e.target.closest('.rp')) closeRp(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeRp(); });
     $('r-list').addEventListener('click', function (e) {
-      closeRp(); if (e.target.closest('#r-add')) { openAddRole(); return; } var b = e.target.closest('.rp__opt'); if (!b) return; var i = +b.getAttribute('data-i'); if (i === cur) return;
+      closeRp(); if (e.target.closest('#r-add')) { openAddRole(); return; } var b = e.target.closest('.pcard'); if (!b) return; var i = +b.getAttribute('data-i'); if (i === cur) return;
       function go() { cur = i; draft = null; renderRoles(); }
       if (dirty) askUnsaved(go); else go();
     });
