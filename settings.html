@@ -804,12 +804,16 @@
       function fallback() { var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (e) { toast('Could not copy'); } ta.remove(); }
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
     }
-    function resend(u) { u.sent = NOW.toISOString(); renderUsers(); toast('Invitation sent again to ' + u.email + '. It expires on ' + fmt(addDays(NOW, INVITE_DAYS)) + '.'); }
+    function resend(u, done) {
+      ask({ title: 'Resend the invitation to ' + u.name + '?', msg: 'A new invitation will be sent to ' + u.email + '. It expires after ' + INVITE_DAYS + ' days.', ok: 'Resend invitation', danger: false }, function () { u.sent = NOW.toISOString(); renderUsers(); toast('Invitation sent again to ' + u.email + '. It expires on ' + fmt(addDays(NOW, INVITE_DAYS)) + '.'); if (done) done(); });
+    }
     function suspend(u) {
       if (isLastAdmin(u)) { lastAdmin(u, 'suspend'); return; }
       ask({ title: 'Suspend ' + u.name + '?', msg: (u.id === ME ? 'You will not be able to sign in. ' : u.name.split(' ')[0] + ' cannot sign in until you reactivate them. ') + 'Their role, data and history are kept.', ok: 'Suspend user', danger: false }, function () { u.suspendedOn = NOW.toISOString(); renderUsers(); renderRoles(); toast(u.name + ' suspended'); });
     }
-    function reactivate(u) { delete u.suspendedOn; renderUsers(); renderRoles(); toast(u.name + ' reactivated'); }
+    function reactivate(u, done) {
+      ask({ title: 'Reactivate ' + u.name + '?', msg: u.name.split(' ')[0] + ' will be able to sign in again, with their role, data and history as they were.', ok: 'Reactivate user', danger: false }, function () { delete u.suspendedOn; renderUsers(); renderRoles(); toast(u.name + ' reactivated'); if (done) done(); });
+    }
     function removeUser(u) {
       if (isLastAdmin(u)) { lastAdmin(u, 'remove'); return; }
       pwTarget = u; $('pw-sub').textContent = (u.id === ME ? 'You will lose access to Cygnos right away. ' : 'Removing ' + u.name + ' ends their access to Cygnos right away. ') + (u.id === ME ? 'Your' : 'Their') + ' history stays in the audit log, and ' + (u.id === ME ? 'you' : 'they') + ' can be invited again later. Please re-enter your password to continue.';
@@ -844,8 +848,8 @@
     function editUser(u) {
       refresh(); editing = u; $('ue-name').value = u.name; $('ue-role').innerHTML = roleOptions(u.role); $('ue-err').hidden = true;
       $('ue-note').innerHTML = u.st === 'expired' ? '<button type="button" class="tbtn" id="ue-resend">' + ic(ICONS.send) + 'Resend invitation</button>' : (u.st === 'suspended' ? '<button type="button" class="tbtn" id="ue-react">' + ic(ICONS.play) + 'Reactivate user</button>' : '');
-      var rs = $('ue-resend'); if (rs) rs.addEventListener('click', function () { resend(u); hidePanel(); });
-      var ra = $('ue-react'); if (ra) ra.addEventListener('click', function () { reactivate(u); hidePanel(); });
+      var rs = $('ue-resend'); if (rs) rs.addEventListener('click', function () { resend(u, hidePanel); });
+      var ra = $('ue-react'); if (ra) ra.addEventListener('click', function () { reactivate(u, hidePanel); });
       /* the ID and the email are fixed: the email is the unique ID, so they are shown, not edited */
       $('ue-props').innerHTML = '<div class="dp-prop"><dt>' + ic('<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>') + 'Status</dt><dd>' + pill(u) + '</dd></div>' +
         '<div class="dp-prop"><dt>' + ic('<path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16"/>') + 'User ID</dt><dd>' + u.id + '</dd></div>' +
