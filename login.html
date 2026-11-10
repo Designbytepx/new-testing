@@ -91,7 +91,7 @@
   <p class="note" id="note">New to Cygnos? <a href="signup.html" class="alt">Sign up</a></p>
 </main>
 <script>
-/* Sign-in screen for the mock-up. Nothing is checked against a real account and nothing is stored: a valid-looking email and any password open the executive view. */
+/* Sign-in screen for the mock-up. Nothing is checked against a real account and nothing is stored: any valid work email, with the one shared password, opens the executive view. */
 (function(){
   const f=document.getElementById("f"),em=document.getElementById("em"),pw=document.getElementById("pw"),
         emE=document.getElementById("em-e"),pwE=document.getElementById("pw-e"),go=document.getElementById("go"),
@@ -102,9 +102,9 @@
   document.getElementById("forgot").addEventListener("click",e=>{e.preventDefault();flag(pw,pwE,"Password reset is not part of this mock-up.")});
   f.addEventListener("submit",e=>{
     e.preventDefault();
-    const okE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim()),okP=pw.value.length>0;
+    const okE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim()),hasP=pw.value.length>0,okP=pw.value==="#Cygnos2026";
     flag(em,emE,okE?"":(em.value.trim()?"Enter a valid work email.":"Enter your work email."));
-    flag(pw,pwE,okP?"":"Enter your password.");
+    flag(pw,pwE,okP?"":(hasP?"That password is not right.":"Enter your password."));
     if(!okE){em.focus();return}
     if(!okP){pw.focus();return}
     go.disabled=true;go.textContent="Signing in…";
