@@ -893,13 +893,13 @@
     /* Each feature is a card: a switch for the whole feature, and below it the two levels as checkboxes (View, and Manage which includes View). */
     /* What View and Manage mean for each feature, in terms of what that feature actually lets a person do */
     var FTXT = {
-      score: { v: 'See the Cygnos IQ score, what drives it and how it has moved, and export the charts.' },
-      findings: { v: 'See open and closed findings with their evidence and timeline, and export the list.', m: 'Acknowledge a finding, mark it as fixed, accept it with a reason, or reopen it.' },
-      landscape: { v: 'See spend, seats, services and agents, and export the tables.', m: 'Upload the AI budget and tie unassigned usage to a team.' },
-      sources: { v: 'See the connected sources, when each last updated and which are stale.', m: 'Add a source, change the settings of a connected one, or disconnect it.' },
-      briefs: { v: 'Read and download past monthly briefs.', m: 'Create a brief, set up or edit its monthly schedule, and delete scheduled ones.' },
-      users: { v: 'See who has an account, their role and status, and export the list.', m: 'Invite people, change a name or role, suspend or remove someone, and resend or delete invitations.' },
-      roles: { v: 'See each role and what it can see and do.', m: 'Add a role and change what each role can see and do.' }
+      score: { v: 'View and export the score, what drives it and how it has moved' },
+      findings: { v: 'View and export findings, with their evidence and timeline', m: 'Acknowledge, fix, close or reopen findings' },
+      landscape: { v: 'View and export spend, seats, services and agents', m: 'Upload the AI budget and assign usage to teams' },
+      sources: { v: 'View connected sources and when they last updated', m: 'Add, edit or disconnect sources' },
+      briefs: { v: 'View and download monthly briefs', m: 'Create, schedule and delete briefs' },
+      users: { v: 'View and export users, with their role and status', m: 'Invite, edit, suspend or remove users' },
+      roles: { v: 'View roles and their permissions', m: 'Add roles and change their permissions' }
     };
     var closedFeat = {};
     var CHEVSVG = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
@@ -910,7 +910,7 @@
       $('r-detail').innerHTML = '<div class="fcs">' + FEATURES.map(function (f) {
         var T = FTXT[f.id], rows = [['view', ['View', T.v]]].concat(f.manage ? [['manage', ['Manage', T.m]]] : []);
         return '<section class="fc" data-f="' + f.id + '"><header class="fc__h"><button type="button" class="fc__chev" data-fold aria-expanded="' + !closedFeat[f.id] + '" aria-label="Show or hide ' + f.name + '">' + CHEVSVG + '</button><div class="fc__t"><b>' + f.name + '</b><small>' + f.where + '</small></div><span class="fc__n"></span><button type="button" class="tg" role="switch" data-f="' + f.id + '" data-k="all" aria-checked="false" aria-label="Allow ' + f.name + '"' + dis + '></button></header>' +
-          '<div class="fc__b"' + (closedFeat[f.id] ? ' hidden' : '') + '>' + rows.map(function (x) { return '<label class="fchk"><input type="checkbox" data-f="' + f.id + '" data-k="' + x[0] + '"' + dis + '><span><b>' + x[1][0] + '</b><small>' + x[1][1] + '</small></span></label>'; }).join('') + '</div></section>';
+          '<div class="fc__b"' + (closedFeat[f.id] ? ' hidden' : '') + '>' + rows.map(function (x) { return '<label class="fchk"><input type="checkbox" data-f="' + f.id + '" data-k="' + x[0] + '"' + dis + '><span>' + x[1][1] + '</span></label>'; }).join('') + '</div></section>';
       }).join('') + '</div>' +
         '<div class="savebar" id="savebar" hidden><span>You have unsaved changes</span><button type="button" class="tbtn" id="r-discard">Discard</button><button type="button" class="tbtn tbtn--primary" id="r-save">Save changes</button></div>';
       sync();
