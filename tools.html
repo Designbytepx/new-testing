@@ -79,7 +79,7 @@
   <div class="foot">
     <a href="team.html">Back</a>
     <div class="right">
-      <a href="onboard.html" id="skip">Skip</a>
+      <a href="waitlist.html" id="skip">Skip</a>
       <button type="button" class="go" id="go">Continue</button>
     </div>
   </div>
@@ -111,7 +111,7 @@
     if(!picked.length){$("e").textContent="Select at least one tool, or skip for now";return}
     try{sessionStorage.setItem("cygnos-tools",JSON.stringify({tools:picked}))}catch(_){}
     go.disabled=true;go.textContent="Continuing…";
-    setTimeout(()=>{location.href="onboard.html"},400);
+    setTimeout(()=>{location.href="waitlist.html"},400);
   });
 })();
 </script>
