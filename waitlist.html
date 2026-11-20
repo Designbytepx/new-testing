@@ -33,9 +33,6 @@
   .lead b{color:var(--ink);font-weight:600;word-break:break-all}
   .lead a{color:var(--muted);text-decoration:underline}
   .lead a:hover{color:var(--ink)}
-  .lead + .recap, .recap + .lead{margin-top:14px}
-  .recap{margin-top:8px;font-size:12.5px;color:var(--muted)}
-  .recap:empty{display:none}
 
 
 
@@ -54,28 +51,13 @@
 <main class="card">
   <h1>You're on the waitlist!</h1>
   <p class="lead">Thanks for signing up. We're opening access gradually and will email you at <b id="em">name@company.com</b> within 2 business days when yours is ready.</p>
-  <p class="recap" id="recap"></p>
   <p class="note">Questions? Write to <a href="mailto:hello@cygnos.ai">hello@cygnos.ai</a></p>
 </main>
 <a class="sim" href="onboard.html">I'm off the waitlist</a>
 <script>
-/* Waitlist for the mock-up. Shows the saved email and answers from earlier steps. */
+/* Waitlist for the mock-up. Shows the email saved on the sign-up screen. */
 (function(){
-  const $=id=>document.getElementById(id), TOTAL=500;
-  let email="",org="",tools=[],teams=[];
-  try{
-    email=sessionStorage.getItem("cygnos-email")||"";
-    org=sessionStorage.getItem("cygnos-org")||"";
-    const t=JSON.parse(sessionStorage.getItem("cygnos-tools")||"null");if(t&&t.tools)tools=t.tools;
-    const tm=JSON.parse(sessionStorage.getItem("cygnos-team")||"null");if(tm&&tm.teams)teams=tm.teams;
-  }catch(_){}
-  if(email)$("em").textContent=email;
-  const bits=[];
-  if(org)bits.push(org);
-  if(tools.length)bits.push(tools.length+" AI tool"+(tools.length===1?"":"s"));
-  if(teams.length)bits.push(teams.length+" team"+(teams.length===1?"":"s"));
-  $("recap").textContent=bits.join(" · ");
-
+  try{const e=sessionStorage.getItem("cygnos-email");if(e)document.getElementById("em").textContent=e}catch(_){}
 })();
 </script>
 </body>
