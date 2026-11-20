@@ -1781,6 +1781,27 @@
     .oc-bar div { width: 0; height: 100%; background: var(--accent); transition: width 1.6s ease; }
     @keyframes oc-spin { to { transform: rotate(360deg); } }
     @media (max-width: 620px) { .oc-rail { display: none; } }
+    /* capture strip: where the data comes from, with the four ways in */
+    .cap { margin-top: 22px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .cap__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding: 10px 14px 10px 20px; font-size: 13.5px; }
+    .cap__lab { font-size: 14px; font-weight: 500; color: var(--ink); }
+    .cap__src { display: inline-flex; align-items: center; gap: 7px; font-weight: 500; color: var(--ink); }
+    .cap__src em { font-style: normal; font-weight: 400; color: var(--muted); }
+    .cap__dot { width: 8px; height: 8px; border-radius: 50%; background: #2a8a52; }
+    .cap__last { color: var(--muted); }
+    .cap__last b { font-weight: 600; color: var(--ink); }
+    .cap__tog { margin-left: auto; cursor: pointer; font-family: inherit; }
+    .cap__box { width: min(900px, 100%); }
+    .cap__m { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+    .cap__m + .cap__m { padding-left: 24px; border-left: 1px solid var(--line); }
+    .cap__m h3 { margin: 0; font-size: 16px; font-weight: 600; color: var(--ink); }
+    .cap__sub { margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+    .cap__m p { margin: 10px 0 14px; font-size: 13px; line-height: 1.5; color: var(--text); }
+    .cap__btn { margin-top: auto; text-decoration: none; }
+    .cap__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .cap__grp { margin-top: 16px; padding: 16px 20px 20px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .cap__grp > .stat { margin-bottom: 10px; }
+    @media (max-width: 640px) { .cap__grid { grid-template-columns: minmax(0, 1fr); } .cap__m + .cap__m { padding-left: 0; border-left: 0; padding-top: 18px; border-top: 1px solid var(--line); } }
   </style></head>
 
 <body>
@@ -1851,6 +1872,49 @@
         <p>Where your company's AI stands today, and what needs you now.</p>
       </section>
 
+      <section class="cap" aria-label="How Cygnos captures your data">
+        <div class="cap__bar">
+          <span class="cap__lab">Capture</span>
+          <span class="cap__src"><i class="cap__dot"></i>Proxy <em>live</em></span>
+          <span class="cap__src"><i class="cap__dot"></i>SDK <em>live</em></span>
+          <span class="cap__last">Last event <b>2 min ago</b></span>
+          <button type="button" class="tbtn cap__tog" id="cap-tog" aria-haspopup="dialog" aria-controls="cap">How Cygnos captures<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+        </div>
+      </section>
+      <div class="cm-scrim" id="cap-scrim" hidden></div>
+      <div class="cm" id="cap" role="dialog" aria-modal="true" aria-labelledby="cap-title" hidden>
+        <div class="cm__box cap__box" tabindex="-1">
+          <div class="cm__head"><h2 id="cap-title">How Cygnos captures</h2><button type="button" class="dbtn" id="cap-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+          <p class="cm__sub">Four ways to bring your AI usage and spend into Cygnos. Use one, or combine them.</p>
+          <div class="cap__grp">
+            <span class="stat stat--fixed">Connected</span>
+            <div class="cap__grid">
+              <div class="cap__m"><h3>Proxy</h3><span class="cap__sub">zero-code &middot; metadata only</span><p>Point your AI traffic at the Cygnos proxy: spend, latency, risk and cost capture start in minutes, zero integration. Metadata only, never your prompt content.</p><a class="tbtn cap__btn" href="#">Start with an API key<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div>
+              <div class="cap__m"><h3>SDK / OTel</h3><span class="cap__sub">real agent traces &middot; exact sessions</span><p>Drop-in wrappers, or your existing OpenTelemetry GenAI spans, add per-user and per-team identity and real parent&ndash;child agent traces: the exact session boundaries the proxy can only estimate.</p><a class="tbtn cap__btn" href="#">Start with an API key<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div>
+            </div>
+          </div>
+          <div class="cap__grp">
+            <span class="stat stat--ack">Not set up</span>
+            <div class="cap__grid">
+              <div class="cap__m"><h3>Billing feed</h3><span class="cap__sub">the spend declaration</span><p>Connect a provider billing feed for invoice-grade truth: the actual outlay reconciled against the usage we capture.</p><a class="tbtn cap__btn" href="#">Connect one on Sources<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div>
+              <div class="cap__m"><h3>Declared fees</h3><span class="cap__sub">subscriptions no API can see</span><p>Declare flat-fee subscriptions and seat licences that no usage API exposes, so the subscription bill is counted, never guessed.</p><a class="tbtn cap__btn" href="#">Declare one on Sources<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        /* Capture: "How Cygnos captures" opens a pop-up with the four ways in. Same pattern as the other pop-ups. */
+        (function () {
+          var m = document.getElementById('cap'), s = document.getElementById('cap-scrim'), t = document.getElementById('cap-tog'); if (!m || !t) return;
+          document.body.appendChild(s); document.body.appendChild(m);
+          var last = null;
+          function open() { last = t; m.hidden = false; s.hidden = false; m.querySelector('.cm__box').focus({ preventScroll: true }); }
+          function close() { m.hidden = true; s.hidden = true; if (last && last.focus) try { last.focus({ preventScroll: true }); } catch (e) {} }
+          t.addEventListener('click', open);
+          document.getElementById('cap-close').addEventListener('click', close); s.addEventListener('click', close);
+          document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !m.hidden) { e.stopPropagation(); close(); } }, true);
+        })();
+      </script>
       <section class="ov-dial" aria-label="Cygnos IQ Score">
         <article class="ov-dcard">
           <div class="ov-dcard__head"><h2>Cygnos IQ Score</h2><span class="ov-dial__i" tabindex="0" aria-describedby="iq-tip" aria-label="What the Cygnos IQ Score means"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span class="ov-tip" role="tooltip" id="iq-tip">A score from 0 to 100 for the health of your company&rsquo;s AI. Higher is healthier.</span></span></div>
