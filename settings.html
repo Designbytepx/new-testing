@@ -505,6 +505,18 @@
     <div class="dp__foot"><button type="button" class="tbtn" data-close>Cancel</button><button type="button" class="tbtn tbtn--primary" id="ue-save">Save changes</button></div>
   </aside>
 
+  <!-- Edit employee -->
+  <aside class="dp" id="ee" role="dialog" aria-modal="true" aria-labelledby="ee-title" aria-hidden="true">
+    <div class="dp__bar"><button type="button" class="dbtn" data-close aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="dp__scroll">
+      <h2 class="dp__title" id="ee-title">Edit employee</h2>
+      <dl class="dp-props" id="ee-props"></dl>
+      <label class="bd-lbl" for="ee-desig">Designation</label><input class="bd-in" id="ee-desig" type="text" autocomplete="off">
+      <label class="bd-lbl" for="ee-team">Team</label><select class="bd-in" id="ee-team"></select>
+      <p class="bd-err" id="ee-err" hidden></p>
+    </div>
+    <div class="dp__foot"><button type="button" class="tbtn" data-close>Cancel</button><button type="button" class="tbtn tbtn--primary" id="ee-save">Save changes</button></div>
+  </aside>
   <!-- Invite user -->
   <div class="cm-scrim" id="ui-scrim" hidden></div>
   <div class="cm" id="ui" role="dialog" aria-modal="true" aria-labelledby="ui-title" hidden>
@@ -687,7 +699,7 @@
     /* ---------- Panels, menu and dialog ---------- */
     var openPanel = null, lastFocus = null;
     function showPanel(id, focusId) { closeMenu(); var p = $(id); lastFocus = document.activeElement; openPanel = p; p.classList.add('is-open'); p.setAttribute('aria-hidden', 'false'); $('scrim').classList.add('is-open'); setTimeout(function () { $(focusId).focus(); }, 60); }
-    function hidePanel() { if (!openPanel) return; openPanel.classList.remove('is-open'); openPanel.setAttribute('aria-hidden', 'true'); $('scrim').classList.remove('is-open'); document.querySelectorAll('.utable tr.is-selected').forEach(function (r) { r.classList.remove('is-selected'); }); openPanel = null; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
+    function hidePanel() { if (!openPanel) return; openPanel.classList.remove('is-open'); openPanel.setAttribute('aria-hidden', 'true'); $('scrim').classList.remove('is-open'); document.querySelectorAll('.utable tr.is-selected, .etable tr.is-selected').forEach(function (r) { r.classList.remove('is-selected'); }); openPanel = null; if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); }
     document.querySelectorAll('.dp [data-close]').forEach(function (b) { b.addEventListener('click', hidePanel); });
     $('scrim').addEventListener('click', hidePanel);
     var menu = $('menu'), menuFor = null;
@@ -1100,7 +1112,7 @@
       var all = empFiltered(), pages = Math.max(1, Math.ceil(all.length / eSize)); ePage = Math.min(Math.max(ePage, 1), pages);
       var from = (ePage - 1) * eSize, rows = all.slice(from, from + eSize);
       $('e-upd').textContent = 'Updated ' + eUpdated;
-      $('e-unl').hidden = !unl.length; $('e-unl-t').textContent = unl.length === 1 ? '1 account has a seat but is not on your list.' : unl.length + ' accounts have a seat but are not on your list.';
+      $('e-unl').hidden = !unl.length; $('e-unl-t').textContent = unl.length === 1 ? '1 person has a seat but is not on your list.' : unl.length + ' people have a seat but are not on your list.';
       $('e-clear').hidden = !(eQ || eTeams.length);
       $('e-pg-range').textContent = all.length ? (from + 1) + '\u2013' + (from + rows.length) + ' of ' + all.length : '0 of 0';
       $('e-pg-size').textContent = eSize; $('e-pg-prev').disabled = ePage <= 1; $('e-pg-next').disabled = ePage >= pages;
@@ -1139,20 +1151,30 @@
     $('ef-cancel').addEventListener('click', efClose); $('ef-close').addEventListener('click', efClose); $('ef-scrim').addEventListener('click', efClose);
     document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !$('ef').hidden) { ev.stopPropagation(); efClose(); } }, true);
     function fld(label, id, val, o) { o = o || {}; return '<label class="bd-lbl" for="' + id + '">' + label + '</label><input class="bd-in" id="' + id + '" type="' + (o.type || 'text') + '" autocomplete="off" value="' + esc(val || '') + '"' + (o.disabled ? ' disabled' : '') + (o.list ? ' list="ef-teams"' : '') + '>'; }
-    function teamFld(val) { return fld('Team', 'ef-team', val, { list: true }) + '<datalist id="ef-teams">' + empTeams().map(function (t) { return '<option value="' + esc(t) + '">'; }).join('') + '</datalist>'; }
+    function teamOptions(cur) { var t = empTeams(); if (cur && cur !== '\u2014' && t.indexOf(cur) < 0) t.push(cur); return (cur && cur !== '\u2014' ? '' : '<option value="">Select team</option>') + t.map(function (x) { return '<option' + (x === cur ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join(''); }
+    function teamFld(val) { return '<label class="bd-lbl" for="ef-team">Team</label><select class="bd-in" id="ef-team">' + teamOptions(val) + '</select>'; }
 
     /* edit, add, bulk change, mark as left, remove */
+    var editingEmp = null;
     function editEmpDlg(e) {
-      fdlg({ title: 'Edit ' + e.name, sub: 'You can change the designation and the team. The ID, name and work email come from your sheet. To change them, upload the sheet again.', ok: 'Save changes',
-        body: fld('ID', 'ef-id', e.id, { disabled: true }) + fld('Name', 'ef-name', e.name, { disabled: true }) + fld('Work email', 'ef-email', e.email, { disabled: true }) + fld('Designation', 'ef-desig', e.desig) + teamFld(e.team),
-        onOk: function () { var t = efVal('ef-team'); if (!t) return efErr('Enter a team.'); e.desig = efVal('ef-desig') || '\u2014'; e.team = t; renderEmployees(); toast('Changes saved'); } });
+      editingEmp = e; $('ee-title').textContent = 'Edit ' + e.name; $('ee-err').hidden = true;
+      /* the ID, name and email are fixed: they come from the sheet, so they are shown, not edited */
+      $('ee-props').innerHTML = '<div class="dp-prop"><dt>' + ic('<path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16"/>') + 'ID</dt><dd>' + esc(e.id) + '</dd></div>' +
+        '<div class="dp-prop"><dt>' + ic(ICONS.person) + 'Name</dt><dd>' + esc(e.name) + '</dd></div>' +
+        '<div class="dp-prop"><dt>' + ic(ICONS.mail) + 'Work email</dt><dd class="dp-val">' + esc(e.email) + '</dd></div>';
+      $('ee-desig').value = e.desig === '\u2014' ? '' : e.desig; $('ee-team').innerHTML = teamOptions(e.team);
+      var tr = document.querySelector('#e-body tr[data-id="' + e.id + '"]'); if (tr) tr.classList.add('is-selected');
+      showPanel('ee', 'ee-desig');
     }
-    function addEmpDlg() {
+    $('ee-save').addEventListener('click', function () {
+      var t = $('ee-team').value; if (!t) { $('ee-err').textContent = 'Choose a team.'; $('ee-err').hidden = false; return; }
+      editingEmp.desig = $('ee-desig').value.trim() || '\u2014'; editingEmp.team = t; hidePanel(); renderEmployees(); toast('Changes saved');
+    });    function addEmpDlg() {
       fdlg({ title: 'Add an employee', sub: 'Add a new hire or anyone missing from your sheet', ok: 'Add employee',
         body: fld('Name', 'ef-name', '') + fld('Designation', 'ef-desig', '') + teamFld('') + fld('Work email', 'ef-email', '', { type: 'email' }),
         onOk: function () {
           var n = efVal('ef-name'), em = efVal('ef-email').toLowerCase(), t = efVal('ef-team');
-          if (!n) return efErr('Enter a name.'); if (!validEmail(em)) return efErr('Enter a valid work email.'); if (!t) return efErr('Enter a team.');
+          if (!n) return efErr('Enter a name.'); if (!validEmail(em)) return efErr('Enter a valid work email.'); if (!t) return efErr('Choose a team.');
           if (emps.some(function (x) { return x.email === em; })) return efErr('That work email is already on the list.');
           emps.push({ id: nextEmpId(), email: em, name: n, desig: efVal('ef-desig') || '\u2014', team: t, left: false });
           unl = unl.filter(function (u) { return u.email !== em; }); renderEmployees(); toast(n + ' added');
@@ -1196,7 +1218,7 @@
       }).join('') + '</div>';
     }
     $('e-unl-go').addEventListener('click', function () {
-      fdlg({ title: 'Accounts not on your list', sub: 'These accounts hold a seat in one of your tools, but their email is not in your sheet. Say what each one is.', ok: 'Apply', wide: true, body: unlBody(),
+      fdlg({ title: 'People not on your list', sub: 'These people hold a seat in one of your tools, but their email is not in your sheet. Say what each one is.', ok: 'Apply', wide: true, body: unlBody(),
         onOk: function () {
           var plan = [];
           for (var i = 0; i < unl.length; i++) {
