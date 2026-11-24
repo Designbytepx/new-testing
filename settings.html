@@ -287,6 +287,30 @@
     .pcard b small { font-size: 12.5px; font-weight: 400; color: var(--muted); }
     .pm__head h2 { font-size: 16px; font-weight: 600; letter-spacing: -.005em; }
     .ftable.rd__tbl { min-width: 720px; }
+    #view-employees .ftools { margin-top: 28px; }
+    .e-upd { margin-left: 6px; vertical-align: 2px; }
+    .e-note { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; padding: 8px 8px 8px 16px; border: 1px solid var(--line); border-radius: 10px; background: #fff; font-size: 13.5px; color: var(--ink); }
+    .e-note .tbtn { margin-left: auto; }
+    .e-note[hidden] { display: none; }
+    .etable tr.is-left td { color: var(--muted); }
+    .etable .stat { margin-left: 8px; }
+    .e-diff { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+    .e-diff div { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .e-diff b { display: block; font-size: 18px; font-weight: 600; color: var(--ink); }
+    .e-diff span { font-size: 12.5px; color: var(--muted); }
+        .cm__box.cm__box--wide { width: min(720px, 100%); }
+    .e-list { display: grid; gap: 10px; margin-top: 16px; max-height: 360px; overflow: auto; }
+    .e-list__row { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 12px; align-items: start; padding: 12px; border: 1px solid var(--line); border-radius: 10px; }
+    .e-list__who b { display: block; font-size: 13.5px; font-weight: 500; overflow-wrap: anywhere; }
+    .e-list__who small { display: block; margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+    .e-warn { color: #9a5a12; font-weight: 500; }
+    .e-list__act { display: grid; gap: 8px; }
+    .e-list__act .bd-in[hidden] { display: none; }    .e-list__row .bd-in { margin: 0; }
+    .e-chk { display: flex; align-items: center; gap: 9px; margin-top: 16px; font-size: 13.5px; color: var(--ink); cursor: pointer; }
+    .ftable.etable { min-width: 940px; }
+    .etable th:nth-child(1) { width: 44px; } .etable th:nth-child(2) { width: 92px; } .etable th:nth-child(3) { width: 16%; } .etable th:nth-child(4) { width: 21%; } .etable th:nth-child(5) { width: 14%; } .etable th:nth-child(6) { width: 27%; } .etable th:nth-child(7) { width: 56px; }
+    .etable th:first-child, .etable td:first-child { padding-right: 0; }
+    .etable tbody tr:not(.empty) { cursor: default; }
     .rp { display: block; margin-bottom: 14px; }
     .rp__btn { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; min-width: 200px; height: 38px; padding: 0 12px; border: 1px solid #d5dbe4; border-radius: 8px; background: #fff; font-size: 14px; font-weight: 500; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
     .rp__btn:hover { background: #f7f8fa; }
@@ -362,7 +386,7 @@
         </a>
         <a class="nav__item is-section" href="settings.html" aria-current="page" aria-expanded="true">
           <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>Settings<svg class="ico nav__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></a>
-        <div class="nav__sub" role="group" aria-label="Settings"><button type="button" class="nav__subitem is-active" data-view="users">Users</button><button type="button" class="nav__subitem" data-view="permissions">Permissions</button></div>
+        <div class="nav__sub" role="group" aria-label="Settings"><button type="button" class="nav__subitem is-active" data-view="users">Users</button><button type="button" class="nav__subitem" data-view="employees">Employees</button><button type="button" class="nav__subitem" data-view="permissions">Permissions</button></div>
       </nav>
 
       <nav class="quick" aria-label="Quick access">
@@ -428,6 +452,32 @@
       </div>
 
       <!-- ===== Permissions ===== -->
+      <div class="view" id="view-employees" hidden>
+        <section class="hero">
+          <h1>Employees</h1>
+          <p>Everyone at your company whose AI use Cygnos tracks. <span class="stat stat--dormant e-upd" id="e-upd"></span></p>
+        </section>
+        <div class="e-note" id="e-unl" hidden><span id="e-unl-t"></span><button type="button" class="tbtn" id="e-unl-go">Review</button></div>
+        <div class="ftools">
+          <div class="ftools__l">
+            <label class="fsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg><input id="e-q" type="search" placeholder="Search by name, email or ID" aria-label="Search employees"></label>
+            <span class="ovpw"><button type="button" class="pillbtn" id="e-team-btn" aria-haspopup="dialog" aria-expanded="false"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg><span class="pl">Team</span></button>
+              <div class="fpop" id="e-team-pop" role="dialog" aria-label="Team" hidden><h3>Team</h3><div class="fpop__list" id="e-team-list"></div><button type="button" class="fpop__apply" id="e-team-apply">Apply</button></div></span>
+            <button type="button" class="pillclear" id="e-clear" hidden>Clear filters</button>
+          </div>
+          <div class="ftools__r"><button type="button" class="tbtn" id="e-add"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add employee</button><button type="button" class="tbtn" id="e-tpl"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5"/></svg>Template</button><label class="tbtn" id="e-up" style="cursor:pointer"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5"/><path d="M12 17.5v-5M9.5 15l2.5-2.5 2.5 2.5"/></svg>Upload sheet<input type="file" id="e-file" accept=".csv,text/csv" hidden></label><button type="button" class="tbtn" id="e-export"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M8 7l4-4 4 4M5 13v6.5h14V13"/></svg><span id="e-export-l">Export</span></button></div>
+        </div>
+        <div class="tablewrap">
+          <table class="ftable etable">
+            <thead><tr><th><input type="checkbox" class="rowchk" id="e-all" aria-label="Select all employees on this page"></th><th>ID</th><th>Name</th><th>Designation</th><th>Team</th><th>Work email</th><th><span class="sr" style="position:absolute;left:-9999px">Actions</span></th></tr></thead>
+            <tbody id="e-body"></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <div class="pager__l"><span>Rows per page</span><div class="fd-dd"><button type="button" class="fd-rng" id="e-pg-btn" aria-haspopup="listbox" aria-expanded="false"><span id="e-pg-size"></span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="fd-rngmenu" id="e-pg-menu" role="listbox" hidden></div></div></div>
+          <div class="pager__r"><span class="pager__range" id="e-pg-range"></span><button type="button" class="pg-btn" id="e-pg-prev" aria-label="Previous page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button type="button" class="pg-btn" id="e-pg-next" aria-label="Next page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>
+        </div>
+      </div>
       <div class="view" id="view-permissions" hidden>
         <section class="hero">
           <h1>Permissions</h1>
@@ -481,7 +531,17 @@
       <div class="cm__foot"><button type="button" class="tbtn" id="ur-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="ur-save">Add role</button></div>
     </div>
   </div>
-  <div class="dp-scrim" id="scrim" aria-hidden="true"></div>
+  <!-- Employees: one dialog for adding, editing, bulk team change, the sheet preview and the unlisted people -->
+  <div class="cm-scrim" id="ef-scrim" hidden></div>
+  <div class="cm" id="ef" role="dialog" aria-modal="true" aria-labelledby="ef-title" hidden>
+    <div class="cm__box cm__box--form" tabindex="-1">
+      <div class="cm__head"><h2 id="ef-title"></h2><button type="button" class="dbtn" id="ef-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <p class="cm__sub" id="ef-sub"></p>
+      <div id="ef-body"></div>
+      <p class="bd-err" id="ef-err" hidden></p>
+      <div class="cm__foot"><button type="button" class="tbtn" id="ef-cancel">Cancel</button><button type="button" class="tbtn tbtn--primary" id="ef-ok">OK</button></div>
+    </div>
+  </div>  <div class="dp-scrim" id="scrim" aria-hidden="true"></div>
 
   <div class="menu" id="menu" role="menu" hidden></div>
   <div class="cm-scrim" id="cm-scrim" hidden></div>
@@ -971,9 +1031,9 @@
 
     /* ---------- Settings side menu ---------- */
     function show(v) {
-      closeMenu(); $('view-users').hidden = v !== 'users'; $('view-permissions').hidden = v !== 'permissions';
+      closeMenu(); $('view-users').hidden = v !== 'users'; $('view-employees').hidden = v !== 'employees'; $('view-permissions').hidden = v !== 'permissions';
       document.querySelectorAll('.nav__subitem').forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-view') === v); });
-      document.title = 'Settings · ' + (v === 'users' ? 'Users' : 'Permissions');
+      document.title = 'Settings · ' + ({ users: 'Users', employees: 'Employees', permissions: 'Permissions' })[v];
       try { history.replaceState(null, '', '#' + v); } catch (x) {}
     }
     /* Unsaved permission changes: asking before leaving the page, whether through the sub menu, the sidebar or closing the tab */
@@ -1007,7 +1067,234 @@
       var head = document.querySelector('.nav__item.is-section'), sub = document.querySelector('.nav__sub'); if (!head || !sub) return;
       head.addEventListener('click', function (e) { e.preventDefault(); var open = sub.hidden; sub.hidden = !open; head.setAttribute('aria-expanded', String(open)); });
     })();
-    renderUsers(); renderRoles(); show(location.hash === '#permissions' ? 'permissions' : 'users');
+    /* ---------- Employees ---------- */
+    /* The list comes from the sheet uploaded during onboarding: ID, name, designation, team and work email (the unique ID). */
+    var EMP_RAW = [
+      'Alex Reed|Chief Executive Officer|Leadership', 'Jordan Brooks|Chief Operating Officer|Leadership', 'Taylor Hayes|Chief Financial Officer|Leadership',
+      'Casey Lane|IT Administrator|IT Admin', 'Riley Cole|Systems Engineer|IT Admin', 'Avery Blake|Security Analyst|IT Admin', 'Jamie Dean|IT Support Lead|IT Admin',
+      'Morgan Hall|Finance Manager|Finance', 'Skyler Wells|Financial Analyst|Finance', 'Parker Carter|Accounts Payable Lead|Finance', 'Rowan Bennett|Procurement Analyst|Finance',
+      'Sam Monroe|Engineering Manager|Engineering', 'Drew Hart|Senior Software Engineer|Engineering', 'Kai Frost|Software Engineer|Engineering', 'Quinn Grant|Data Engineer|Engineering', 'Charlie Shaw|DevOps Engineer|Engineering', 'Robin Stone|QA Engineer|Engineering',
+      'Sage Fields|Head of Operations|Operations', 'Ellis Marsh|Delivery Manager|Operations', 'Finley Rivers|Project Coordinator|Operations', 'Harper Banks|Business Analyst|Operations', 'Reese Cross|Operations Associate|Operations',
+      'Alex Hall|VP of Sales|Sales', 'Jordan Wells|Account Executive|Sales', 'Taylor Carter|Sales Development Rep|Sales', 'Casey Bennett|Account Manager|Sales', 'Riley Monroe|Sales Operations Analyst|Sales',
+      'Avery Hart|Head of Marketing|Marketing', 'Jamie Frost|Content Strategist|Marketing', 'Morgan Grant|Growth Marketer|Marketing', 'Skyler Shaw|Brand Manager|Marketing',
+      'Parker Stone|HR Director|HR', 'Rowan Fields|Talent Acquisition Lead|HR', 'Sam Marsh|HR Business Partner|HR', 'Drew Rivers|People Operations Associate|HR',
+      'Kai Banks|Customer Support Manager|Customer support', 'Quinn Cross|Support Specialist|Customer support', 'Charlie Reed|Support Specialist|Customer support', 'Robin Brooks|Customer Success Manager|Customer support', 'Sage Hayes|Support Agent|Customer support',
+      'Ellis Lane|Design Lead|Design', 'Finley Cole|Product Designer|Design', 'Harper Blake|UX Researcher|Design', 'Reese Dean|Visual Designer|Design'
+    ];
+    function empId(n) { return 'EMP-' + ('000' + n).slice(-3); }
+    var emps = EMP_RAW.map(function (r, i) { var p = r.split('|'); return { id: empId(i + 1), email: p[0].toLowerCase().replace(/ /g, '.') + '@kestrelvane.com', name: p[0], desig: p[1], team: p[2], left: false }; });
+    var TOOLS_SEEN = ['ChatGPT Enterprise', 'Claude for Work', 'Microsoft 365 Copilot', 'GitHub Copilot'];
+    /* people who hold a seat in a tool but are not on the list (the sample of what the admin accounts would return) */
+    var unl = [['temp.analyst', 0, 2], ['intern.design', 1, 9], ['shared.support', 0, 0], ['contractor.dev', 3, 4], ['trial.sales', 2, 74], ['ops.automation', 1, 1], ['guest.finance', 2, 118]].map(function (x) { return { email: x[0] + '@kestrelvane.com', tool: TOOLS_SEEN[x[1]], last: x[2] }; });
+    var setAside = [];
+    var eQ = '', eTeams = [], ePage = 1, eSize = 10, eSel = {}, eUpdated = fmt(new Date(NOW - 5 * DAY));
+    var DEFAULT_TEAMS = ['Customer support', 'Design', 'Engineering', 'Finance', 'HR', 'IT Admin', 'Leadership', 'Marketing', 'Operations', 'Sales'];
+    function nextEmpId() { var n = 0; emps.forEach(function (e) { var m = /(\d+)$/.exec(e.id); if (m) n = Math.max(n, +m[1]); }); return empId(n + 1); }
+    function empById(id) { for (var i = 0; i < emps.length; i++) if (emps[i].id === id) return emps[i]; return null; }
+    function empFiltered() { return emps.filter(function (e) { var s = (e.id + ' ' + e.email + ' ' + e.name + ' ' + e.desig).toLowerCase(); return (!eTeams.length || eTeams.indexOf(e.team) > -1) && s.indexOf(eQ) > -1; }); }
+    function empTeams() { var t = DEFAULT_TEAMS.slice(); emps.forEach(function (e) { if (e.team && e.team !== '\u2014' && t.indexOf(e.team) < 0) t.push(e.team); }); return t.sort(); }
+    function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+
+    function renderEmployees() {
+      Object.keys(eSel).forEach(function (id) { if (!empById(id)) delete eSel[id]; });
+      var all = empFiltered(), pages = Math.max(1, Math.ceil(all.length / eSize)); ePage = Math.min(Math.max(ePage, 1), pages);
+      var from = (ePage - 1) * eSize, rows = all.slice(from, from + eSize);
+      $('e-upd').textContent = 'Updated ' + eUpdated;
+      $('e-unl').hidden = !unl.length; $('e-unl-t').textContent = unl.length === 1 ? '1 account has a seat but is not on your list.' : unl.length + ' accounts have a seat but are not on your list.';
+      $('e-clear').hidden = !(eQ || eTeams.length);
+      $('e-pg-range').textContent = all.length ? (from + 1) + '\u2013' + (from + rows.length) + ' of ' + all.length : '0 of 0';
+      $('e-pg-size').textContent = eSize; $('e-pg-prev').disabled = ePage <= 1; $('e-pg-next').disabled = ePage >= pages;
+      $('e-pg-menu').innerHTML = SIZES.map(function (n) { return '<button type="button" class="fd-opt" role="option" data-n="' + n + '" aria-selected="' + (n === eSize) + '"><i></i><span>' + n + ' rows</span></button>'; }).join('');
+      $('e-body').innerHTML = rows.length ? rows.map(function (e) {
+        return '<tr data-id="' + esc(e.id) + '" class="' + (e.left ? 'is-left ' : '') + (eSel[e.id] ? 'is-checked' : '') + '"><td><input type="checkbox" class="rowchk" aria-label="Select ' + esc(e.name) + '"' + (eSel[e.id] ? ' checked' : '') + '></td><td>' + esc(e.id) + '</td><td>' + esc(e.name) + (e.left ? '<span class="stat stat--dormant">Left</span>' : '') + '</td><td>' + esc(e.desig) + '</td><td>' + esc(e.team) + '</td><td>' + esc(e.email) + '</td><td><button type="button" class="dbtn u-more" aria-haspopup="menu" aria-expanded="false" aria-label="More actions for ' + esc(e.name) + '">' + ic(ICONS.more) + '</button></td></tr>';
+      }).join('') : '<tr class="empty"><td colspan="7">No employees match your filters.</td></tr>';
+      syncESel(rows);
+    }
+    function pickedEmps() { return emps.filter(function (e) { return eSel[e.id]; }); }
+    function syncESel(rows) {
+      rows = rows || []; var n = rows.filter(function (e) { return eSel[e.id]; }).length, total = Object.keys(eSel).length, a = $('e-all');
+      a.checked = rows.length > 0 && n === rows.length; a.indeterminate = n > 0 && n < rows.length; a.disabled = !rows.length;
+      $('e-export-l').textContent = total ? 'Export (' + total + ')' : 'Export';
+    }
+    function pageEmps() { return Array.prototype.map.call(document.querySelectorAll('#e-body tr[data-id]'), function (tr) { return empById(tr.getAttribute('data-id')); }); }
+    $('e-all').addEventListener('change', function (ev) { pageEmps().forEach(function (e) { if (ev.target.checked) eSel[e.id] = true; else delete eSel[e.id]; }); renderEmployees(); });
+    $('e-body').addEventListener('change', function (ev) {
+      var c = ev.target.closest('.rowchk'); if (!c) return; var tr = c.closest('tr'), id = tr.getAttribute('data-id');
+      if (c.checked) eSel[id] = true; else delete eSel[id]; tr.classList.toggle('is-checked', c.checked); syncESel(pageEmps());
+    });
+
+    /* one dialog for every form on this page */
+    var efCb = null;
+    function fdlg(o) {
+      closeMenu(); $('ef-title').textContent = o.title; $('ef-sub').textContent = o.sub || ''; $('ef-sub').hidden = !o.sub;
+      $('ef-body').innerHTML = o.body; $('ef-err').hidden = true;
+      var ok = $('ef-ok'); ok.textContent = o.ok; ok.className = 'tbtn ' + (o.danger ? 'tbtn--danger' : 'tbtn--primary'); $('ef-cancel').hidden = !!o.noCancel;
+      $('ef').querySelector('.cm__box').classList.toggle('cm__box--wide', !!o.wide); efCb = o.onOk || null; $('ef-scrim').hidden = false; $('ef').hidden = false;
+      var f = $('ef-body').querySelector('input:not([disabled]),select'); (f || $('ef').querySelector('.cm__box')).focus({ preventScroll: true });
+    }
+    function efClose() { $('ef-scrim').hidden = true; $('ef').hidden = true; efCb = null; }
+    function efErr(m) { $('ef-err').textContent = m; $('ef-err').hidden = false; return false; }
+    function efVal(id) { return $(id).value.trim(); }
+    $('ef-ok').addEventListener('click', function () { if (!efCb) { efClose(); return; } if (efCb() !== false) efClose(); });
+    $('ef-cancel').addEventListener('click', efClose); $('ef-close').addEventListener('click', efClose); $('ef-scrim').addEventListener('click', efClose);
+    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !$('ef').hidden) { ev.stopPropagation(); efClose(); } }, true);
+    function fld(label, id, val, o) { o = o || {}; return '<label class="bd-lbl" for="' + id + '">' + label + '</label><input class="bd-in" id="' + id + '" type="' + (o.type || 'text') + '" autocomplete="off" value="' + esc(val || '') + '"' + (o.disabled ? ' disabled' : '') + (o.list ? ' list="ef-teams"' : '') + '>'; }
+    function teamFld(val) { return fld('Team', 'ef-team', val, { list: true }) + '<datalist id="ef-teams">' + empTeams().map(function (t) { return '<option value="' + esc(t) + '">'; }).join('') + '</datalist>'; }
+
+    /* edit, add, bulk change, mark as left, remove */
+    function editEmpDlg(e) {
+      fdlg({ title: 'Edit ' + e.name, sub: 'You can change the designation and the team. The ID, name and work email come from your sheet. To change them, upload the sheet again.', ok: 'Save changes',
+        body: fld('ID', 'ef-id', e.id, { disabled: true }) + fld('Name', 'ef-name', e.name, { disabled: true }) + fld('Work email', 'ef-email', e.email, { disabled: true }) + fld('Designation', 'ef-desig', e.desig) + teamFld(e.team),
+        onOk: function () { var t = efVal('ef-team'); if (!t) return efErr('Enter a team.'); e.desig = efVal('ef-desig') || '\u2014'; e.team = t; renderEmployees(); toast('Changes saved'); } });
+    }
+    function addEmpDlg() {
+      fdlg({ title: 'Add an employee', sub: 'Add a new hire or anyone missing from your sheet', ok: 'Add employee',
+        body: fld('Name', 'ef-name', '') + fld('Designation', 'ef-desig', '') + teamFld('') + fld('Work email', 'ef-email', '', { type: 'email' }),
+        onOk: function () {
+          var n = efVal('ef-name'), em = efVal('ef-email').toLowerCase(), t = efVal('ef-team');
+          if (!n) return efErr('Enter a name.'); if (!validEmail(em)) return efErr('Enter a valid work email.'); if (!t) return efErr('Enter a team.');
+          if (emps.some(function (x) { return x.email === em; })) return efErr('That work email is already on the list.');
+          emps.push({ id: nextEmpId(), email: em, name: n, desig: efVal('ef-desig') || '\u2014', team: t, left: false });
+          unl = unl.filter(function (u) { return u.email !== em; }); renderEmployees(); toast(n + ' added');
+        } });
+    }
+    function leftDlg(list) {
+      var one = list.length === 1;
+      ask({ title: one ? 'Mark ' + list[0].name + ' as left?' : 'Mark ' + list.length + ' employees as left?', msg: (one ? 'They stay' : 'They stay') + ' on the list, marked as Left. Cygnos flags any seats they still hold in your tools. You can mark them as active again.', ok: 'Mark as left', danger: false }, function () {
+        list.forEach(function (e) { e.left = true; }); eSel = {}; renderEmployees(); toast(one ? list[0].name + ' marked as left' : plural(list.length, 'employee', 'employees') + ' marked as left');
+      });
+    }
+    function removeDlg(list) {
+      var one = list.length === 1;
+      ask({ title: one ? 'Remove ' + list[0].name + ' from the list?' : 'Remove ' + list.length + ' employees from the list?', msg: 'They are taken off this list. Any seats they hold in your tools stay, and they will show as people who use your tools but are not on the list. You can add them again later.', ok: 'Remove', danger: true }, function () {
+        list.forEach(function (e, i) { var k = (e.email.length + i) % TOOLS_SEEN.length; unl.push({ email: e.email, tool: TOOLS_SEEN[k], last: (e.email.length * 3 + i) % 28 + 1 }); });
+        var ids = {}; list.forEach(function (e) { ids[e.id] = true; }); emps = emps.filter(function (e) { return !ids[e.id]; }); eSel = {}; renderEmployees();
+        toast(one ? list[0].name + ' removed' : plural(list.length, 'employee', 'employees') + ' removed');
+      });
+    }
+    function empMenu(e) {
+      return [{ icon: 'edit', label: 'Edit team or designation', run: function () { editEmpDlg(e); } },
+        e.left ? { icon: 'play', label: 'Mark as active', run: function () { e.left = false; renderEmployees(); toast(e.name + ' marked as active'); } } : { icon: 'pause', label: 'Mark as left', run: function () { leftDlg([e]); } },
+        '-', { icon: 'mail', label: 'Copy work email', run: function () { copyText(e.email, 'Email'); } }, { icon: 'idcard', label: 'Copy ID', run: function () { copyText(e.id, 'ID'); } },
+        '-', { icon: 'trash', label: 'Remove from list', bad: true, run: function () { removeDlg([e]); } }];
+    }
+    $('e-body').addEventListener('click', function (ev) {
+      var b = ev.target.closest('.u-more'); if (!b) return; ev.stopPropagation();
+      var e = empById(b.closest('tr').getAttribute('data-id')); if (!e) return; if (menuFor === b) closeMenu(); else openMenu(b, empMenu(e));
+    });
+    $('e-add').addEventListener('click', addEmpDlg);
+
+    /* accounts that hold a seat but are not on the list: the admin decides what each one is */
+    function nameFromEmail(em) { return em.split('@')[0].split(/[._]/).map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' '); }
+    function lastLabel2(d) { return d === 0 ? 'Used today' : d === 1 ? 'Last used yesterday' : d < 60 ? 'Last used ' + d + ' days ago' : 'Not used for ' + d + ' days'; }
+    function unlBody() {
+      var teams = empTeams().map(function (t) { return '<option>' + esc(t) + '</option>'; }).join('');
+      return '<div class="e-list">' + unl.map(function (u, i) {
+        return '<div class="e-list__row" data-i="' + i + '"><div class="e-list__who"><b>' + esc(u.email) + '</b><small>Seat in ' + esc(u.tool) + ' \u00b7 ' + (u.last >= 60 ? '<span class="e-warn">' + lastLabel2(u.last) + '</span>' : lastLabel2(u.last)) + '</small></div>' +
+          '<div class="e-list__act"><select class="bd-in" data-ua="' + i + '" aria-label="What is ' + esc(u.email) + '?"><option value="">Choose\u2026</option><option value="add">Add to list</option><option value="left">Mark as left</option><option value="not">Not an employee</option></select>' +
+          '<select class="bd-in" data-ut="' + i + '" aria-label="Team for ' + esc(u.email) + '" hidden><option value="">Team</option>' + teams + '</select></div></div>';
+      }).join('') + '</div>';
+    }
+    $('e-unl-go').addEventListener('click', function () {
+      fdlg({ title: 'Accounts not on your list', sub: 'These accounts hold a seat in one of your tools, but their email is not in your sheet. Say what each one is.', ok: 'Apply', wide: true, body: unlBody(),
+        onOk: function () {
+          var plan = [];
+          for (var i = 0; i < unl.length; i++) {
+            var a = $('ef-body').querySelector('[data-ua="' + i + '"]').value; if (!a) continue;
+            var t = $('ef-body').querySelector('[data-ut="' + i + '"]').value;
+            if (a === 'add' && !t) return efErr('Choose a team for ' + unl[i].email + '.');
+            plan.push({ u: unl[i], a: a, t: t });
+          }
+          if (!plan.length) return efErr('Choose what to do for at least one account.');
+          var n = { add: 0, left: 0, not: 0 };
+          plan.forEach(function (p) {
+            n[p.a]++;
+            if (p.a === 'add') emps.push({ id: nextEmpId(), email: p.u.email, name: nameFromEmail(p.u.email), desig: '\u2014', team: p.t, left: false });
+            else if (p.a === 'left') emps.push({ id: nextEmpId(), email: p.u.email, name: nameFromEmail(p.u.email), desig: '\u2014', team: '\u2014', left: true });
+            else setAside.push(p.u);
+          });
+          var gone = {}; plan.forEach(function (p) { gone[p.u.email] = true; }); unl = unl.filter(function (u) { return !gone[u.email]; });
+          renderEmployees();
+          toast([n.add ? n.add + ' added' : '', n.left ? n.left + ' marked as left' : '', n.not ? n.not + ' set aside' : ''].filter(Boolean).join(', '));
+        } });
+    });
+    $('ef-body').addEventListener('change', function (ev) {
+      var a = ev.target.closest('[data-ua]'); if (!a) return;
+      var t = $('ef-body').querySelector('[data-ut="' + a.getAttribute('data-ua') + '"]'); t.hidden = a.value !== 'add'; if (a.value !== 'add') t.value = '';
+    });
+    /* search, team filter and paging */
+    $('e-q').addEventListener('input', function (ev) { eQ = ev.target.value.trim().toLowerCase(); ePage = 1; renderEmployees(); });
+    var eTeamPop = $('e-team-pop'), eTeamBtn = $('e-team-btn');
+    function eTeamLabel() { eTeamBtn.querySelector('.pl').textContent = !eTeams.length ? 'Team' : eTeams.length === 1 ? 'Team: ' + eTeams[0] : 'Team: ' + eTeams.length; eTeamBtn.classList.toggle('is-active', eTeams.length > 0); }
+    function closeETeam() { eTeamPop.hidden = true; eTeamBtn.setAttribute('aria-expanded', 'false'); }
+    eTeamBtn.addEventListener('click', function (ev) {
+      ev.stopPropagation(); var open = eTeamPop.hidden; closeMenu();
+      if (open) $('e-team-list').innerHTML = empTeams().map(function (t) { return '<label class="fchk"><input type="checkbox" value="' + esc(t) + '"' + (eTeams.indexOf(t) > -1 ? ' checked' : '') + '><span>' + esc(t) + '</span></label>'; }).join('');
+      eTeamPop.hidden = !open; eTeamBtn.setAttribute('aria-expanded', String(open));
+    });
+    eTeamPop.addEventListener('click', function (ev) { ev.stopPropagation(); });
+    $('e-team-apply').addEventListener('click', function () { eTeams = Array.prototype.filter.call(eTeamPop.querySelectorAll('input'), function (i) { return i.checked; }).map(function (i) { return i.value; }); closeETeam(); eTeamLabel(); ePage = 1; renderEmployees(); });
+    document.addEventListener('click', closeETeam);
+    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeETeam(); });
+    $('e-clear').addEventListener('click', function () { eTeams = []; eQ = ''; ePage = 1; $('e-q').value = ''; eTeamLabel(); renderEmployees(); });
+    function ePgMenu(open) { $('e-pg-menu').hidden = !open; $('e-pg-btn').setAttribute('aria-expanded', String(open)); }
+    $('e-pg-btn').addEventListener('click', function (ev) { ev.stopPropagation(); ePgMenu($('e-pg-menu').hidden); });
+    $('e-pg-menu').addEventListener('click', function (ev) { var o = ev.target.closest('[data-n]'); if (!o) return; eSize = +o.getAttribute('data-n'); ePage = 1; ePgMenu(false); renderEmployees(); });
+    document.addEventListener('click', function (ev) { if (!ev.target.closest('#e-pg-menu') && !ev.target.closest('#e-pg-btn')) ePgMenu(false); });
+    $('e-pg-prev').addEventListener('click', function () { ePage--; renderEmployees(); });
+    $('e-pg-next').addEventListener('click', function () { ePage++; renderEmployees(); });
+
+    /* CSV out (template and export) */
+    function csvCell(v) { v = String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+    function download(name, text) { var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv' })); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+    $('e-tpl').addEventListener('click', function () { download('cygnos-employees-template.csv', 'ID,Name,Designation,Team,Work email\nEMP-001,Alex Morgan,Product Manager,Operations,alex.morgan@company.com\n'); toast('Template saved'); });
+    $('e-export').addEventListener('click', function () {
+      var rows = pickedEmps(); if (!rows.length) rows = empFiltered();
+      download('cygnos-employees.csv', 'ID,Name,Designation,Team,Work email\n' + rows.map(function (e) { return [e.id, e.name, e.desig, e.team, e.email].map(csvCell).join(','); }).join('\n') + '\n');
+      toast(plural(rows.length, 'employee', 'employees') + ' exported');
+    });
+
+    /* Upload a sheet: read it, show what would change, and only then apply it */
+    function parseCsv(t) {
+      return String(t).split(/\r?\n/).map(function (l) { var out = [], cur = '', q = false; for (var i = 0; i < l.length; i++) { var c = l[i]; if (q) { if (c === '"' && l[i + 1] === '"') { cur += '"'; i++; } else if (c === '"') q = false; else cur += c; } else if (c === '"') q = true; else if (c === ',') { out.push(cur.trim()); cur = ''; } else cur += c; } out.push(cur.trim()); return out; }).filter(function (r) { return r[0]; });
+    }
+    function sheetRows(text) {
+      var seen = {}, list = [];
+      parseCsv(text).forEach(function (c) {
+        var at = -1; c.forEach(function (v, i) { if (at < 0 && v.indexOf('@') > -1) at = i; }); if (at < 0) return;
+        var em = c[at].toLowerCase(), rest = c.filter(function (v, i) { return i !== at; }); if (!validEmail(em) || seen[em]) return; seen[em] = true;
+        var hasId = rest.length >= 4; list.push({ id: hasId ? rest[0] : '', email: em, name: rest[hasId ? 1 : 0] || '\u2014', desig: rest[hasId ? 2 : 1] || '\u2014', team: rest[hasId ? 3 : 2] || '\u2014' });
+      });
+      return list;
+    }
+    function previewSheet(list) {
+      var cur = {}; emps.forEach(function (e) { cur[e.email] = e; });
+      var add = [], chg = [], inSheet = {}, DASH = '\u2014';
+      list.forEach(function (n) {
+        inSheet[n.email] = true; var c = cur[n.email];
+        if (!c) add.push(n); else if ((n.name !== DASH && n.name !== c.name) || (n.desig !== DASH && n.desig !== c.desig) || (n.team !== DASH && n.team !== c.team)) chg.push({ cur: c, nw: n });
+      });
+      var miss = emps.filter(function (e) { return !inSheet[e.email] && !e.left; });
+      if (!add.length && !chg.length && !miss.length) { toast('The sheet matches your list. Nothing to change.'); return; }
+      fdlg({ title: 'Update the list from your sheet?', sub: 'Nothing changes until you confirm.', ok: 'Update list',
+        body: '<div class="e-diff"><div><b>' + add.length + '</b><span>New</span></div><div><b>' + chg.length + '</b><span>Changed</span></div><div><b>' + miss.length + '</b><span>Missing from the sheet</span></div></div>' +
+          (miss.length ? '<label class="e-chk"><input type="checkbox" class="rowchk" id="ef-miss" checked>Mark the ' + plural(miss.length, 'person', 'people') + ' missing from the sheet as left</label>' : ''),
+        onOk: function () {
+          var used = {}; emps.forEach(function (e) { used[e.id] = true; });
+          add.forEach(function (n) { var id = n.id && !used[n.id] ? n.id : nextEmpId(); used[id] = true; emps.push({ id: id, email: n.email, name: n.name, desig: n.desig, team: n.team, left: false }); unl = unl.filter(function (u) { return u.email !== n.email; }); });
+          chg.forEach(function (x) { if (x.nw.name !== DASH) x.cur.name = x.nw.name; if (x.nw.desig !== DASH) x.cur.desig = x.nw.desig; if (x.nw.team !== DASH) x.cur.team = x.nw.team; });
+          var marked = 0; if (miss.length && $('ef-miss').checked) { miss.forEach(function (e) { e.left = true; }); marked = miss.length; }
+          eUpdated = fmt(NOW); eSel = {}; renderEmployees();
+          toast(plural(add.length, 'added', 'added') + ', ' + chg.length + ' changed' + (marked ? ', ' + marked + ' marked as left' : ''));
+        } });
+    }
+    $('e-file').addEventListener('change', function (ev) {
+      var f = ev.target.files[0]; if (!f) return; var r = new FileReader();
+      r.onload = function () { var list = sheetRows(r.result); ev.target.value = ''; if (!list.length) { toast('No rows with a work email were found'); return; } previewSheet(list); };
+      r.readAsText(f);
+    });
+    renderEmployees();
+    renderUsers(); renderRoles(); show({ '#permissions': 'permissions', '#employees': 'employees' }[location.hash] || 'users');
   </script>
 </body>
 </html>
